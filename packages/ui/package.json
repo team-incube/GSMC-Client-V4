@@ -6,9 +6,11 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./styles/theme.css": "./src/styles/theme.css"
+    "./styles/theme.css": "./src/styles/theme.css",
+    "./theme-script": "./src/theme-script.ts"
   },
   "peerDependencies": {
+    "next": "^15.5.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
@@ -19,6 +21,7 @@
     "@repo/typescript-config": "*",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "next": "15.5.2",
     "typescript": "^5.0.0"
   }
 }

@@ -1,5 +1,9 @@
 @import "pretendard/dist/web/variable/pretendardvariable.css";
 
+@source "..";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
     system-ui, Roboto, "Noto Sans KR", sans-serif;
@@ -94,6 +98,40 @@
     --danger: #dc2626;
     --caution: #d97706;
   }
+}
+
+:root.light {
+  --surface: #ffffff;
+  --page: #f8fafc;
+  --wash: #f1f5f9;
+  --linesoft: #f1f5f9;
+  --line: #e2e8f0;
+  --faint: #94a3b8;
+  --soft: #64748b;
+  --body: #334155;
+  --strong: #0f172a;
+  --brandwash: #eff6ff;
+  --brand: #5e97fc;
+  --branddark: #3b7bfb;
+  --danger: #dc2626;
+  --caution: #d97706;
+}
+
+:root.dark {
+  --surface: #161b22;
+  --page: #0d1117;
+  --wash: #21262d;
+  --linesoft: #161b22;
+  --line: #334155;
+  --faint: #6e7681;
+  --soft: #8b949e;
+  --body: #c9d1d9;
+  --strong: #f0f6fc;
+  --brandwash: #0d1f3c;
+  --brand: #5e97fc;
+  --branddark: #7aabfd;
+  --danger: #dc2626;
+  --caution: #d97706;
 }
 
 @theme inline {
