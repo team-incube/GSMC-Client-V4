@@ -1,3 +1,6 @@
+export { Button } from "./button/Button";
+export { Input } from "./input/Input";
+
 export { Header } from "./header/Header";
 export { Logo } from "./header/Logo";
 export { NavLink } from "./header/NavLink";
