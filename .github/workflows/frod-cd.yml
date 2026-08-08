@@ -4,6 +4,11 @@ on:
     branches:
       - develop
       - feat/cicd
+  pull_request:
+    branches:
+      - develop
+      - feat/cicd
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -12,28 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-
-      - name: Get npm cache directory
-        id: npm-cache
-        run: echo "::set-output name=dir::$(npm config get cache)"
-      - uses: actions/cache@v3
-        with:
-          path: ${{ steps.npm-cache.outputs.dir }}
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
-
-      - name: Deploy to server
+      - name: Deploy
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -41,7 +25,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SERVER_KEY }}
           script: |
-            cd ~/
+            cd ~/GSMC-Client-V4
             git pull origin develop
             sudo docker compose down
             sudo docker compose up -d --build
