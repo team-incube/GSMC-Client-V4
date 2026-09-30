@@ -7,7 +7,7 @@ export function LoginPage() {
         <img
           src="/logo-stacked.svg"
           alt="GSMC"
-          className="h-auto w-55 sm:w-80 lg:w-100"
+          className="h-auto w-30 sm:w-45 lg:w-65"
         />
         <DataGsmLoginButton />
       </div>
