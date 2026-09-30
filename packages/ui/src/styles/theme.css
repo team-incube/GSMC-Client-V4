@@ -1,4 +1,4 @@
-@import "pretendard/dist/web/variable/pretendardvariable.css";
+@import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 
 @source "..";
 
@@ -154,4 +154,120 @@
   --color-danger: var(--danger);
   --color-caution: var(--caution);
   --color-scrim: var(--scrim);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+}
+
+/* 색 토큰 자체를 :root에서 보간해서, 모든 요소가 같은 속도로 함께 바뀌게 한다. */
+@property --surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffffff;
+}
+
+@property --page {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f8fafc;
+}
+
+@property --wash {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f1f5f9;
+}
+
+@property --linesoft {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f1f5f9;
+}
+
+@property --line {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #e2e8f0;
+}
+
+@property --faint {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #94a3b8;
+}
+
+@property --soft {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #64748b;
+}
+
+@property --body {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #334155;
+}
+
+@property --strong {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #0f172a;
+}
+
+@property --brandwash {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #eff6ff;
+}
+
+@property --brand {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #5e97fc;
+}
+
+@property --branddark {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #3b7bfb;
+}
+
+@property --danger {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #dc2626;
+}
+
+@property --caution {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #d97706;
+}
+
+:root.theme-transition {
+  transition-property: --surface, --page, --wash, --linesoft, --line, --faint, --soft, --body, --strong, --brandwash, --brand, --branddark, --danger, --caution;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+
+/* 요소별 transition-colors가 토큰 보간을 다시 따라가며 늦게 바뀌지 않도록 전환 중에는 끈다. */
+:root.theme-transition *,
+:root.theme-transition *::before,
+:root.theme-transition *::after {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root.theme-transition {
+    transition: none;
+  }
 }

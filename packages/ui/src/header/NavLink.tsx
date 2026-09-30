@@ -3,21 +3,36 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export function NavLink({ href, label }: { href: string; label: string }) {
+function isActivePath(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+type NavLinkProps = {
+  href: string;
+  label: string;
+  className?: string;
+};
+
+export function NavLink({ href, label, className }: NavLinkProps) {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const isActive = isActivePath(pathname, href);
 
   return (
     <Link
       href={href}
-      className={`text-body-2 relative shrink-0 rounded-full px-3 py-2 ${
-        isActive ? "text-brand" : "text-body"
-      }`}
+      aria-current={isActive ? "page" : undefined}
+      draggable={false}
+      className={`text-body-1 font-semibold flex h-10 shrink-0 items-center rounded-md px-3 transition-colors duration-200 ${
+        isActive ? "text-brand" : "text-body hover:text-brand"
+      } ${className ?? ""}`}
     >
-      {label}
-      {isActive && (
-        <span className="absolute bottom-1 left-1/2 size-1 -translate-x-1/2 rounded-full bg-brand" />
-      )}
+      <span className="relative">
+        {label}
+        {isActive && (
+          <span className="absolute inset-x-0 -bottom-2 h-0.5 rounded-full bg-brand" />
+        )}
+      </span>
     </Link>
   );
 }

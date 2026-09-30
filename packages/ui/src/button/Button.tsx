@@ -15,7 +15,7 @@ export function Button({ variant = "primary", type = "button", className, ...pro
   return (
     <button
       type={type}
-      className={`inline-flex h-10 items-center justify-center rounded-md px-4 text-[13px] leading-[19.5px] font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 ${VARIANT_CLASSES[variant]} ${className ?? ""}`}
+      className={`inline-flex h-10 items-center justify-center rounded-md px-4 text-[13px] leading-[19.5px] font-medium transition-[color,background-color,border-color,opacity] duration-200 disabled:pointer-events-none disabled:opacity-50 ${VARIANT_CLASSES[variant]} ${className ?? ""}`}
       {...props}
     />
   );

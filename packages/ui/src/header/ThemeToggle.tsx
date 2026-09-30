@@ -1,58 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { MoonIcon } from "../icons/MoonIcon";
 import { SunIcon } from "../icons/SunIcon";
 
-type Theme = "light" | "dark";
+// theme.css의 0.2s 전환이 끝난 뒤에 클래스를 떼야 중간에 끊기지 않는다.
+const TRANSITION_MS = 300;
 
-function getInitialTheme(): Theme {
-  if (typeof document === "undefined") return "light";
-  return document.documentElement.classList.contains("dark") ? "dark" : "light";
-}
+let transitionTimer: ReturnType<typeof setTimeout> | undefined;
 
-function applyTheme(theme: Theme) {
+function toggleTheme() {
   const root = document.documentElement;
-  root.classList.remove(theme === "dark" ? "light" : "dark");
-  root.classList.add(theme);
-  localStorage.setItem("theme", theme);
+  const next = root.classList.contains("dark") ? "light" : "dark";
+
+  root.classList.add("theme-transition");
+  root.classList.remove(next === "dark" ? "light" : "dark");
+  root.classList.add(next);
+  localStorage.setItem("theme", next);
+
+  clearTimeout(transitionTimer);
+  transitionTimer = setTimeout(() => root.classList.remove("theme-transition"), TRANSITION_MS);
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
-
-  useEffect(() => {
-    setTheme(getInitialTheme());
-  }, []);
-
-  const toggle = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    applyTheme(next);
-  };
-
   return (
     <button
       type="button"
-      role="switch"
-      aria-checked={theme === "dark"}
+      onClick={toggleTheme}
       aria-label="다크 모드 전환"
-      onClick={toggle}
-      suppressHydrationWarning
-      className="relative h-6 w-11 shrink-0 rounded-full border border-line bg-wash transition-colors duration-300"
+      className="flex size-10 shrink-0 items-center justify-center rounded-md text-strong transition-colors duration-200 hover:bg-line"
     >
-      <span
-        suppressHydrationWarning
-        className={`absolute top-px flex size-5 items-center justify-center rounded-full border border-line bg-surface text-body transition-all duration-300 ${
-          theme === "dark" ? "left-[21px]" : "left-px"
-        }`}
-      >
-        {theme === "dark" ? (
-          <MoonIcon className="size-2.5" />
-        ) : (
-          <SunIcon className="size-2.5" />
-        )}
-      </span>
+      <SunIcon className="size-[22px] dark:hidden" />
+      <MoonIcon className="hidden size-[22px] dark:block" />
     </button>
   );
 }
