@@ -3,6 +3,7 @@ import { NavLink } from "./NavLink";
 import { NotificationButton } from "./NotificationButton";
 import { ThemeToggle } from "./ThemeToggle";
 import { LogoutButton } from "./LogoutButton";
+import { MobileMenu } from "./MobileMenu";
 
 type NavItem = { label: string; href: string };
 
@@ -33,7 +34,7 @@ export function Header({ isAdmin = false, onNotificationClick, onLogout }: Heade
     <header className="w-full border-b border-line bg-page">
       <div className="mx-auto flex h-14 w-full max-w-[1920px] items-center justify-between px-6 lg:px-16">
         <Logo />
-        <nav className="flex items-center gap-0.5">
+        <nav className="hidden items-center gap-0.5 md:flex">
           {navItems.map((item) => (
             <NavLink key={item.href} href={item.href} label={item.label} />
           ))}
@@ -41,7 +42,10 @@ export function Header({ isAdmin = false, onNotificationClick, onLogout }: Heade
         <div className="flex items-center gap-2">
           <NotificationButton onClick={onNotificationClick} />
           <ThemeToggle />
-          <LogoutButton onClick={onLogout} />
+          <div className="hidden md:block">
+            <LogoutButton onClick={onLogout} />
+          </div>
+          <MobileMenu items={navItems} onLogout={onLogout} />
         </div>
       </div>
     </header>
