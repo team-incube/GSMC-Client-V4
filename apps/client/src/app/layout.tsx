@@ -1,5 +1,4 @@
 import "./globals.css";
-import { Header } from "@repo/ui";
 import { themeInitScript } from "@repo/ui/theme-script";
 import { Providers } from "./providers";
 
@@ -9,13 +8,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
-      <body>
+    <html lang="ko" suppressHydrationWarning>
+      <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <Providers>
-          <Header />
-          {children}
-        </Providers>
+      </head>
+      <body>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
