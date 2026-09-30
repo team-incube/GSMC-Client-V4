@@ -7,6 +7,12 @@ import { MenuIcon } from "../icons/MenuIcon";
 import { LogoutButton } from "./LogoutButton";
 import { NavLink } from "./NavLink";
 
+// Tailwind md 브레이크포인트. 이 폭부터는 데스크톱 헤더가 보이고 이 메뉴는 숨겨진다.
+const DESKTOP_QUERY = "(min-width: 48rem)";
+
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not(:disabled), input:not(:disabled), [tabindex]:not([tabindex="-1"])';
+
 type MobileMenuProps = {
   items: { label: string; href: string }[];
   onLogout?: () => void;
@@ -18,6 +24,7 @@ export function MobileMenu({ items, onLogout }: MobileMenuProps) {
   const panelId = useId();
   const openButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const wasOpenRef = useRef(false);
 
   useEffect(() => {
@@ -34,14 +41,44 @@ export function MobileMenu({ items, onLogout }: MobileMenuProps) {
     closeButtonRef.current?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsOpen(false);
+      if (event.key === "Escape") {
+        setIsOpen(false);
+        return;
+      }
+      if (event.key !== "Tab" || !panelRef.current) return;
+
+      // 포커스가 패널 밖으로 나가지 않도록 처음과 끝에서 순환시킨다.
+      const focusable = panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      const isInside = panelRef.current.contains(active);
+
+      if (event.shiftKey && (active === first || !isInside)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (active === last || !isInside)) {
+        event.preventDefault();
+        first.focus();
+      }
     };
+
+    // 메뉴가 열린 채 데스크톱 폭이 되면 CSS로만 숨겨져 스크롤 잠금이 남으므로 닫는다.
+    const desktopQuery = window.matchMedia(DESKTOP_QUERY);
+    const handleDesktopChange = () => {
+      if (desktopQuery.matches) setIsOpen(false);
+    };
+    handleDesktopChange();
+
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     document.addEventListener("keydown", handleKeyDown);
+    desktopQuery.addEventListener("change", handleDesktopChange);
     return () => {
       document.body.style.overflow = prevOverflow;
       document.removeEventListener("keydown", handleKeyDown);
+      desktopQuery.removeEventListener("change", handleDesktopChange);
     };
   }, [isOpen]);
 
@@ -68,6 +105,7 @@ export function MobileMenu({ items, onLogout }: MobileMenuProps) {
       />
 
       <div
+        ref={panelRef}
         id={panelId}
         role="dialog"
         aria-modal="true"
