@@ -1,11 +1,10 @@
-import { LogoMarkIcon } from "../icons/LogoMarkIcon";
-import { LogoWordmarkIcon } from "../icons/LogoWordmarkIcon";
+import Link from "next/link";
+import { LogoIcon } from "../icons/LogoIcon";
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <div className={`flex items-center gap-1.5 text-brand ${className ?? ""}`}>
-      <LogoMarkIcon className="h-5 w-auto" />
-      <LogoWordmarkIcon className="h-[16.62px] w-auto" />
-    </div>
+    <Link href="/" aria-label="메인으로 이동" draggable={false} className={`shrink-0 ${className ?? ""}`}>
+      <LogoIcon className="h-5 w-auto" />
+    </Link>
   );
 }
