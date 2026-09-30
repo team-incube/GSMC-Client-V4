@@ -1,7 +1,5 @@
-export default function CertificationPage() {
-  return (
-    <main className="mx-auto w-full max-w-[1920px] px-6 py-10 lg:px-16">
-      <h1 className="text-h1 text-strong">인증제란?</h1>
-    </main>
-  );
+import { CertificationPage } from "@/views/certification";
+
+export default function Page() {
+  return <CertificationPage />;
 }
