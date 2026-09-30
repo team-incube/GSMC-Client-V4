@@ -109,8 +109,8 @@ function Intro() {
 
 function Areas() {
   return (
-    <Section title="평가영역" tone="wash" contentClassName="pt-20 pb-24" titleClassName="mb-12 h-16">
-      <div className="grid gap-4 md:grid-cols-3">
+    <Section title="평가영역" tone="wash" contentClassName="pt-16 pb-16 md:pt-20 md:pb-24" titleClassName="mb-12 h-16">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {AREAS.map((area, i) => (
           <article data-reveal data-reveal-delay={i * 80} key={area.title} className={`${CARD} flex min-h-[165px] flex-col p-6 md:h-[165px]`}>
             <IconBadge name={area.icon} />
@@ -127,8 +127,8 @@ function Areas() {
 
 function Methods() {
   return (
-    <Section title="운영방식" tone="page" contentClassName="py-24" titleClassName="mb-16 h-16">
-      <div className="grid gap-6 md:grid-cols-3">
+    <Section title="운영방식" tone="page" contentClassName="py-16 md:py-24" titleClassName="mb-12 h-16 md:mb-16">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {METHODS.map((method, i) => (
           <article data-reveal data-reveal-delay={i * 80} key={method.title} className={`${CARD} flex min-h-[186.5px] flex-col p-6 md:h-[186.5px]`}>
             <IconBadge name={method.icon} />
@@ -145,7 +145,7 @@ function Methods() {
 
 function ScoreItems() {
   return (
-    <Section title="인증제는 이렇게 평가됩니다" tone="wash" contentClassName="py-24" titleClassName="mb-16 h-[54px]">
+    <Section title="인증제는 이렇게 평가됩니다" tone="wash" contentClassName="py-16 md:py-24" titleClassName="mb-10 h-auto min-h-[54px] max-md:text-2xl max-md:leading-8 md:mb-16 md:h-[54px]">
       <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {SCORE_ITEMS.map((item, i) => (
           <li data-reveal data-reveal-delay={Math.min(i * 45, 270)} key={item.title} className={`${CARD} flex min-h-[134px] flex-col p-5 md:h-[134px]`}>
@@ -166,7 +166,7 @@ function ScoreItems() {
 
 function Process() {
   return (
-    <Section title="운영방식" tone="page" contentClassName="py-24" titleClassName="mb-16 h-[54px]">
+    <Section title="운영방식" tone="page" contentClassName="py-16 md:py-24" titleClassName="mb-12 h-[54px] md:mb-16">
       <ol className="grid gap-x-4 gap-y-[40.5px] md:min-h-[345px] md:grid-cols-2">
         {PROCESS_STEPS.map((step, i) => {
           const num = String(i + 1).padStart(2, "0");
@@ -192,11 +192,11 @@ function Process() {
 function FaqPreview() {
   return (
     <section className="bg-wash">
-      <div className="mx-auto w-full max-w-[1200px] px-6 py-24">
-        <div className="mb-12 flex h-20 items-start justify-between">
+      <div className="mx-auto w-full max-w-[1200px] px-6 py-16 md:py-24">
+        <div className="mb-8 flex h-20 items-start justify-between md:mb-12">
           <div className="flex flex-col gap-2">
             <span className="text-[12px] leading-4 font-medium tracking-[0.96px] text-soft">FAQ</span>
-            <h2 data-reveal className="flex h-16 items-center text-[32px] leading-[normal] tracking-[-1.28px] font-semibold text-strong">
+            <h2 data-reveal className="flex h-16 items-center text-[32px] leading-[normal] tracking-[-1.28px] font-semibold text-strong max-md:text-2xl max-md:leading-8">
               자주 묻는 질문
             </h2>
           </div>
