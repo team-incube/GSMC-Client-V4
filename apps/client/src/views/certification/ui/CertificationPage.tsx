@@ -203,7 +203,7 @@ function FaqPreview() {
           <Link
             href="/faq"
             data-reveal
-            className="inline-flex h-9 self-end items-center gap-1.5 rounded-md border border-line bg-surface px-[17px] text-[13px] leading-[19.5px] font-medium text-body transition-colors hover:bg-wash"
+            className="inline-flex h-9 self-end items-center gap-1.5 rounded-md border border-line bg-surface px-[17px] text-[13px] leading-[19.5px] font-medium text-soft transition-colors duration-150 hover:border-brand hover:text-brand motion-reduce:transition-none"
           >
             전체 보기
             <Icon name="arrowRight" className="size-3" />
