@@ -9,7 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "next": "15.5.2",
+    "next": "16.3.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "@repo/lib": "*",
@@ -25,7 +25,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.5.2",
+    "eslint-config-next": "16.3.7",
     "tailwindcss": "^4.1.0",
     "typescript": "^5",
     "@repo/typescript-config": "*"

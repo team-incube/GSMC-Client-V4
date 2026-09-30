@@ -1,0 +1,152 @@
+@import "pretendard/dist/web/variable/pretendardvariable.css";
+
+@source "..";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto, "Noto Sans KR", sans-serif;
+
+  --text-display: 3rem;
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.3125rem;
+  --text-display--font-weight: 600;
+
+  --text-h1: 2rem;
+  --text-h1--line-height: 1;
+  --text-h1--letter-spacing: -0.25rem;
+  --text-h1--font-weight: 600;
+
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.13125rem;
+  --text-h2--font-weight: 600;
+
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1;
+  --text-h3--letter-spacing: -0.09375rem;
+  --text-h3--font-weight: 600;
+
+  --text-label: 0.875rem;
+  --text-label--line-height: 1;
+  --text-label--letter-spacing: -0.125rem;
+  --text-label--font-weight: 500;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.5rem;
+  --text-eyebrow--font-weight: 500;
+
+  --text-body-1: 1rem;
+  --text-body-1--line-height: 1;
+  --text-body-1--letter-spacing: 0rem;
+  --text-body-1--font-weight: 400;
+
+  --text-body-2: 0.875rem;
+  --text-body-2--line-height: 1;
+  --text-body-2--letter-spacing: 0rem;
+  --text-body-2--font-weight: 400;
+
+  --text-body-3: 0.75rem;
+  --text-body-3--line-height: 1;
+  --text-body-3--letter-spacing: 0rem;
+  --text-body-3--font-weight: 400;
+
+  --text-button: 0.875rem;
+  --text-button--line-height: 1;
+  --text-button--letter-spacing: 0rem;
+  --text-button--font-weight: 500;
+
+  --text-code: 0.8125rem;
+  --text-code--line-height: 1;
+  --text-code--letter-spacing: 0rem;
+  --text-code--font-weight: 400;
+}
+
+:root {
+  --surface: #ffffff;
+  --page: #f8fafc;
+  --wash: #f1f5f9;
+  --linesoft: #f1f5f9;
+  --line: #e2e8f0;
+  --faint: #94a3b8;
+  --soft: #64748b;
+  --body: #334155;
+  --strong: #0f172a;
+  --brandwash: #eff6ff;
+  --brand: #5e97fc;
+  --branddark: #3b7bfb;
+  --danger: #dc2626;
+  --caution: #d97706;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #161b22;
+    --page: #0d1117;
+    --wash: #21262d;
+    --linesoft: #161b22;
+    --line: #334155;
+    --faint: #6e7681;
+    --soft: #8b949e;
+    --body: #c9d1d9;
+    --strong: #f0f6fc;
+    --brandwash: #0d1f3c;
+    --brand: #5e97fc;
+    --branddark: #7aabfd;
+    --danger: #dc2626;
+    --caution: #d97706;
+  }
+}
+
+:root.light {
+  --surface: #ffffff;
+  --page: #f8fafc;
+  --wash: #f1f5f9;
+  --linesoft: #f1f5f9;
+  --line: #e2e8f0;
+  --faint: #94a3b8;
+  --soft: #64748b;
+  --body: #334155;
+  --strong: #0f172a;
+  --brandwash: #eff6ff;
+  --brand: #5e97fc;
+  --branddark: #3b7bfb;
+  --danger: #dc2626;
+  --caution: #d97706;
+}
+
+:root.dark {
+  --surface: #161b22;
+  --page: #0d1117;
+  --wash: #21262d;
+  --linesoft: #161b22;
+  --line: #334155;
+  --faint: #6e7681;
+  --soft: #8b949e;
+  --body: #c9d1d9;
+  --strong: #f0f6fc;
+  --brandwash: #0d1f3c;
+  --brand: #5e97fc;
+  --branddark: #7aabfd;
+  --danger: #dc2626;
+  --caution: #d97706;
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-page: var(--page);
+  --color-wash: var(--wash);
+  --color-linesoft: var(--linesoft);
+  --color-line: var(--line);
+  --color-faint: var(--faint);
+  --color-soft: var(--soft);
+  --color-body: var(--body);
+  --color-strong: var(--strong);
+  --color-brandwash: var(--brandwash);
+  --color-brand: var(--brand);
+  --color-branddark: var(--branddark);
+  --color-danger: var(--danger);
+  --color-caution: var(--caution);
+}
