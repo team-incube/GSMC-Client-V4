@@ -23,8 +23,8 @@ export function NavLink({ href, label, className }: NavLinkProps) {
       href={href}
       aria-current={isActive ? "page" : undefined}
       draggable={false}
-      className={`text-body-1 font-semibold flex h-10 shrink-0 items-center rounded-md px-3 transition-colors duration-200 hover:bg-line ${
-        isActive ? "text-brand" : "text-body"
+      className={`text-body-1 font-semibold flex h-10 shrink-0 items-center rounded-md px-3 transition-colors duration-200 ${
+        isActive ? "text-brand" : "text-body hover:text-brand"
       } ${className ?? ""}`}
     >
       <span className="relative">
