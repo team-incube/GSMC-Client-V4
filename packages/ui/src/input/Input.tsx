@@ -7,15 +7,15 @@ type InputProps = {
 
 export function Input({ label, unit, className, ...props }: InputProps) {
   return (
-    <label className="flex w-full flex-col items-start gap-2">
+    <label className="group flex w-full flex-col items-start gap-2">
       {label && (
-        <span className="text-[11px] font-medium uppercase tracking-[0.08em] text-soft">
+        <span className="text-[11px] font-medium uppercase tracking-[0.08em] text-soft transition-colors duration-200 group-focus-within:text-brand">
           {label}
         </span>
       )}
       <span className="relative h-10 w-full">
         <input
-          className={`h-10 w-full rounded-md border border-line bg-surface py-px pl-3.5 text-[13px] text-body placeholder:text-faint ${
+          className={`h-10 w-full rounded-md border border-line bg-surface py-px pl-3.5 text-base text-body md:text-[13px] outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-faint focus:border-brand focus:shadow-[inset_0_0_0_1px_var(--brand)] ${
             unit ? "pr-12" : "pr-3.5"
           } ${className ?? ""}`}
           {...props}

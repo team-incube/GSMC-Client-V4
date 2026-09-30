@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Header } from "@repo/ui";
 import { themeInitScript } from "@repo/ui/theme-script";
 import { Providers } from "./providers";
 
@@ -13,7 +14,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
