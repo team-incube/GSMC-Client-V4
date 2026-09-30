@@ -32,17 +32,32 @@ export function ScrollReveal({ children }: { children: ReactNode }) {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         const target = entry.target as HTMLElement;
-        target.style.opacity = "1";
-        target.style.transform = "translateY(0)";
+        const animation = target.animate(
+          [
+            { opacity: 0, transform: "translateY(20px)" },
+            { opacity: 1, transform: "translateY(0)" },
+          ],
+          {
+            duration: 600,
+            easing: "cubic-bezier(0.2, 0.7, 0.2, 1)",
+            delay: Number(target.dataset.revealDelay ?? 0),
+            fill: "forwards",
+          },
+        );
+        animation.onfinish = () => {
+          target.style.opacity = "1";
+          target.style.transform = "translateY(0)";
+          animation.cancel();
+        };
         currentObserver.unobserve(target);
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -32px 0px" });
 
     element.querySelectorAll<HTMLElement>("[data-reveal]").forEach((target) => {
+      target.style.removeProperty("transition");
+      target.style.removeProperty("transition-delay");
       target.style.opacity = "0";
       target.style.transform = "translateY(20px)";
-      target.style.transition = "opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1), transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1)";
-      target.style.transitionDelay = `${target.dataset.revealDelay ?? 0}ms`;
       observer.observe(target);
     });
 

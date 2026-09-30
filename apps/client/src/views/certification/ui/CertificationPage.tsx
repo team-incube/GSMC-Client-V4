@@ -13,7 +13,7 @@ import {
 } from "../model/content";
 import { Icon, type IconName } from "./icons";
 
-const CARD = "rounded-xl bg-surface";
+const CARD = "rounded-xl bg-surface transition-[transform,translate,box-shadow] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand/10 motion-reduce:transition-none";
 
 function Section({
   id,
@@ -67,7 +67,7 @@ function Hero() {
         href="#intro"
         aria-label="아래로 스크롤"
         data-reveal
-        className="absolute bottom-6 left-1/2 flex size-10 -translate-x-1/2 items-center justify-center rounded-full text-white/90 hover:text-white"
+        className="absolute bottom-6 left-1/2 flex size-10 -translate-x-1/2 items-center justify-center rounded-full text-white/90 transition-transform duration-200 hover:-translate-y-1 hover:text-white motion-reduce:transition-none"
       >
         <Icon name="chevronDown" className="size-6" />
       </ScrollLink>
@@ -96,7 +96,7 @@ function Intro() {
             <li
               key={tag}
               data-reveal
-              className="flex h-7 items-center rounded-full border border-line bg-surface px-[13px] text-[12px] leading-[18px] font-medium tracking-[0.96px] text-soft"
+              className="flex h-7 items-center rounded-full border border-line bg-surface px-[13px] text-[12px] leading-[18px] font-medium tracking-[0.96px] text-soft transition-colors duration-150 hover:border-brand hover:text-brand motion-reduce:transition-none"
             >
               {tag}
             </li>
