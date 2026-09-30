@@ -1,5 +1,6 @@
 export { Button } from "./button/Button";
 export { Input } from "./input/Input";
+export { ScrollLink, ScrollReveal } from "./animation/ScrollReveal";
 
 export { Header } from "./header/Header";
 export { Logo } from "./header/Logo";
