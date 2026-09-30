@@ -6,9 +6,9 @@ export function NotificationButton({ onClick }: { onClick?: () => void }) {
       type="button"
       onClick={onClick}
       aria-label="알림"
-      className="flex size-9 shrink-0 items-center justify-center rounded-md text-soft transition-colors hover:bg-wash hover:text-strong"
+      className="flex size-10 shrink-0 items-center justify-center rounded-md text-strong transition-colors duration-200 hover:bg-line"
     >
-      <BellIcon className="size-4" />
+      <BellIcon className="size-5" />
     </button>
   );
 }
