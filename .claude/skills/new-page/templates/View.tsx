@@ -1,5 +1,3 @@
-"use client";
-
 export function __Name__Page() {
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-12">

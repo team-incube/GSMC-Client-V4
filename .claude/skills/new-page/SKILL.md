@@ -28,7 +28,8 @@ Copy the templates in `${CLAUDE_SKILL_DIR}/templates/`, replacing `__name__` (ke
 | `View.tsx` | `apps/<app>/src/views/__name__/ui/__Name__Page.tsx` |
 
 - Add `model/` only when there are constants, types, or state; add `api/` only when there are API calls.
-- Remove `"use client"` from the view if it ends up with no state or events.
+- The view template is a Server Component. Add `"use client"` at the top only if the view ends up with state, effects, or event handlers.
+- The heading sizes in the template come from an existing page. Replace them with the Figma values for this page, or a `theme.css` typography token if one matches.
 - Extract user actions other pages could share (buttons, forms) into `features/<name>`.
 
 ## 4. Implement
