@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @import "@repo/ui/styles/theme.css";
-@source "../../../../packages/certification/src";
+@import "@repo/certification/styles.css";
 
 html {
   scroll-behavior: smooth;
