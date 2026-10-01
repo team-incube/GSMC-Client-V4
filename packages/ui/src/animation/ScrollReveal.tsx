@@ -1,3 +1,26 @@
+"use client";
+
+import { useLayoutEffect, useRef, type AnchorHTMLAttributes, type MouseEvent, type ReactNode } from "react";
+
+export function ScrollLink({ href, onClick, ...props }: AnchorHTMLAttributes<HTMLAnchorElement>) {
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    onClick?.(event);
+    if (event.defaultPrevented || !href?.startsWith("#")) return;
+
+    const target = document.getElementById(href.slice(1));
+    if (!target) return;
+
+    event.preventDefault();
+    window.history.pushState(null, "", href);
+    target.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start",
+    });
+  }
+
+  return <a {...props} href={href} onClick={handleClick} />;
+}
+
 export function ScrollReveal({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
 
