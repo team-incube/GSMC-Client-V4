@@ -40,7 +40,7 @@ export function ScrollReveal({ children }: { children: ReactNode }) {
           {
             duration: 600,
             easing: "cubic-bezier(0.2, 0.7, 0.2, 1)",
-            delay: Number(target.dataset.revealDelay ?? 0),
+            delay: 0,
             fill: "forwards",
           },
         );

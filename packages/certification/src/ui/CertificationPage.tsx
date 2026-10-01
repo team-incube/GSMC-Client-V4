@@ -13,7 +13,7 @@ import {
 } from "../model/content";
 import { Icon, type IconName } from "./icons";
 
-const CARD = "rounded-xl bg-surface transition-[transform,translate,box-shadow] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand/10 motion-reduce:transition-none";
+const CARD = "rounded-xl bg-surface transition-[transform,translate,box-shadow] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand/10 motion-reduce:transition-none";
 
 function Section({
   id,
@@ -84,7 +84,7 @@ function Intro() {
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
           {INTRO_CARDS.map((card, i) => (
-            <article data-reveal data-reveal-delay={i * 80} key={card.title} className={`${CARD} flex min-h-[205px] flex-col p-6`}>
+            <article data-reveal key={card.title} className={`${CARD} flex min-h-[205px] flex-col p-6`}>
               <span className="text-[12px] leading-[14px] font-medium tracking-[0.96px] text-brand">{String(i + 1).padStart(2, "0")}</span>
               <h3 className="mt-3 text-[20px] leading-[30px] font-semibold tracking-[-0.4px] text-strong">{card.title}</h3>
               <p className="mt-1 text-[14px] leading-6 text-body">{card.description}</p>
@@ -96,7 +96,7 @@ function Intro() {
             <li
               key={tag}
               data-reveal
-              className="flex h-7 items-center rounded-full border border-line bg-surface px-[13px] text-[12px] leading-[18px] font-medium tracking-[0.96px] text-soft transition-colors duration-150 hover:border-brand hover:text-brand motion-reduce:transition-none"
+              className="flex h-7 items-center rounded-full border border-line bg-surface px-[13px] text-[12px] leading-[18px] font-medium tracking-[0.96px] text-soft transition-colors duration-150 hover:border-brand hover:bg-brand hover:text-white motion-reduce:transition-none"
             >
               {tag}
             </li>
@@ -111,8 +111,8 @@ function Areas() {
   return (
     <Section title="평가영역" tone="wash" contentClassName="pt-16 pb-16 md:pt-20 md:pb-24" titleClassName="mb-12 h-16">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {AREAS.map((area, i) => (
-          <article data-reveal data-reveal-delay={i * 80} key={area.title} className={`${CARD} flex min-h-[165px] flex-col p-6 md:h-[165px]`}>
+        {AREAS.map((area) => (
+          <article data-reveal key={area.title} className={`${CARD} flex min-h-[165px] flex-col p-6 md:h-[165px]`}>
             <IconBadge name={area.icon} />
             <div className="mt-4 flex flex-col gap-1">
               <h3 className="text-[18px] leading-[27px] font-semibold tracking-[-0.36px] text-strong">{area.title}</h3>
@@ -129,8 +129,8 @@ function Methods() {
   return (
     <Section title="운영방식" tone="page" contentClassName="py-16 md:py-24" titleClassName="mb-12 h-16 md:mb-16">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {METHODS.map((method, i) => (
-          <article data-reveal data-reveal-delay={i * 80} key={method.title} className={`${CARD} flex min-h-[186.5px] flex-col p-6 md:h-[186.5px]`}>
+        {METHODS.map((method) => (
+          <article data-reveal key={method.title} className={`${CARD} flex min-h-[186.5px] flex-col p-6 md:h-[186.5px]`}>
             <IconBadge name={method.icon} />
             <div className="mt-4 flex flex-col">
               <h3 className="text-[19px] leading-[28.5px] font-semibold tracking-[-0.38px] text-strong">{method.title}</h3>
@@ -147,8 +147,8 @@ function ScoreItems() {
   return (
     <Section title="인증제는 이렇게 평가됩니다" tone="wash" contentClassName="py-16 md:py-24" titleClassName="mb-10 h-auto min-h-[54px] max-md:text-2xl max-md:leading-8 md:mb-16 md:h-[54px]">
       <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {SCORE_ITEMS.map((item, i) => (
-          <li data-reveal data-reveal-delay={Math.min(i * 45, 270)} key={item.title} className={`${CARD} flex min-h-[134px] flex-col p-5 md:h-[134px]`}>
+        {SCORE_ITEMS.map((item) => (
+          <li data-reveal key={item.title} className={`${CARD} flex min-h-[134px] flex-col p-5 md:h-[134px]`}>
             <div className="flex h-9 items-center justify-between">
               <IconBadge name={item.icon} size="sm" />
               <span className="rounded-full border border-line bg-wash px-[7px] py-[3px] text-[9px] leading-[13.5px] font-medium text-soft">
@@ -171,14 +171,11 @@ function Process() {
         {PROCESS_STEPS.map((step, i) => {
           const num = String(i + 1).padStart(2, "0");
           return (
-            <li data-reveal data-reveal-delay={(i % 2) * 80} key={step.title} className={`${CARD} relative flex min-h-[140px] flex-col overflow-hidden p-6 md:h-[140px]`}>
+            <li data-reveal key={step.title} className={`${CARD} group relative flex min-h-[140px] flex-col overflow-hidden p-6 md:h-[140px]`}>
               <span className="text-[12px] leading-[14px] font-medium tracking-[0.96px] text-brand">{num}</span>
               <h3 className="mt-3 text-[20px] leading-[30px] font-semibold tracking-[-0.4px] text-strong">{step.title}</h3>
               <p className="mt-1 text-[14px] leading-5 text-body">{step.description}</p>
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute top-0 right-0 select-none text-[96px] leading-[96px] font-bold text-line"
-              >
+              <span aria-hidden="true" className="pointer-events-none absolute top-0 right-0 select-none text-[96px] leading-[96px] font-bold text-line transition-[translate,color] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-x-1 group-hover:text-brand/20 motion-reduce:transition-none">
                 {num}
               </span>
             </li>
@@ -203,15 +200,15 @@ function FaqPreview() {
           <Link
             href="/faq"
             data-reveal
-            className="inline-flex h-9 self-end items-center gap-1.5 rounded-md border border-line bg-surface px-[17px] text-[13px] leading-[19.5px] font-medium text-soft transition-colors duration-150 hover:border-brand hover:text-brand motion-reduce:transition-none"
+            className="inline-flex h-9 self-end items-center gap-1.5 rounded-md border border-line bg-surface px-[17px] text-[13px] leading-[19.5px] font-medium text-soft transition-colors duration-150 hover:border-brand hover:bg-brand hover:text-white motion-reduce:transition-none"
           >
             전체 보기
             <Icon name="arrowRight" className="size-3" />
           </Link>
         </div>
         <ul className="grid gap-3 md:grid-cols-2">
-          {FAQ_PREVIEW.map((faq, i) => (
-            <li data-reveal data-reveal-delay={(i % 2) * 80} key={faq.id} className={`${CARD} flex min-h-[162px] flex-col p-6 md:h-[162px]`}>
+          {FAQ_PREVIEW.map((faq) => (
+            <li data-reveal key={faq.id} className={`${CARD} flex min-h-[162px] flex-col p-6 md:h-[162px]`}>
               <span className="flex h-9 items-center">
                 <span className="rounded-[4px] border border-line bg-wash px-[6px] py-[2px] text-[9px] leading-[13.5px] font-medium text-soft">
                   {faq.category}
