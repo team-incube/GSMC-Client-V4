@@ -1,6 +1,7 @@
 export { Button } from "./button/Button";
 export { Input } from "./input/Input";
 export { Modal, ModalHeader, ModalBody, ModalFooter } from "./modal/Modal";
+export { ScrollLink, ScrollReveal } from "./animation/ScrollReveal";
 
 export { Header } from "./header/Header";
 export { Logo } from "./header/Logo";

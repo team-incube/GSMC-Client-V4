@@ -1,5 +1,16 @@
 @import "tailwindcss";
 @import "@repo/ui/styles/theme.css";
+@import "@repo/certification/styles.css";
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
 
 body {
   background: var(--page);
