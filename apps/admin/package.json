@@ -12,6 +12,7 @@
     "next": "16.3.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "@repo/certification": "*",
     "@repo/lib": "*",
     "@repo/ui": "*",
     "@tanstack/react-query": "^5.0.0",
