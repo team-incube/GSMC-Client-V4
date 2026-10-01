@@ -31,7 +31,7 @@ export function Header({ isAdmin = false, onNotificationClick, onLogout }: Heade
   const navItems = isAdmin ? ADMIN_NAV_ITEMS : CLIENT_NAV_ITEMS;
 
   return (
-    <header className="w-full border-b border-line bg-page">
+    <header className="sticky top-0 z-50 w-full border-b border-line bg-page">
       <div className="mx-auto flex h-14 w-full max-w-[1920px] items-center justify-between px-6 lg:px-16">
         <Logo />
         <nav className="hidden items-center gap-0.5 md:flex">
