@@ -46,17 +46,17 @@ export const SCORE_ITEMS: {
   description: string;
   maxScore: number;
 }[] = [
-  { icon: "book", title: "독서활동", description: "독서 기록 및 독후감 제출", maxScore: 7 },
+  { icon: "book", title: "독서활동", description: "빛고을독서마라톤 코스별 1점", maxScore: 7 },
   { icon: "heart", title: "봉사활동", description: "봉사 시간 1시간당 1점", maxScore: 10 },
-  { icon: "file", title: "직업기초능력평가", description: "NCS 기반 직무 기초 역량", maxScore: 5 },
-  { icon: "award", title: "자격증", description: "국가기술·민간 자격증 취득", maxScore: 14 },
-  { icon: "code", title: "TOPCIT", description: "IT 역량 지수 수준별 평가", maxScore: 10 },
-  { icon: "globe", title: "공인점수", description: "TOEIC 700점 이상부터 인정", maxScore: 10 },
-  { icon: "trophy", title: "수상경력", description: "교내외 대회 및 공모전 수상", maxScore: 10 },
-  { icon: "monitor", title: "뉴로우스쿨", description: "온라인 교육 과정 수료", maxScore: 5 },
+  { icon: "file", title: "직업기초능력평가", description: "평균 등급 반올림", maxScore: 5 },
+  { icon: "award", title: "자격증", description: "자격증 취득 1개당 2점", maxScore: 14 },
+  { icon: "code", title: "TOPCIT", description: "취득점수 100점당 1점 반올림", maxScore: 10 },
+  { icon: "globe", title: "공인점수", description: "TOEIC, JPT(JLPT) 100점당 1점", maxScore: 10 },
+  { icon: "trophy", title: "수상경력", description: "교내외 대회 및 공모전 수상 입상 1개당 1점", maxScore: 10 },
+  { icon: "monitor", title: "뉴로우스쿨", description: "회고온도 20점당 1점", maxScore: 5 },
   { icon: "cap", title: "교과성적", description: "학기별 성적 자동 반영", maxScore: 9 },
-  { icon: "laptop", title: "프로젝트 참여", description: "개인·팀 프로젝트 심사 통과", maxScore: 10 },
-  { icon: "users", title: "외부활동", description: "해커톤, 컨퍼런스 등 참여", maxScore: 10 },
+  { icon: "laptop", title: "프로젝트 참여", description: "프로젝트 참여 활동 1회당 2점", maxScore: 10 },
+  { icon: "users", title: "외부활동", description: "대회 및 외부활동 참가 1회당 1점", maxScore: 10 },
 ];
 
 export const PROCESS_STEPS = [
