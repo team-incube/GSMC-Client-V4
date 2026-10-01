@@ -48,7 +48,7 @@ export function ModalHeader({ title, eyebrow, subtitle, meta, metaSub }: ModalHe
       <div className="flex shrink-0 items-start gap-3">
         {(meta || metaSub) && (
           <div className="flex flex-col items-end gap-0.5 text-right">
-            {meta && <span className="text-[13px] leading-[18px] text-body">{meta}</span>}
+            {meta && <span className="text-[12px] leading-[18px] text-soft">{meta}</span>}
             {metaSub && <span className="text-[12px] leading-[17px] text-faint">{metaSub}</span>}
           </div>
         )}
