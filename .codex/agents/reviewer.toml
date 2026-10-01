@@ -17,7 +17,7 @@ git status --porcelain --untracked-files=all
 
 Review only `.ts`, `.tsx`, and `.css` files. If there are none, reply "검사할 변경이 없습니다" and stop.
 
-Before judging, read `CLAUDE.md` and the documents under `.claude/rules/`. They are the basis for every rule.
+Before judging, read `AGENTS.md` and the documents under `.claude/rules/`. They are the basis for every rule.
 
 ## 2. Checks
 

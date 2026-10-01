@@ -28,7 +28,7 @@ git diff --staged
 
 - One commit, one purpose. Split unrelated refactoring out of a feature commit.
 - If files are already staged, treat them as an intentional group and commit them together.
-- Never commit `.env*`, build output, or personal settings (`settings.local.json`, `CLAUDE.local.md`).
+- Never commit `.env*`, build output, or personal settings (`settings.local.json`).
 
 ## 3. Commit each unit
 

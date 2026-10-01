@@ -18,7 +18,7 @@ git diff --stat                            # uncommitted
 git diff --stat origin/develop...HEAD      # whole branch
 ```
 
-Read `CLAUDE.md` and `.claude/rules/*.md`. A finding that cites a project rule is actionable; "I'd have written it differently" is not.
+Read `AGENTS.md` and `.claude/rules/*.md`. A finding that cites a project rule is actionable; "I'd have written it differently" is not.
 
 ## Step 2 — Pick the lenses
 

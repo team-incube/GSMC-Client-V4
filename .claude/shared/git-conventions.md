@@ -1,6 +1,6 @@
 # Git conventions
 
-Single source of truth for the work flow, branch names, commit messages, and PR titles. Skills (`issue`, `commit`, `pr`) and `CLAUDE.md` refer here; change the rules only in this file.
+Single source of truth for the work flow, branch names, commit messages, and PR titles. Skills (`issue`, `commit`, `pr`) and `AGENTS.md` refer here; change the rules only in this file.
 
 ## Work flow: issue first
 

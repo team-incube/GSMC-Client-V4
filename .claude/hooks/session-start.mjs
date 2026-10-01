@@ -13,6 +13,16 @@ if (PROTECTED_BRANCHES.includes(branch)) {
   );
 }
 
+// 이 중 하나라도 있으면 Claude Code가 AGENTS.md를 읽지 않는다. (팀 지침이 통째로 빠진다)
+const blockers = ["CLAUDE.md", ".claude/CLAUDE.md", "CLAUDE.local.md"].filter((file) => existsSync(`${root}/${file}`));
+if (blockers.length > 0) {
+  notes.push(
+    `[경고] ${blockers.join(", ")} 파일이 있어서 이 프로젝트의 AGENTS.md(팀 지침)가 로드되지 않았습니다. ` +
+      "사용자에게 바로 알리고, 이 파일의 내용을 AGENTS.md나 ~/.claude/CLAUDE.md로 옮긴 뒤 삭제하자고 안내하세요. " +
+      "그 전까지는 AGENTS.md를 직접 읽고 따르세요.",
+  );
+}
+
 if (!existsSync(`${root}/node_modules`)) {
   notes.push("node_modules가 없습니다. lint, 타입 체크 hook이 동작하지 않으니 `npm install`이 필요하다고 안내하세요.");
 }

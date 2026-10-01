@@ -14,7 +14,7 @@ Interview the user about every aspect of the plan until you reach a shared under
 
 Never ask a question the codebase can answer. Check:
 
-- `CLAUDE.md` and `.claude/rules/` for conventions that constrain the design
+- `AGENTS.md` and `.claude/rules/` for conventions that constrain the design
 - Where the feature belongs in FSD and which app(s) need it
 - Whether `@repo/ui` or `@repo/lib` already provides parts of it
 - Similar existing pages or components to stay consistent with
