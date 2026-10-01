@@ -55,7 +55,7 @@ function IconBadge({ name, size = "md" }: { name: IconName; size?: "sm" | "md" }
 function Hero() {
   return (
     <section
-      className="relative flex h-[520px] items-center justify-center bg-cover bg-center md:h-[800px]"
+      className="relative flex h-[520px] items-center justify-center bg-cover bg-center md:h-[800px] lg:h-[calc(100svh-56px)] lg:min-h-[640px]"
       style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${HERO_IMAGE}), linear-gradient(135deg, #1e3a8a, #0f172a)`,
       }}
