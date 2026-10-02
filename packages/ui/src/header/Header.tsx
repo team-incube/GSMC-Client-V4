@@ -32,14 +32,14 @@ export function Header({ isAdmin = false, onNotificationClick, onLogout }: Heade
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-line bg-page">
-      <div className="mx-auto flex h-14 w-full max-w-[1920px] items-center justify-between px-6 lg:px-16">
+      <div className="mx-auto grid h-14 w-full max-w-[1920px] grid-cols-[1fr_auto_1fr] items-center px-6 lg:px-16">
         <Logo />
         <nav className="hidden items-center gap-0.5 md:flex">
           {navItems.map((item) => (
             <NavLink key={item.href} href={item.href} label={item.label} />
           ))}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-self-end gap-2">
           <NotificationButton onClick={onNotificationClick} />
           <ThemeToggle />
           <div className="hidden md:block">
