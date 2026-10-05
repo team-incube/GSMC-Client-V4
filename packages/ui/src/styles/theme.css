@@ -79,6 +79,7 @@
   --branddark: #3b7bfb;
   --danger: #dc2626;
   --caution: #d97706;
+  --scrim: rgb(15 23 42 / 0.45);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -97,6 +98,7 @@
     --branddark: #7aabfd;
     --danger: #dc2626;
     --caution: #d97706;
+    --scrim: rgb(2 6 23 / 0.65);
   }
 }
 
@@ -115,6 +117,7 @@
   --branddark: #3b7bfb;
   --danger: #dc2626;
   --caution: #d97706;
+  --scrim: rgb(15 23 42 / 0.45);
 }
 
 :root.dark {
@@ -132,6 +135,7 @@
   --branddark: #7aabfd;
   --danger: #dc2626;
   --caution: #d97706;
+  --scrim: rgb(2 6 23 / 0.65);
 }
 
 @theme inline {
@@ -149,6 +153,7 @@
   --color-branddark: var(--branddark);
   --color-danger: var(--danger);
   --color-caution: var(--caution);
+  --color-scrim: var(--scrim);
 }
 
 @layer base {
