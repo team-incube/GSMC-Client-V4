@@ -1,2 +1,2 @@
 export { DataGsmLoginButton } from "./ui/DataGsmLoginButton";
-export { parseDataGsmCallback } from "./model/dataGsmOAuth";
+export { completeDataGsmLogin } from "./model/dataGsmLogin";

@@ -3,13 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { parseDataGsmCallback } from "@/features/login";
-
-const ERROR_MESSAGES = {
-  denied: "DataGSM 로그인이 취소되었거나 실패했습니다.",
-  "invalid-state": "인증 요청을 확인할 수 없습니다. 다시 시도해주세요.",
-  "missing-code": "인증 코드를 받지 못했습니다. 다시 시도해주세요.",
-} as const;
+import { completeDataGsmLogin } from "@/features/login";
 
 export function LoginCallbackPage() {
   const router = useRouter();
@@ -19,15 +13,14 @@ export function LoginCallbackPage() {
     if (handled.current) return;
     handled.current = true;
 
-    const result = parseDataGsmCallback(window.location.search);
-    if (result.ok) {
-      router.replace("/");
-      return;
-    }
-
-    router.replace("/login");
-    // Toaster subscribes in its own effect, which runs after this one on a full page load
-    setTimeout(() => toast.error(ERROR_MESSAGES[result.reason]), 0);
+    completeDataGsmLogin(window.location.search).then((result) => {
+      if (result.ok) {
+        router.replace("/");
+        return;
+      }
+      toast.error(result.message);
+      router.replace("/login");
+    });
   }, [router]);
 
   return (
