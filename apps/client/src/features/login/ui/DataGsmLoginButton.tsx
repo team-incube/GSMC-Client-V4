@@ -1,12 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { startDataGsmLogin } from "../model/dataGsmLogin";
 
 export function DataGsmLoginButton() {
   const [pending, setPending] = useState(false);
+
+  useEffect(() => {
+    const onShow = (e: PageTransitionEvent) => {
+      if (e.persisted) setPending(false);
+    };
+
+    window.addEventListener("pageshow", onShow);
+    return () => window.removeEventListener("pageshow", onShow);
+  }, []);
 
   async function handleClick() {
     setPending(true);
