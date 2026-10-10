@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { completeDataGsmLogin } from "@/features/login";
+import { completeDataGsmLogin } from "@repo/lib";
 
 export function LoginCallbackPage() {
   const router = useRouter();

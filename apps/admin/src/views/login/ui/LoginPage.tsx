@@ -1,4 +1,8 @@
-import { DataGsmLoginButton } from "@/features/login";
+"use client";
+
+import { toast } from "sonner";
+import { startDataGsmLogin } from "@repo/lib";
+import { DataGsmLoginButton } from "@repo/ui";
 
 export function LoginPage() {
   return (
@@ -9,7 +13,12 @@ export function LoginPage() {
           alt="GSMC"
           className="h-auto w-30 sm:w-45 lg:w-65"
         />
-        <DataGsmLoginButton />
+        <DataGsmLoginButton
+          onLogin={startDataGsmLogin}
+          onError={(error) =>
+            toast.error(error instanceof Error ? error.message : "로그인에 실패했습니다.")
+          }
+        />
       </div>
     </main>
   );
