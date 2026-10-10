@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@repo/ui";
 import { themeInitScript } from "@repo/ui/theme-script";
 import { Providers } from "./providers";
 
@@ -17,10 +16,7 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <Providers>
-          <Header isAdmin />
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

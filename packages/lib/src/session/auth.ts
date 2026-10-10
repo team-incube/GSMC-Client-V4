@@ -1,5 +1,5 @@
-import { apiClient } from "@repo/lib";
-import type { AuthorizationUrl, AuthTokens, SigninInput } from "../model/types";
+import { apiClient } from "../axios";
+import type { AuthorizationUrl, AuthTokens, SigninInput } from "./types";
 
 export async function fetchAuthorizationUrl(redirectUri: string): Promise<AuthorizationUrl> {
   const { data } = await apiClient.get<AuthorizationUrl>("/api/auth/authorization-url", {

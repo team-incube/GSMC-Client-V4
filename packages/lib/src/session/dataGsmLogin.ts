@@ -1,5 +1,6 @@
 import { isAxiosError } from "axios";
-import { fetchAuthorizationUrl, saveAuthTokens, signin } from "@/entities/session";
+import { fetchAuthorizationUrl, signin } from "./auth";
+import { saveAuthTokens } from "./tokenStorage";
 
 const OAUTH_STATE_KEY = "datagsm_oauth_state";
 const CALLBACK_PATH = "/callback";
