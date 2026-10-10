@@ -35,7 +35,7 @@ export function DataGsmLoginButton({ onLogin, onError }: DataGsmLoginButtonProps
       type="button"
       onClick={handleClick}
       disabled={pending}
-      className="relative flex h-[48px] w-[300px] items-center justify-center rounded-[6px] border border-line bg-surface font-medium text-[14px] text-strong transition-colors hover:bg-wash disabled:cursor-not-allowed disabled:opacity-60"
+      className="relative flex h-[48px] w-[300px] items-center justify-center rounded-[6px] border border-[#e2e8f0] bg-[#f8fafc] font-medium text-[14px] text-[#0f172a] transition-colors hover:bg-[#e2e8f0] disabled:cursor-not-allowed disabled:opacity-60"
     >
       <DataGsmIcon className="absolute left-[20px] size-[14px]" />
       DataGSM으로 계속하기
