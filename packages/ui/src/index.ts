@@ -1,4 +1,4 @@
-export { Button } from "./button/Button";
+export { Button, buttonClassName } from "./button/Button";
 export { Input } from "./input/Input";
 export { Modal, ModalHeader, ModalBody, ModalFooter } from "./modal/Modal";
 export { DataGsmLoginButton } from "./login/DataGsmLoginButton";
