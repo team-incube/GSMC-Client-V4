@@ -19,6 +19,7 @@ export { SunIcon } from "./icons/SunIcon";
 export { LogoIcon } from "./icons/LogoIcon";
 export { MenuIcon } from "./icons/MenuIcon";
 export { DataGsmIcon } from "./icons/DataGsmIcon";
+export { ChevronDownIcon } from "./icons/ChevronDownIcon";
 
 export { useTheme } from "./theme/useTheme";
 export type { Theme } from "./theme/useTheme";
