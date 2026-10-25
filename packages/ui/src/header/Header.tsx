@@ -39,7 +39,7 @@ export function Header({ isAdmin = false, onNotificationClick, onLogout }: Heade
             <NavLink key={item.href} href={item.href} label={item.label} />
           ))}
         </nav>
-        <div className="flex items-center justify-self-end gap-2">
+        <div className="col-start-3 flex items-center justify-self-end gap-2">
           <NotificationButton onClick={onNotificationClick} />
           <ThemeToggle />
           <div className="hidden md:block">
