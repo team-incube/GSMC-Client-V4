@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Button } from "@repo/ui";
 
 type SectionCardProps = {
   title: string;
@@ -28,13 +29,9 @@ export function SectionMessage({ message, onRetry }: SectionMessageProps) {
     <div className="flex flex-col items-center gap-3 px-6 py-10">
       <p className="text-[14px] text-soft">{message}</p>
       {onRetry && (
-        <button
-          type="button"
-          onClick={onRetry}
-          className="h-8 rounded-md border border-line bg-surface px-3 text-[12px] font-medium text-body transition-colors duration-200 hover:bg-wash"
-        >
+        <Button variant="secondary" size="md" onClick={onRetry}>
           다시 시도
-        </button>
+        </Button>
       )}
     </div>
   );

@@ -1,12 +1,9 @@
 import Link from "next/link";
 import { useId, useState } from "react";
-import { ChevronDownIcon } from "@repo/ui";
+import { Button, ChevronDownIcon, buttonClassName } from "@repo/ui";
 import type { CertificationCategory } from "@/entities/certification";
 import { ProgressBar } from "./ProgressBar";
 import { SubmissionList } from "./SubmissionList";
-
-const ACTION_CLASS =
-  "inline-flex h-7 shrink-0 items-center rounded-md bg-brand px-3 text-[11px] leading-[16.5px] font-medium text-white transition-opacity duration-200 hover:opacity-90";
 
 type CategoryRowProps = {
   category: CertificationCategory;
@@ -38,14 +35,14 @@ export function CategoryRow({ category }: CategoryRowProps) {
           </span>
         </button>
         {code === "PROJECT" ? (
-          <Link href="/projects" className={ACTION_CLASS}>
+          <Link href="/projects" className={buttonClassName({ size: "sm" })}>
             바로가기
           </Link>
         ) : (
           // TODO: 제출 모달(#35)이 생기면 연결한다.
-          <button type="button" aria-label={`${name} 제출하기`} className={ACTION_CLASS}>
+          <Button size="sm" aria-label={`${name} 제출하기`}>
             제출하기
-          </button>
+          </Button>
         )}
       </div>
       <div

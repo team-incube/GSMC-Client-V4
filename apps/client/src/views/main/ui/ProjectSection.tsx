@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PlusIcon } from "@repo/ui";
+import { PlusIcon, buttonClassName } from "@repo/ui";
 import { useMyProjectsQuery } from "@/entities/project";
 import { ProjectCard } from "./ProjectCard";
 import { SectionCard, SectionMessage } from "./SectionCard";
@@ -14,10 +14,7 @@ export function ProjectSection() {
       title="내 프로젝트"
       action={
         // TODO: 프로젝트 작성 페이지가 생기면 경로를 바꾼다.
-        <Link
-          href="/projects"
-          className="inline-flex h-7 items-center gap-1 rounded-md bg-brand px-3 text-[11px] leading-[16.5px] font-medium text-white transition-opacity duration-200 hover:opacity-90"
-        >
+        <Link href="/projects" className={buttonClassName({ size: "sm" })}>
           <PlusIcon aria-hidden="true" className="size-2.5" />
           새 프로젝트
         </Link>
