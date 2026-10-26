@@ -59,8 +59,11 @@ export async function completeDataGsmLogin(search: string): Promise<DataGsmLogin
 export async function logout(): Promise<void> {
   try {
     await signout();
-  } catch {
-    // 서버 요청이 실패해도 클라이언트 세션은 반드시 정리한다.
+  } catch (error) {
+    // 401은 토큰이 이미 무효라는 뜻이므로 로그아웃된 것으로 본다. 그 외 실패는 재시도할 수 있게 세션을 유지한다.
+    if (!isAxiosError(error) || error.response?.status !== 401) {
+      throw new Error(getErrorMessage(error, "로그아웃에 실패했습니다. 잠시 후 다시 시도해주세요."));
+    }
   }
   clearAuthTokens();
   // 뒤로 가기로 보호 페이지에 돌아오지 못하도록 히스토리를 교체한다.

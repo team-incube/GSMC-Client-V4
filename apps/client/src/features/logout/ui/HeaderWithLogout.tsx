@@ -2,7 +2,10 @@
 
 import { logout } from "@repo/lib";
 import { Header } from "@repo/ui";
+import { toast } from "sonner";
 
 export function HeaderWithLogout() {
-  return <Header onLogout={logout} />;
+  const handleLogout = () => logout().catch((error: Error) => toast.error(error.message));
+
+  return <Header onLogout={handleLogout} />;
 }
