@@ -1,5 +1,5 @@
-import axios from "axios";
-import { getAccessToken } from "./session/tokenStorage";
+import axios, { isAxiosError } from "axios";
+import { getAccessToken, handleUnauthenticated } from "./session/tokenStorage";
 
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -16,5 +16,8 @@ apiClient.interceptors.request.use((config) => {
 });
 apiClient.interceptors.response.use(
   (res) => res,
-  (error) => Promise.reject(error),
+  (error) => {
+    if (isAxiosError(error) && error.response?.status === 401) handleUnauthenticated();
+    return Promise.reject(error);
+  },
 );
