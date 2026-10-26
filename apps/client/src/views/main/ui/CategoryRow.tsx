@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useId, useState } from "react";
 import { Button, ChevronDownIcon, buttonClassName } from "@repo/ui";
 import type { CertificationCategory } from "@/entities/certification";
+import { ScoreSubmitModal, canSubmitScore } from "@/features/submit-score";
 import { ProgressBar } from "./ProgressBar";
 import { SubmissionList } from "./SubmissionList";
 
@@ -12,6 +13,7 @@ type CategoryRowProps = {
 export function CategoryRow({ category }: CategoryRowProps) {
   const { code, name, score, maxScore, submissions } = category;
   const [open, setOpen] = useState(false);
+  const [submitOpen, setSubmitOpen] = useState(false);
   const panelId = useId();
 
   return (
@@ -38,8 +40,12 @@ export function CategoryRow({ category }: CategoryRowProps) {
           <Link href="/projects" className={buttonClassName({ size: "sm" })}>
             바로가기
           </Link>
+        ) : canSubmitScore(code) ? (
+          <Button size="sm" aria-label={`${name} 제출하기`} onClick={() => setSubmitOpen(true)}>
+            제출하기
+          </Button>
         ) : (
-          // TODO: 제출 모달(#35)이 생기면 연결한다.
+          // TODO: 나머지 카테고리의 제출 모달이 생기면 연결한다.
           <Button size="sm" aria-label={`${name} 제출하기`}>
             제출하기
           </Button>
@@ -53,6 +59,7 @@ export function CategoryRow({ category }: CategoryRowProps) {
           <SubmissionList submissions={submissions} />
         </div>
       </div>
+      {canSubmitScore(code) && <ScoreSubmitModal category={category} open={submitOpen} onOpenChange={setSubmitOpen} />}
     </li>
   );
 }
