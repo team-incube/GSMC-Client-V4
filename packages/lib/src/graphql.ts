@@ -1,6 +1,8 @@
 import { apiClient } from "./axios";
+import { handleUnauthenticated } from "./session/tokenStorage";
 
 const GRAPHQL_ENDPOINT = "/graphql";
+const AUTH_ERROR_CODES = ["UNAUTHENTICATED", "UNAUTHORIZED", "TOKEN_EXPIRED", "INVALID_TOKEN"];
 
 type GraphqlError = {
   message?: string;
@@ -28,7 +30,11 @@ export class GraphqlRequestError extends Error {
 export async function graphqlRequest<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
   const { data } = await apiClient.post<GraphqlResponse<T>>(GRAPHQL_ENDPOINT, { query, variables });
   const [error] = data.errors ?? [];
-  if (error) throw new GraphqlRequestError(error);
+  if (error) {
+    const requestError = new GraphqlRequestError(error);
+    if (AUTH_ERROR_CODES.includes(requestError.code)) handleUnauthenticated();
+    throw requestError;
+  }
   if (data.data == null) throw new GraphqlRequestError({ message: "응답 데이터가 없습니다." });
   return data.data;
 }

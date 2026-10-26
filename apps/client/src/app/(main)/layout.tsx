@@ -1,4 +1,5 @@
 import { Header } from "@repo/ui";
+import { AuthGuard } from "@/features/auth-guard";
 
 export default function MainLayout({
   children,
@@ -8,7 +9,7 @@ export default function MainLayout({
   return (
     <>
       <Header />
-      {children}
+      <AuthGuard>{children}</AuthGuard>
     </>
   );
 }
