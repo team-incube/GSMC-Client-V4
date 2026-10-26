@@ -36,7 +36,7 @@ type ModalHeaderProps = {
 
 export function ModalHeader({ title, eyebrow, subtitle, meta, metaSub }: ModalHeaderProps) {
   return (
-    <div className="flex shrink-0 items-start justify-between gap-4 border-b border-line px-6 py-5">
+    <div className="flex shrink-0 items-center justify-between gap-4 border-b border-line px-6 py-5">
       <div className="flex flex-col gap-1">
         {eyebrow && <span className="text-[12px] leading-[17px] text-faint">{eyebrow}</span>}
         <Dialog.Title className="text-[16px] leading-6 font-semibold text-strong">
@@ -45,11 +45,11 @@ export function ModalHeader({ title, eyebrow, subtitle, meta, metaSub }: ModalHe
         {subtitle && <span className="text-[12px] leading-[18px] text-soft">{subtitle}</span>}
       </div>
 
-      <div className="flex shrink-0 items-start gap-3">
+      <div className="flex shrink-0 items-center gap-3">
         {(meta || metaSub) && (
-          <div className="flex flex-col items-end gap-0.5 text-right">
-            {meta && <span className="text-[12px] leading-[18px] text-soft">{meta}</span>}
-            {metaSub && <span className="text-[12px] leading-[17px] text-faint">{metaSub}</span>}
+          <div className="flex flex-col items-end text-right">
+            {meta && <span className="text-[12px] leading-[18px] tracking-[0.08em] text-soft">{meta}</span>}
+            {metaSub && <span className="text-[11px] leading-[16.5px] text-faint">{metaSub}</span>}
           </div>
         )}
         <Dialog.Close
