@@ -1,5 +1,12 @@
 import { graphqlRequest } from "@repo/lib";
-import type { MyMemberResponse, MyScoresResponse, MyTotalScoreResponse, ScoresByCategoryResponse } from "./types";
+import type {
+  AddScoreWithFileResponse,
+  MyMemberResponse,
+  MyScoresResponse,
+  MyTotalScoreResponse,
+  ScoreCategoryType,
+  ScoresByCategoryResponse,
+} from "./types";
 
 const MY_SCORES_BY_CATEGORY = `
   query {
@@ -59,4 +66,26 @@ export async function fetchMyScores() {
 export async function fetchMyTotalScore() {
   const { myTotalScore } = await graphqlRequest<MyTotalScoreResponse>(MY_TOTAL_SCORE, { includeApprovedOnly: true });
   return myTotalScore.totalScore;
+}
+
+const ADD_SCORE_WITH_FILE = `
+  mutation($categoryType: CategoryType!, $input: ScoreWithValueAndFileInput!) {
+    addScoreWithFile(categoryType: $categoryType, input: $input) {
+      scoreId
+    }
+  }
+`;
+
+type AddScoreWithFileParams = {
+  categoryType: ScoreCategoryType;
+  value: string;
+  fileId: string;
+};
+
+export async function addScoreWithFile({ categoryType, value, fileId }: AddScoreWithFileParams) {
+  const { addScoreWithFile } = await graphqlRequest<AddScoreWithFileResponse>(ADD_SCORE_WITH_FILE, {
+    categoryType,
+    input: { value, fileId },
+  });
+  return addScoreWithFile.scoreId;
 }
