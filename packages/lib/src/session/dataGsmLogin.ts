@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
-import { fetchAuthorizationUrl, signin } from "./auth";
-import { saveAuthTokens } from "./tokenStorage";
+import { fetchAuthorizationUrl, signin, signout } from "./auth";
+import { handleUnauthenticated, saveAuthTokens } from "./tokenStorage";
 
 const OAUTH_STATE_KEY = "datagsm_oauth_state";
 const CALLBACK_PATH = "/callback";
@@ -54,4 +54,13 @@ export async function completeDataGsmLogin(search: string): Promise<DataGsmLogin
   } catch (error) {
     return { ok: false, message: getErrorMessage(error, "로그인에 실패했습니다. 잠시 후 다시 시도해주세요.") };
   }
+}
+
+export async function logout(): Promise<void> {
+  try {
+    await signout();
+  } catch {
+    // 서버 요청이 실패해도 클라이언트 세션은 반드시 정리한다.
+  }
+  handleUnauthenticated();
 }

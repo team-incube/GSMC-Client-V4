@@ -1,5 +1,5 @@
-import { Header } from "@repo/ui";
 import { AuthGuard } from "@/features/auth-guard";
+import { HeaderWithLogout } from "@/features/logout";
 
 export default function MainLayout({
   children,
@@ -8,7 +8,7 @@ export default function MainLayout({
 }) {
   return (
     <>
-      <Header />
+      <HeaderWithLogout />
       <AuthGuard>{children}</AuthGuard>
     </>
   );
