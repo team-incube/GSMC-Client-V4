@@ -17,6 +17,7 @@ export { CloseIcon } from "./icons/CloseIcon";
 export { MoonIcon } from "./icons/MoonIcon";
 export { SunIcon } from "./icons/SunIcon";
 export { LogoIcon } from "./icons/LogoIcon";
+export { LogoStackedIcon } from "./icons/LogoStackedIcon";
 export { MenuIcon } from "./icons/MenuIcon";
 export { DataGsmIcon } from "./icons/DataGsmIcon";
 
