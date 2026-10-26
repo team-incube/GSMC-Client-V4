@@ -1,4 +1,4 @@
-import { Header } from "@repo/ui";
+import { HeaderWithLogout } from "@/features/logout";
 
 export default function MainLayout({
   children,
@@ -7,7 +7,7 @@ export default function MainLayout({
 }) {
   return (
     <>
-      <Header />
+      <HeaderWithLogout />
       {children}
     </>
   );

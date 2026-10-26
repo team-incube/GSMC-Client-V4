@@ -12,3 +12,7 @@ export async function signin(input: SigninInput): Promise<AuthTokens> {
   const { data } = await apiClient.post<AuthTokens>("/api/auth/signin", input);
   return data;
 }
+
+export async function signout(): Promise<void> {
+  await apiClient.delete("/api/auth/signout");
+}

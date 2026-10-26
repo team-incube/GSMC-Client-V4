@@ -16,3 +16,7 @@ export function getAccessToken(): string | null {
     return null;
   }
 }
+
+export function clearAuthTokens(): void {
+  sessionStorage.removeItem(AUTH_TOKENS_KEY);
+}
