@@ -20,3 +20,10 @@ export function getAccessToken(): string | null {
 export function clearAuthTokens(): void {
   sessionStorage.removeItem(AUTH_TOKENS_KEY);
 }
+
+// 토큰을 지우고 로그인 페이지로 보낸다. 이미 /login이면 무한 새로고침을 막기 위해 이동하지 않는다.
+export function handleUnauthenticated(): void {
+  if (typeof window === "undefined") return;
+  clearAuthTokens();
+  if (window.location.pathname !== "/login") window.location.replace("/login");
+}

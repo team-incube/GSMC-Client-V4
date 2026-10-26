@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import { fetchAuthorizationUrl, signin, signout } from "./auth";
-import { clearAuthTokens, saveAuthTokens } from "./tokenStorage";
+import { handleUnauthenticated, saveAuthTokens } from "./tokenStorage";
 
 const OAUTH_STATE_KEY = "datagsm_oauth_state";
 const CALLBACK_PATH = "/callback";
@@ -62,7 +62,5 @@ export async function logout(): Promise<void> {
   } catch {
     // 서버 요청이 실패해도 클라이언트 세션은 반드시 정리한다.
   }
-  clearAuthTokens();
-  // 뒤로 가기로 보호 페이지에 돌아오지 못하도록 히스토리를 교체한다.
-  window.location.replace("/login");
+  handleUnauthenticated();
 }

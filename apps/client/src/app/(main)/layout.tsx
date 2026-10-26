@@ -1,3 +1,4 @@
+import { AuthGuard } from "@/features/auth-guard";
 import { HeaderWithLogout } from "@/features/logout";
 
 export default function MainLayout({
@@ -8,7 +9,7 @@ export default function MainLayout({
   return (
     <>
       <HeaderWithLogout />
-      {children}
+      <AuthGuard>{children}</AuthGuard>
     </>
   );
 }
