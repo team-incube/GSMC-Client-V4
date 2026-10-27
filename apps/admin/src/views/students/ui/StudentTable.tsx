@@ -7,16 +7,18 @@ import { StudentRow } from "./StudentRow";
 
 type StudentTableProps = {
   students: Student[] | undefined;
+  // 이전 필터의 결과를 보여 주는 중이면 true. 새 결과로 오인하거나 조작하지 않게 막는다.
+  isUpdating: boolean;
   isError: boolean;
   onRetry: () => void;
 };
 
-export function StudentTable({ students, isError, onRetry }: StudentTableProps) {
+export function StudentTable({ students, isUpdating, isError, onRetry }: StudentTableProps) {
   const columnCount = useColumnCount();
 
   return (
     <div className="overflow-hidden rounded-[10px] border border-line bg-surface">
-      <table className="w-full table-fixed border-collapse text-left">
+      <table aria-busy={isUpdating} className="w-full table-fixed border-collapse text-left">
         <thead>
           <tr className="border-b border-line bg-wash text-[11px] leading-[16.5px] font-medium tracking-[0.08em] text-soft uppercase">
             <th scope="col" className="px-4 py-4 font-medium sm:w-[22%] sm:px-5 md:w-[15%]">
@@ -36,7 +38,10 @@ export function StudentTable({ students, isError, onRetry }: StudentTableProps) 
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody
+          inert={isUpdating}
+          className={`transition-opacity duration-200 motion-reduce:transition-none ${isUpdating ? "opacity-40" : ""}`}
+        >
           {students ? (
             students.length > 0 ? (
               students.map((student) => <StudentRow key={student.id} student={student} columnCount={columnCount} />)

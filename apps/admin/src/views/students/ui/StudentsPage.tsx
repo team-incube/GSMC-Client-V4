@@ -11,7 +11,8 @@ export function StudentsPage() {
   const [filter, setFilter] = useState<StudentListFilter>(INITIAL_FILTER);
   const [filterOpen, setFilterOpen] = useState(false);
 
-  const { data: students, isError, refetch } = useStudentsQuery({
+  // 필터를 바꾸면 새 결과가 올 때까지 이전 결과를 placeholder로 보여 준다. 그동안은 갱신 중으로 표시한다.
+  const { data: students, isError, isPlaceholderData, refetch } = useStudentsQuery({
     grade: filter.grade,
     classNumber: filter.classNumber,
   });
@@ -31,7 +32,7 @@ export function StudentsPage() {
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
         <div className="flex items-center gap-3 whitespace-nowrap">
           <h1 className="text-[20px] leading-[30px] font-semibold text-strong">학생 전체 조회</h1>
-          {visibleStudents && (
+          {visibleStudents && !isPlaceholderData && (
             <span className="text-[12px] leading-[18px] tracking-[0.08em] text-soft">{visibleStudents.length}명</span>
           )}
         </div>
@@ -55,7 +56,12 @@ export function StudentsPage() {
       </div>
 
       <div className="pt-5">
-        <StudentTable students={visibleStudents} isError={isError} onRetry={() => refetch()} />
+        <StudentTable
+          students={visibleStudents}
+          isUpdating={isPlaceholderData}
+          isError={isError}
+          onRetry={() => refetch()}
+        />
       </div>
 
       <StudentFilterModal
