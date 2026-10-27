@@ -1,5 +1,5 @@
+import { CERTIFICATION_CATEGORIES, TOTAL_MAX_SCORE, sumCategoryScore } from "@repo/lib";
 import type { MyScoresResponse, ScoresByCategoryResponse } from "../api/types";
-import { CATEGORY_CONFIGS, TOTAL_MAX_SCORE } from "../model/categories";
 import type { CertificationSubmission, MyCertification } from "../model/types";
 
 type Params = {
@@ -12,9 +12,9 @@ type Params = {
 export function toMyCertification({ studentName, totalScore, scoresByCategory, scores }: Params): MyCertification {
   const scoreById = new Map(scores.map((score) => [score.scoreId, score]));
 
-  const categories = CATEGORY_CONFIGS.map(({ code, name, maxScore, apiTypes }) => {
+  const categories = CERTIFICATION_CATEGORIES.map((config) => {
+    const { code, name, maxScore, apiTypes } = config;
     const matched = scoresByCategory.filter((category) => apiTypes.includes(category.categoryType));
-    const recognized = matched.reduce((sum, category) => sum + category.recognizedScore, 0);
 
     const submissions = matched.flatMap((category) =>
       category.scores.map((score): CertificationSubmission => {
@@ -29,7 +29,7 @@ export function toMyCertification({ studentName, totalScore, scoresByCategory, s
       }),
     );
 
-    return { code, name, maxScore, score: Math.min(recognized, maxScore), submissions };
+    return { code, name, maxScore, score: sumCategoryScore(config, matched), submissions };
   });
 
   return {
