@@ -19,7 +19,7 @@ export function NewrrowSchoolForm({ category, onClose }: NewrrowSchoolFormProps)
   const { mutate, isPending } = useSubmitScoreMutation();
 
   const temperature = parseTemperature(temperatureInput);
-  // TODO: 서버는 회고온도를 20으로 나눠 반올림한다. 내림·반올림이 정해지면 맞춘다. (team-incube/GSMC-Server-V4#282)
+  // 서버와 같이 20점 단위로 내림한다.
   const score = temperature === null ? null : toNewrrowScore(temperature, category.maxScore);
   const invalid = temperatureInput !== "" && temperature === null;
   const tiers = Array.from({ length: category.maxScore }, (_, index) => index + 1);
