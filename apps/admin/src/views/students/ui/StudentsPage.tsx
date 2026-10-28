@@ -24,6 +24,8 @@ export function StudentsPage() {
     [students, keyword],
   );
 
+  const hasMissingScore = !isPlaceholderData && (students?.some((student) => student.totalScore == null) ?? false);
+
   const activeFilterCount =
     (filter.grade != null ? 1 : 0) + (filter.classNumber != null ? 1 : 0) + (filter.name.trim() ? 1 : 0);
 
@@ -54,6 +56,15 @@ export function StudentsPage() {
           )}
         </button>
       </div>
+
+      {hasMissingScore && (
+        <p role="status" className="pt-5 text-[13px] leading-[19.5px] break-keep text-caution">
+          일부 학생의 점수를 불러오지 못했어요.{" "}
+          <button type="button" onClick={() => refetch()} className="font-medium text-brand hover:underline">
+            다시 시도
+          </button>
+        </p>
+      )}
 
       <div className="pt-5">
         <StudentTable

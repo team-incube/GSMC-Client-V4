@@ -35,7 +35,9 @@ export function StudentRow({ student, columnCount }: StudentRowProps) {
         </td>
         <td className="hidden px-5 tracking-[0.08em] text-body sm:table-cell">{formatClassInfo(student)}</td>
         <td className="hidden truncate px-5 text-soft md:table-cell">{student.email}</td>
-        <td className="px-4 text-right font-semibold whitespace-nowrap text-strong sm:px-5">{student.totalScore}점</td>
+        <td className="px-4 text-right font-semibold whitespace-nowrap text-strong sm:px-5">
+          {student.totalScore == null ? <span aria-label="점수 없음" className="text-soft">–</span> : `${student.totalScore}점`}
+        </td>
         <td className="px-4 text-center sm:px-5">
           <button
             type="button"
