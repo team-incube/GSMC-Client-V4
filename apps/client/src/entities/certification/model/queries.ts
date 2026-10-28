@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchMyName, fetchMyScores, fetchMyScoresByCategory, fetchMyTotalScore } from "../api/certification";
+import { fetchMyMember, fetchMyScores, fetchMyScoresByCategory, fetchMyTotalScore } from "../api/certification";
 import { toMyCertification } from "../lib/toMyCertification";
 
 export const certificationKeys = {
@@ -8,13 +8,19 @@ export const certificationKeys = {
 };
 
 async function fetchMyCertification() {
-  const [studentName, scoresByCategory, scores, totalScore] = await Promise.all([
-    fetchMyName(),
+  const [member, scoresByCategory, scores, totalScore] = await Promise.all([
+    fetchMyMember(),
     fetchMyScoresByCategory(),
     fetchMyScores(),
     fetchMyTotalScore(),
   ]);
-  return toMyCertification({ studentName, totalScore, scoresByCategory, scores });
+  return toMyCertification({
+    studentName: member.name,
+    grade: member.grade,
+    totalScore,
+    scoresByCategory,
+    scores,
+  });
 }
 
 export function useMyCertificationQuery() {

@@ -25,7 +25,7 @@ export type MyTotalScoreResponse = {
 };
 
 export type MyMemberResponse = {
-  myMember: { name: string };
+  myMember: { name: string; grade: number | null };
 };
 
 // 서버 CategoryType 중 파일과 함께 점수를 신청하는 카테고리

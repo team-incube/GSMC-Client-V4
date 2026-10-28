@@ -44,13 +44,14 @@ const MY_MEMBER = `
   query {
     myMember {
       name
+      grade
     }
   }
 `;
 
-export async function fetchMyName() {
+export async function fetchMyMember() {
   const { myMember } = await graphqlRequest<MyMemberResponse>(MY_MEMBER);
-  return myMember.name;
+  return myMember;
 }
 
 export async function fetchMyScoresByCategory() {
