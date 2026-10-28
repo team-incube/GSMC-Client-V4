@@ -1,15 +1,6 @@
-export type CertificationCategoryCode =
-  | "READING"
-  | "VOLUNTEER"
-  | "JOB_SKILL"
-  | "LICENSE"
-  | "TOPCIT"
-  | "LANGUAGE_SCORE"
-  | "AWARD"
-  | "NEWROW_SCHOOL"
-  | "GRADE"
-  | "PROJECT"
-  | "EXTERNAL_ACTIVITY";
+import type { CertificationCategoryCode } from "@repo/lib";
+
+export type { CertificationCategoryCode };
 
 export type SubmissionStatus = "INCOMPLETE" | "PENDING" | "APPROVED" | "REJECTED";
 
