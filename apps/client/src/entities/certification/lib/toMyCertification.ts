@@ -40,6 +40,7 @@ export function toMyCertification({
           details: activity.details,
           fileName: detail?.file?.originalName,
           submittedAt: activity.date ?? detail?.updatedAt?.slice(0, 10),
+          activityDate: activity.date,
           status: score.scoreStatus,
           score: detail?.scoreValue ?? undefined,
           rejectionReason: detail?.rejectionReason ?? undefined,

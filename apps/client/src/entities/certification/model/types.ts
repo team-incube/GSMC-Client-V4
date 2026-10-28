@@ -21,6 +21,8 @@ export type CertificationSubmission = {
   fileName?: string;
   // 제출할 때 입력한 날짜. 없으면 마지막으로 수정된 날짜
   submittedAt?: string;
+  // 활동명에 함께 저장된 활동 날짜(YYYY-MM-DD)
+  activityDate?: string;
   status: SubmissionStatus;
   score?: number;
   rejectionReason?: string;
