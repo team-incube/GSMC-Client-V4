@@ -36,3 +36,7 @@ export type ScoreCategoryType = "AWARD" | "EXTERNAL_ACTIVITY" | "NEWRROW_SCHOOL"
 export type AddScoreWithFileResponse = {
   addScoreWithFile: { scoreId: string };
 };
+
+export type PatchMyScoreResponse = {
+  patchMyScore: { scoreId: string };
+};

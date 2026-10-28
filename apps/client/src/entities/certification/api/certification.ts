@@ -4,6 +4,7 @@ import type {
   MyMemberResponse,
   MyScoresResponse,
   MyTotalScoreResponse,
+  PatchMyScoreResponse,
   ScoreCategoryType,
   ScoresByCategoryResponse,
 } from "./types";
@@ -92,4 +93,28 @@ export async function addScoreWithFile({ categoryType, value, fileId }: AddScore
     input: { value, fileId },
   });
   return addScoreWithFile.scoreId;
+}
+
+const PATCH_MY_SCORE = `
+  mutation($scoreId: ID!, $input: PatchMyScoreInput!) {
+    patchMyScore(scoreId: $scoreId, input: $input) {
+      scoreId
+    }
+  }
+`;
+
+// 생략한 필드는 서버에서 기존 값을 그대로 둔다.
+type PatchMyScoreParams = {
+  scoreId: string;
+  value?: string;
+  fileId?: string;
+};
+
+// 심사중인 본인 점수만 수정할 수 있다. 심사가 끝난 점수는 서버가 CONFLICT로 거부한다.
+export async function patchMyScore({ scoreId, value, fileId }: PatchMyScoreParams) {
+  const { patchMyScore } = await graphqlRequest<PatchMyScoreResponse>(PATCH_MY_SCORE, {
+    scoreId,
+    input: { value, fileId },
+  });
+  return patchMyScore.scoreId;
 }
