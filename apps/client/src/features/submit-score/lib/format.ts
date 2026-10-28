@@ -34,3 +34,9 @@ export function parseTemperature(value: string) {
 export function toNewrrowScore(temperature: number, maxScore: number) {
   return Math.min(Math.floor(temperature / NEWRROW_SCORE_STEP), maxScore);
 }
+
+// YYYY-MM-DD를 날짜 입력 칸 값으로 나눈다. 없으면 빈 칸을 돌려준다.
+export function toDateParts(isoDate: string | undefined): DateParts {
+  const [year, month, day] = isoDate?.split("-") ?? [];
+  return year && month && day ? { year, month, day } : EMPTY_DATE;
+}
