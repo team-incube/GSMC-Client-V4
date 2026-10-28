@@ -26,8 +26,10 @@ export function SubmissionList({ submissions }: SubmissionListProps) {
             <li key={submission.id} className="flex items-center justify-between gap-4 py-2.5">
               <div className="min-w-0">
                 <p className="truncate text-[12px] leading-[18px] font-medium text-strong">{submission.title}</p>
-                {submission.fileName && (
-                  <p className="truncate text-[11px] leading-[16.5px] text-faint">{submission.fileName}</p>
+                {(submission.details.length > 0 || submission.fileName) && (
+                  <p className="truncate text-[11px] leading-[16.5px] text-faint">
+                    {[...submission.details, submission.fileName].filter(Boolean).join(" · ")}
+                  </p>
                 )}
               </div>
               <div className="flex shrink-0 items-center gap-3 text-[11px] leading-[16.5px]">
@@ -39,7 +41,6 @@ export function SubmissionList({ submissions }: SubmissionListProps) {
                 <span className={`font-medium ${STATUS_CLASS[submission.status]}`}>
                   {SUBMISSION_STATUS_LABEL[submission.status]}
                 </span>
-                {submission.score != null && <span className="font-medium text-strong">+{submission.score}점</span>}
               </div>
             </li>
           ))}

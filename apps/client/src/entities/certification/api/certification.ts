@@ -28,6 +28,7 @@ const MY_SCORES = `
       activityName
       scoreValue
       updatedAt
+      file { originalName }
     }
   }
 `;

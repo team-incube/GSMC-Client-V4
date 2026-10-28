@@ -1,5 +1,6 @@
 import type { MyScoresResponse, ScoresByCategoryResponse } from "../api/types";
 import { CATEGORY_CONFIGS } from "../model/categories";
+import { parseActivityName } from "./activityName";
 import type { CertificationSubmission, MyCertification } from "../model/types";
 
 type Params = {
@@ -25,17 +26,20 @@ export function toMyCertification({
   const configs = CATEGORY_CONFIGS.filter((config) => !(config.firstGradeOnly && grade !== null && grade !== 1));
   const totalMaxScore = configs.reduce((sum, config) => sum + config.maxScore, 0);
 
-  const categories = configs.map(({ code, name, maxScore, apiTypes }) => {
+  const categories = configs.map(({ code, name, maxScore, apiTypes, submissionTitle }) => {
     const matched = scoresByCategory.filter((category) => apiTypes.includes(category.categoryType));
     const recognized = matched.reduce((sum, category) => sum + category.recognizedScore, 0);
 
     const submissions = matched.flatMap((category) =>
       category.scores.map((score): CertificationSubmission => {
         const detail = scoreById.get(score.scoreId);
+        const activity = parseActivityName(score.activityName ?? submissionTitle ?? category.categoryKoreanName);
         return {
           id: score.scoreId,
-          title: score.activityName ?? category.categoryKoreanName,
-          submittedAt: detail?.updatedAt?.slice(0, 10),
+          title: activity.title,
+          details: activity.details,
+          fileName: detail?.file?.originalName,
+          submittedAt: activity.date ?? detail?.updatedAt?.slice(0, 10),
           status: score.scoreStatus,
           score: detail?.scoreValue ?? undefined,
         };

@@ -16,8 +16,10 @@ export type SubmissionStatus = "INCOMPLETE" | "PENDING" | "APPROVED" | "REJECTED
 export type CertificationSubmission = {
   id: string;
   title: string;
-  // TODO: 점수 조회 API가 파일명을 주면 채운다.
+  // 대회 종류처럼 활동명에 함께 저장된 부가 정보
+  details: string[];
   fileName?: string;
+  // 제출할 때 입력한 날짜. 없으면 마지막으로 수정된 날짜
   submittedAt?: string;
   status: SubmissionStatus;
   score?: number;

@@ -8,6 +8,8 @@ type CategoryConfig = {
   apiTypes: string[];
   // 1학년만 참여하는 항목. 2학년부터는 목록과 만점에서 빠진다.
   firstGradeOnly?: boolean;
+  // 활동명 없이 제출된 건의 제목. 없으면 서버 카테고리 이름을 쓴다.
+  submissionTitle?: string;
 };
 
 export const CATEGORY_CONFIGS: CategoryConfig[] = [
@@ -24,6 +26,7 @@ export const CATEGORY_CONFIGS: CategoryConfig[] = [
     maxScore: 5,
     apiTypes: ["NEWRROW_SCHOOL"],
     firstGradeOnly: true,
+    submissionTitle: "뉴로우스쿨 참여",
   },
   { code: "GRADE", name: "교과성적", maxScore: 9, apiTypes: ["ACADEMIC_GRADE"] },
   { code: "PROJECT", name: "프로젝트 참여", maxScore: 10, apiTypes: ["PROJECT_PARTICIPATION"] },

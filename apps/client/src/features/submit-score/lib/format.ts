@@ -24,12 +24,6 @@ export function toIsoDate({ year, month, day }: DateParts) {
   return `${year}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 }
 
-// TODO: 서버에 대회 종류·날짜 필드가 생기면 따로 보낸다. (team-incube/GSMC-Server-V4#282)
-// 그전까지는 심사 교사가 볼 수 있도록 활동명 하나에 합쳐 보낸다.
-export function toActivityName(title: string, details: string[]) {
-  return `${title} (${details.join(" · ")})`;
-}
-
 // 0~100 사이 정수면 숫자를, 아니면 null을 돌려준다.
 export function parseTemperature(value: string) {
   if (!/^\d{1,3}$/.test(value)) return null;

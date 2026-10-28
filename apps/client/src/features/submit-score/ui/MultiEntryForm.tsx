@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button, Input, ModalFooter, ModalHeader, PlusIcon } from "@repo/ui";
-import type { CertificationCategory, ScoreCategoryType } from "@/entities/certification";
-import { EMPTY_DATE, isDateFilled, toActivityName, toIsoDate, type DateParts } from "../lib/format";
+import { toActivityName, type CertificationCategory, type ScoreCategoryType } from "@/entities/certification";
+import { EMPTY_DATE, isDateFilled, toIsoDate, type DateParts } from "../lib/format";
 import { AWARD_TYPES, SUBMIT_ERROR_MESSAGE, type AwardType } from "../model/constants";
 import { useSubmitScoreMutation, type ScoreEntry } from "../model/submitScore";
 import { AwardTypeSelect } from "./AwardTypeSelect";
