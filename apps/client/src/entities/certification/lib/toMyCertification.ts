@@ -42,6 +42,7 @@ export function toMyCertification({
           submittedAt: activity.date ?? detail?.updatedAt?.slice(0, 10),
           status: score.scoreStatus,
           score: detail?.scoreValue ?? undefined,
+          rejectionReason: detail?.rejectionReason ?? undefined,
         };
       }),
     );

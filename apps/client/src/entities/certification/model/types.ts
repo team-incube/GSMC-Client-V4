@@ -23,6 +23,7 @@ export type CertificationSubmission = {
   submittedAt?: string;
   status: SubmissionStatus;
   score?: number;
+  rejectionReason?: string;
 };
 
 export type CertificationCategory = {

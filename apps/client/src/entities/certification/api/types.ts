@@ -18,6 +18,7 @@ export type MyScoresResponse = {
     scoreValue: number | null;
     updatedAt: string | null;
     file: { originalName: string } | null;
+    rejectionReason: string | null;
   }[];
 };
 

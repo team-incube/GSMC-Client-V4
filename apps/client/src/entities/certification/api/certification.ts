@@ -29,6 +29,7 @@ const MY_SCORES = `
       scoreValue
       updatedAt
       file { originalName }
+      rejectionReason
     }
   }
 `;
