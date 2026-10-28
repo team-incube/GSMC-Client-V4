@@ -1,4 +1,5 @@
 import { graphqlRequest } from "@repo/lib";
+import type { AwardCompetitionType } from "../model/types";
 import type {
   AddScoreWithFileResponse,
   MyMemberResponse,
@@ -31,6 +32,8 @@ const MY_SCORES = `
       updatedAt
       file { originalName }
       rejectionReason
+      activityDate
+      competitionType
     }
   }
 `;
@@ -85,12 +88,22 @@ type AddScoreWithFileParams = {
   categoryType: ScoreCategoryType;
   value: string;
   fileId: string;
+  // YYYY-MM-DD. 제출 시점 학년의 인정 기간 안이어야 한다.
+  activityDate?: string;
+  // 수상경력에서만 보낼 수 있다.
+  competitionType?: AwardCompetitionType;
 };
 
-export async function addScoreWithFile({ categoryType, value, fileId }: AddScoreWithFileParams) {
+export async function addScoreWithFile({
+  categoryType,
+  value,
+  fileId,
+  activityDate,
+  competitionType,
+}: AddScoreWithFileParams) {
   const { addScoreWithFile } = await graphqlRequest<AddScoreWithFileResponse>(ADD_SCORE_WITH_FILE, {
     categoryType,
-    input: { value, fileId },
+    input: { value, fileId, activityDate, competitionType },
   });
   return addScoreWithFile.scoreId;
 }
@@ -108,13 +121,15 @@ type PatchMyScoreParams = {
   scoreId: string;
   value?: string;
   fileId?: string;
+  activityDate?: string;
+  competitionType?: AwardCompetitionType;
 };
 
 // 심사중인 본인 점수만 수정할 수 있다. 심사가 끝난 점수는 서버가 CONFLICT로 거부한다.
-export async function patchMyScore({ scoreId, value, fileId }: PatchMyScoreParams) {
+export async function patchMyScore({ scoreId, value, fileId, activityDate, competitionType }: PatchMyScoreParams) {
   const { patchMyScore } = await graphqlRequest<PatchMyScoreResponse>(PATCH_MY_SCORE, {
     scoreId,
-    input: { value, fileId },
+    input: { value, fileId, activityDate, competitionType },
   });
   return patchMyScore.scoreId;
 }

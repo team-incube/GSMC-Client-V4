@@ -1,4 +1,4 @@
-import type { SubmissionStatus } from "../model/types";
+import type { AwardCompetitionType, SubmissionStatus } from "../model/types";
 
 export type ScoresByCategoryResponse = {
   myScoresByCategory: {
@@ -19,6 +19,8 @@ export type MyScoresResponse = {
     updatedAt: string | null;
     file: { originalName: string } | null;
     rejectionReason: string | null;
+    activityDate: string | null;
+    competitionType: AwardCompetitionType | null;
   }[];
 };
 

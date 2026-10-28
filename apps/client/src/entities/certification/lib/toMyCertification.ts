@@ -1,7 +1,31 @@
 import type { MyScoresResponse, ScoresByCategoryResponse } from "../api/types";
 import { CATEGORY_CONFIGS } from "../model/categories";
+import { AWARD_COMPETITION_TYPES, AWARD_COMPETITION_TYPE_LABEL } from "../model/competitionType";
 import { parseActivityName } from "./activityName";
-import type { CertificationSubmission, MyCertification } from "../model/types";
+import type { AwardCompetitionType, CertificationSubmission, MyCertification } from "../model/types";
+
+type Activity = {
+  title: string;
+  date?: string;
+  competitionType?: AwardCompetitionType;
+};
+
+// 서버 필드(activityDate, competitionType)가 있으면 그대로 쓰고,
+// 필드가 생기기 전에 제출한 건은 활동명에 합쳐 둔 값을 나눠 읽는다.
+function toActivity(activityName: string, detail: MyScoresResponse["myScores"][number] | undefined): Activity {
+  if (detail?.activityDate || detail?.competitionType) {
+    return {
+      title: activityName,
+      date: detail.activityDate ?? undefined,
+      competitionType: detail.competitionType ?? undefined,
+    };
+  }
+  const legacy = parseActivityName(activityName);
+  const competitionType = AWARD_COMPETITION_TYPES.find(
+    (type) => AWARD_COMPETITION_TYPE_LABEL[type] === legacy.details[0],
+  );
+  return { title: legacy.title, date: legacy.date, competitionType };
+}
 
 type Params = {
   studentName: string;
@@ -33,14 +57,15 @@ export function toMyCertification({
     const submissions = matched.flatMap((category) =>
       category.scores.map((score): CertificationSubmission => {
         const detail = scoreById.get(score.scoreId);
-        const activity = parseActivityName(score.activityName ?? submissionTitle ?? category.categoryKoreanName);
+        const activity = toActivity(score.activityName ?? submissionTitle ?? category.categoryKoreanName, detail);
         return {
           id: score.scoreId,
           title: activity.title,
-          details: activity.details,
+          details: activity.competitionType ? [AWARD_COMPETITION_TYPE_LABEL[activity.competitionType]] : [],
           fileName: detail?.file?.originalName,
           submittedAt: activity.date ?? detail?.updatedAt?.slice(0, 10),
           activityDate: activity.date,
+          competitionType: activity.competitionType,
           status: score.scoreStatus,
           score: detail?.scoreValue ?? undefined,
           rejectionReason: detail?.rejectionReason ?? undefined,
