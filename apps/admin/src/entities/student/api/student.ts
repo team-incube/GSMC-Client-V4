@@ -1,4 +1,4 @@
-import { graphqlRequest } from "@repo/lib";
+import { graphqlRequest, graphqlRequestPartial } from "@repo/lib";
 import type { StudentFilter } from "../model/types";
 import type { MemberDto, ScoresByCategoryResponse, SearchMembersResponse, TotalScoresResponse } from "./types";
 
@@ -50,8 +50,16 @@ async function fetchTotalScoreChunk(memberIds: string[]) {
   const fields = memberIds.map((_, i) => `s${i}: totalScore(memberId: $m${i}) { totalScore }`).join("\n");
   const variables = Object.fromEntries(memberIds.map((id, i) => [`m${i}`, id]));
 
-  const data = await graphqlRequest<TotalScoresResponse>(`query(${params}) {\n${fields}\n}`, variables);
-  return memberIds.map((id, i) => [id, data[`s${i}`]?.totalScore ?? null] as const);
+  // 한 학생의 점수만 실패해도 나머지 학생의 점수는 살린다. 실패한 학생은 null로 둔다.
+  const { data, errors } = await graphqlRequestPartial<TotalScoresResponse>(
+    `query(${params}) {\n${fields}\n}`,
+    variables,
+  );
+  const failed = new Set(errors.map((error) => error.path?.[0]));
+  return memberIds.map((id, i) => {
+    const alias = `s${i}`;
+    return [id, failed.has(alias) ? null : (data[alias]?.totalScore ?? null)] as const;
+  });
 }
 
 export async function fetchTotalScores(members: MemberDto[]) {
