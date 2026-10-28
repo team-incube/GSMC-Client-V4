@@ -4,20 +4,28 @@ import * as Dialog from "@radix-ui/react-dialog";
 import type { HTMLAttributes, ReactNode } from "react";
 import { CloseIcon } from "../icons/CloseIcon";
 
+type ModalSize = "sm" | "md";
+
 type ModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  size?: ModalSize;
   children: ReactNode;
 };
 
-export function Modal({ open, onOpenChange, children }: ModalProps) {
+const SIZE_CLASSES: Record<ModalSize, string> = {
+  sm: "w-[384px]",
+  md: "w-[448px]",
+};
+
+export function Modal({ open, onOpenChange, size = "md", children }: ModalProps) {
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-scrim" />
         <Dialog.Content
           aria-describedby={undefined}
-          className="fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-4rem)] w-[448px] max-w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-xl"
+          className={`fixed top-1/2 left-1/2 z-50 flex max-h-[calc(100dvh-4rem)] ${SIZE_CLASSES[size]} max-w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-xl`}
         >
           {children}
         </Dialog.Content>
