@@ -1,6 +1,38 @@
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import {
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent,
+} from "react";
+import { createPortal } from "react-dom";
 import { ChevronDownIcon } from "@repo/ui";
 import { AWARD_TYPES, type AwardType } from "../model/constants";
+
+// 목록과 버튼 사이 간격(mt-1)과 목록 최대 높이
+const LIST_GAP = 4;
+const LIST_MAX_HEIGHT = 280;
+
+// 모달 본문은 넘치는 부분을 잘라내므로, 목록은 body에 띄우고 버튼 위치에 맞춰 고정한다.
+// 아래 공간이 모자라면 위로 펼친다.
+function getListStyle(button: HTMLElement): CSSProperties {
+  const rect = button.getBoundingClientRect();
+  const spaceBelow = window.innerHeight - rect.bottom - LIST_GAP;
+  const openUp = spaceBelow < LIST_MAX_HEIGHT && rect.top > spaceBelow;
+  return {
+    left: rect.left,
+    width: rect.width,
+    maxHeight: Math.min(
+      LIST_MAX_HEIGHT,
+      (openUp ? rect.top : spaceBelow) - LIST_GAP,
+    ),
+    ...(openUp
+      ? { bottom: window.innerHeight - rect.top + LIST_GAP }
+      : { top: rect.bottom + LIST_GAP }),
+  };
+}
 
 type AwardTypeSelectProps = {
   value: AwardType;
@@ -8,16 +40,42 @@ type AwardTypeSelectProps = {
   disabled?: boolean;
 };
 
-export function AwardTypeSelect({ value, onChange, disabled }: AwardTypeSelectProps) {
+export function AwardTypeSelect({
+  value,
+  onChange,
+  disabled,
+}: AwardTypeSelectProps) {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [listStyle, setListStyle] = useState<CSSProperties>();
   const rootRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
   const listId = useId();
+
+  useLayoutEffect(() => {
+    if (!open) return;
+    const updatePosition = () =>
+      buttonRef.current && setListStyle(getListStyle(buttonRef.current));
+    updatePosition();
+    // 모달 본문이 스크롤되거나 창 크기가 바뀌면 버튼을 따라간다.
+    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener("resize", updatePosition);
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener("resize", updatePosition);
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
     const handlePointerDown = (event: PointerEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+      const target = event.target as Node;
+      if (
+        !rootRef.current?.contains(target) &&
+        !listRef.current?.contains(target)
+      )
+        setOpen(false);
     };
     document.addEventListener("pointerdown", handlePointerDown);
     return () => document.removeEventListener("pointerdown", handlePointerDown);
@@ -58,6 +116,7 @@ export function AwardTypeSelect({ value, onChange, disabled }: AwardTypeSelectPr
   return (
     <div ref={rootRef} className="relative w-full">
       <button
+        ref={buttonRef}
         type="button"
         role="combobox"
         aria-label="대회 종류"
@@ -78,32 +137,38 @@ export function AwardTypeSelect({ value, onChange, disabled }: AwardTypeSelectPr
           className={`size-3.5 shrink-0 text-soft transition-transform duration-200 motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
         />
       </button>
-      {open && (
-        <ul
-          id={listId}
-          role="listbox"
-          aria-label="대회 종류"
-          className="absolute top-full right-0 left-0 z-10 mt-1 overflow-hidden rounded-md border border-line bg-surface py-1 shadow-lg"
-        >
-          {AWARD_TYPES.map((type, index) => (
-            <li
-              key={type}
-              id={`${listId}-${index}`}
-              role="option"
-              aria-selected={type === value}
-              // 버튼의 포커스를 유지해 키보드 조작이 이어지게 한다.
-              onPointerDown={(event) => event.preventDefault()}
-              onPointerEnter={() => setActiveIndex(index)}
-              onClick={() => select(index)}
-              className={`cursor-pointer px-3.25 py-2 text-[13px] leading-[19.5px] ${
-                type === value ? "font-semibold text-strong" : "text-body"
-              } ${index === activeIndex ? "bg-wash" : ""}`}
-            >
-              {type}
-            </li>
-          ))}
-        </ul>
-      )}
+      {open &&
+        listStyle &&
+        createPortal(
+          // 모달이 열려 있으면 body의 포인터 이벤트가 꺼지므로 목록에서 다시 켠다.
+          <ul
+            ref={listRef}
+            id={listId}
+            role="listbox"
+            aria-label="대회 종류"
+            style={listStyle}
+            className="pointer-events-auto fixed z-50 overflow-y-auto rounded-md border border-line bg-surface py-1 shadow-lg"
+          >
+            {AWARD_TYPES.map((type, index) => (
+              <li
+                key={type}
+                id={`${listId}-${index}`}
+                role="option"
+                aria-selected={type === value}
+                // 버튼의 포커스를 유지해 키보드 조작이 이어지게 한다.
+                onPointerDown={(event) => event.preventDefault()}
+                onPointerEnter={() => setActiveIndex(index)}
+                onClick={() => select(index)}
+                className={`cursor-pointer px-3.25 py-2 text-[13px] leading-[19.5px] ${
+                  type === value ? "font-semibold text-strong" : "text-body"
+                } ${index === activeIndex ? "bg-wash" : ""}`}
+              >
+                {type}
+              </li>
+            ))}
+          </ul>,
+          document.body,
+        )}
     </div>
   );
 }
