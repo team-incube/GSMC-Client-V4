@@ -13,9 +13,12 @@ const STATUS_CLASS: Record<SubmissionStatus, string> = {
 
 type SubmissionListProps = {
   submissions: CertificationSubmission[];
+  // 넘기면 수정할 수 있는 건 옆에 수정 버튼을 보여 준다.
+  canEdit?: (submission: CertificationSubmission) => boolean;
+  onEdit?: (submission: CertificationSubmission) => void;
 };
 
-export function SubmissionList({ submissions }: SubmissionListProps) {
+export function SubmissionList({ submissions, canEdit, onEdit }: SubmissionListProps) {
   return (
     <div className="border-t border-line bg-page px-4 pt-3.25 pb-3 sm:px-6">
       {submissions.length === 0 ? (
@@ -44,6 +47,16 @@ export function SubmissionList({ submissions }: SubmissionListProps) {
                   </span>
                   {submission.status === "APPROVED" && submission.score != null && (
                     <span className="font-medium text-strong">+{submission.score}점</span>
+                  )}
+                  {onEdit && canEdit?.(submission) && (
+                    <button
+                      type="button"
+                      aria-label={`${submission.title} 수정`}
+                      onClick={() => onEdit(submission)}
+                      className="flex h-6 items-center rounded-[4px] border border-line bg-surface px-[9px] text-[10px] leading-[15px] font-medium text-body transition-colors hover:bg-wash focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none"
+                    >
+                      수정
+                    </button>
                   )}
                 </div>
               </div>
