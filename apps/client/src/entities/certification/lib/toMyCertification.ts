@@ -7,6 +7,7 @@ type Params = {
   // 학년 정보가 없으면(교사 등) 학년 제한을 두지 않는다. 서버 집계와 같은 기준이다.
   grade: number | null;
   totalScore: number;
+  expectedTotalScore: number;
   scoresByCategory: ScoresByCategoryResponse["myScoresByCategory"];
   scores: MyScoresResponse["myScores"];
 };
@@ -15,6 +16,7 @@ export function toMyCertification({
   studentName,
   grade,
   totalScore,
+  expectedTotalScore,
   scoresByCategory,
   scores,
 }: Params): MyCertification {
@@ -46,6 +48,7 @@ export function toMyCertification({
   return {
     studentName,
     totalScore: Math.min(totalScore, totalMaxScore),
+    expectedTotalScore: Math.min(expectedTotalScore, totalMaxScore),
     maxScore: totalMaxScore,
     categories,
   };

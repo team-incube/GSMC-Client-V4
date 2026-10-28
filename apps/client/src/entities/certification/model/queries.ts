@@ -8,16 +8,18 @@ export const certificationKeys = {
 };
 
 async function fetchMyCertification() {
-  const [member, scoresByCategory, scores, totalScore] = await Promise.all([
+  const [member, scoresByCategory, scores, totalScore, expectedTotalScore] = await Promise.all([
     fetchMyMember(),
     fetchMyScoresByCategory(),
     fetchMyScores(),
-    fetchMyTotalScore(),
+    fetchMyTotalScore(true),
+    fetchMyTotalScore(false),
   ]);
   return toMyCertification({
     studentName: member.name,
     grade: member.grade,
     totalScore,
+    expectedTotalScore,
     scoresByCategory,
     scores,
   });

@@ -34,6 +34,8 @@ export type CertificationCategory = {
 export type MyCertification = {
   studentName: string;
   totalScore: number;
+  // 심사중인 점수까지 승인된다고 가정한 총점
+  expectedTotalScore: number;
   maxScore: number;
   categories: CertificationCategory[];
 };

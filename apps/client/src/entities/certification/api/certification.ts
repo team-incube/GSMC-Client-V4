@@ -64,8 +64,9 @@ export async function fetchMyScores() {
   return myScores;
 }
 
-export async function fetchMyTotalScore() {
-  const { myTotalScore } = await graphqlRequest<MyTotalScoreResponse>(MY_TOTAL_SCORE, { includeApprovedOnly: true });
+// includeApprovedOnly가 false면 반려되지 않은 점수(승인 + 심사중)를 모두 합산한다.
+export async function fetchMyTotalScore(includeApprovedOnly: boolean) {
+  const { myTotalScore } = await graphqlRequest<MyTotalScoreResponse>(MY_TOTAL_SCORE, { includeApprovedOnly });
   return myTotalScore.totalScore;
 }
 
