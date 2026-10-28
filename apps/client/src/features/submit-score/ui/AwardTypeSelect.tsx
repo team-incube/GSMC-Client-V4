@@ -1,15 +1,11 @@
-import {
-  useEffect,
-  useId,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type KeyboardEvent,
-} from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDownIcon } from "@repo/ui";
-import { AWARD_TYPES, type AwardType } from "../model/constants";
+import {
+  AWARD_COMPETITION_TYPES,
+  AWARD_COMPETITION_TYPE_LABEL,
+  type AwardCompetitionType,
+} from "@/entities/certification";
 
 // 목록과 버튼 사이 간격(mt-1)과 목록 최대 높이
 const LIST_GAP = 4;
@@ -24,27 +20,18 @@ function getListStyle(button: HTMLElement): CSSProperties {
   return {
     left: rect.left,
     width: rect.width,
-    maxHeight: Math.min(
-      LIST_MAX_HEIGHT,
-      (openUp ? rect.top : spaceBelow) - LIST_GAP,
-    ),
-    ...(openUp
-      ? { bottom: window.innerHeight - rect.top + LIST_GAP }
-      : { top: rect.bottom + LIST_GAP }),
+    maxHeight: Math.min(LIST_MAX_HEIGHT, (openUp ? rect.top : spaceBelow) - LIST_GAP),
+    ...(openUp ? { bottom: window.innerHeight - rect.top + LIST_GAP } : { top: rect.bottom + LIST_GAP }),
   };
 }
 
 type AwardTypeSelectProps = {
-  value: AwardType;
-  onChange: (value: AwardType) => void;
+  value: AwardCompetitionType;
+  onChange: (value: AwardCompetitionType) => void;
   disabled?: boolean;
 };
 
-export function AwardTypeSelect({
-  value,
-  onChange,
-  disabled,
-}: AwardTypeSelectProps) {
+export function AwardTypeSelect({ value, onChange, disabled }: AwardTypeSelectProps) {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [listStyle, setListStyle] = useState<CSSProperties>();
@@ -55,8 +42,7 @@ export function AwardTypeSelect({
 
   useLayoutEffect(() => {
     if (!open) return;
-    const updatePosition = () =>
-      buttonRef.current && setListStyle(getListStyle(buttonRef.current));
+    const updatePosition = () => buttonRef.current && setListStyle(getListStyle(buttonRef.current));
     updatePosition();
     // 모달 본문이 스크롤되거나 창 크기가 바뀌면 버튼을 따라간다.
     window.addEventListener("scroll", updatePosition, true);
@@ -71,23 +57,19 @@ export function AwardTypeSelect({
     if (!open) return;
     const handlePointerDown = (event: PointerEvent) => {
       const target = event.target as Node;
-      if (
-        !rootRef.current?.contains(target) &&
-        !listRef.current?.contains(target)
-      )
-        setOpen(false);
+      if (!rootRef.current?.contains(target) && !listRef.current?.contains(target)) setOpen(false);
     };
     document.addEventListener("pointerdown", handlePointerDown);
     return () => document.removeEventListener("pointerdown", handlePointerDown);
   }, [open]);
 
   const openList = () => {
-    setActiveIndex(AWARD_TYPES.indexOf(value));
+    setActiveIndex(AWARD_COMPETITION_TYPES.indexOf(value));
     setOpen(true);
   };
 
   const select = (index: number) => {
-    onChange(AWARD_TYPES[index]);
+    onChange(AWARD_COMPETITION_TYPES[index]);
     setOpen(false);
   };
 
@@ -101,7 +83,7 @@ export function AwardTypeSelect({
     }
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      setActiveIndex((index) => Math.min(index + 1, AWARD_TYPES.length - 1));
+      setActiveIndex((index) => Math.min(index + 1, AWARD_COMPETITION_TYPES.length - 1));
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
       setActiveIndex((index) => Math.max(index - 1, 0));
@@ -131,7 +113,7 @@ export function AwardTypeSelect({
           open ? "border-brand" : "border-line"
         }`}
       >
-        <span className="truncate">{value}</span>
+        <span className="truncate">{AWARD_COMPETITION_TYPE_LABEL[value]}</span>
         <ChevronDownIcon
           aria-hidden="true"
           className={`size-3.5 shrink-0 text-soft transition-transform duration-200 motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
@@ -149,7 +131,7 @@ export function AwardTypeSelect({
             style={listStyle}
             className="pointer-events-auto fixed z-50 overflow-y-auto rounded-md border border-line bg-surface py-1 shadow-lg"
           >
-            {AWARD_TYPES.map((type, index) => (
+            {AWARD_COMPETITION_TYPES.map((type, index) => (
               <li
                 key={type}
                 id={`${listId}-${index}`}
@@ -163,7 +145,7 @@ export function AwardTypeSelect({
                   type === value ? "font-semibold text-strong" : "text-body"
                 } ${index === activeIndex ? "bg-wash" : ""}`}
               >
-                {type}
+                {AWARD_COMPETITION_TYPE_LABEL[type]}
               </li>
             ))}
           </ul>,

@@ -1,15 +1,3 @@
-export const AWARD_TYPES = [
-  "공문을 통한 전공분야 대회",
-  "전공 분야 대회 개별 참여",
-  "연합 해커톤",
-  "GSM Festival",
-  "교내해커톤",
-  "전공동아리 발표대회",
-  "교내외 인성관련",
-] as const;
-
-export type AwardType = (typeof AWARD_TYPES)[number];
-
 // 회고온도 20점마다 1점씩 오른다.
 export const NEWRROW_SCORE_STEP = 20;
 export const NEWRROW_MAX_TEMPERATURE = 100;

@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button, Input, ModalFooter, ModalHeader, PlusIcon } from "@repo/ui";
-import { toActivityName, type CertificationCategory, type ScoreCategoryType } from "@/entities/certification";
+import {
+  AWARD_COMPETITION_TYPES,
+  AWARD_COMPETITION_TYPE_LABEL,
+  type AwardCompetitionType,
+  type CertificationCategory,
+  type ScoreCategoryType,
+} from "@/entities/certification";
 import { EMPTY_DATE, isDateFilled, toIsoDate, type DateParts } from "../lib/format";
-import { AWARD_TYPES, SUBMIT_ERROR_MESSAGE, type AwardType } from "../model/constants";
+import { SUBMIT_ERROR_MESSAGE } from "../model/constants";
 import { useSubmitScoreMutation, type ScoreEntry } from "../model/submitScore";
 import { AwardTypeSelect } from "./AwardTypeSelect";
 import { DateField } from "./DateField";
@@ -29,13 +35,13 @@ export type MultiEntryConfig = {
 type Entry = ScoreEntry & EntryListItem;
 
 type Draft = {
-  awardType: AwardType;
+  awardType: AwardCompetitionType;
   name: string;
   date: DateParts;
   file: File | null;
 };
 
-const EMPTY_DRAFT: Draft = { awardType: AWARD_TYPES[0], name: "", date: EMPTY_DATE, file: null };
+const EMPTY_DRAFT: Draft = { awardType: AWARD_COMPETITION_TYPES[0], name: "", date: EMPTY_DATE, file: null };
 
 type MultiEntryFormProps = {
   config: MultiEntryConfig;
@@ -66,15 +72,18 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
     if (!draft.file) return;
 
     const name = draft.name.trim();
-    const details = config.withAwardType ? [draft.awardType, date] : [date];
     setEntries((prev) => [
       ...prev,
       {
         id: crypto.randomUUID(),
-        value: toActivityName(name, details),
+        value: name,
         file: draft.file!,
+        activityDate: date,
+        competitionType: config.withAwardType ? draft.awardType : undefined,
         title: name,
-        description: config.withAwardType ? details.join(" · ") : `${date} · ${draft.file!.name}`,
+        description: config.withAwardType
+          ? `${AWARD_COMPETITION_TYPE_LABEL[draft.awardType]} · ${date}`
+          : `${date} · ${draft.file!.name}`,
         points: config.showEntryPoints ? 1 : undefined,
       },
     ]);

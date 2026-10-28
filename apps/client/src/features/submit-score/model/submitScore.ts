@@ -1,11 +1,18 @@
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query";
-import { addScoreWithFile, certificationKeys, type ScoreCategoryType } from "@/entities/certification";
+import {
+  addScoreWithFile,
+  certificationKeys,
+  type AwardCompetitionType,
+  type ScoreCategoryType,
+} from "@/entities/certification";
 import { uploadFile } from "@/entities/file";
 
 export type ScoreEntry = {
   id: string;
   value: string;
   file: File;
+  activityDate?: string;
+  competitionType?: AwardCompetitionType;
 };
 
 type SubmitScoreVariables = {
@@ -25,7 +32,13 @@ export function useSubmitScoreMutation() {
     mutationFn: async ({ categoryType, entries, onEntrySubmitted }: SubmitScoreVariables) => {
       for (const entry of entries) {
         const fileId = await uploadFile(entry.file);
-        await addScoreWithFile({ categoryType, value: entry.value, fileId });
+        await addScoreWithFile({
+          categoryType,
+          value: entry.value,
+          fileId,
+          activityDate: entry.activityDate,
+          competitionType: entry.competitionType,
+        });
         onEntrySubmitted?.(entry.id);
       }
     },

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button, Input, ModalBody, ModalFooter, ModalHeader } from "@repo/ui";
-import { toActivityName, type CertificationSubmission } from "@/entities/certification";
+import { AWARD_COMPETITION_TYPES, type CertificationSubmission } from "@/entities/certification";
 import { isDateFilled, toDateParts, toIsoDate, type DateParts } from "../lib/format";
-import { AWARD_TYPES, EDIT_ERROR_MESSAGE, type AwardType } from "../model/constants";
+import { EDIT_ERROR_MESSAGE } from "../model/constants";
 import { useEditScoreMutation } from "../model/editScore";
 import { AwardTypeSelect } from "./AwardTypeSelect";
 import { CurrentFile } from "./CurrentFile";
@@ -12,10 +12,6 @@ import { FieldLabel } from "./FieldLabel";
 import { FileField } from "./FileField";
 import type { MultiEntryConfig } from "./MultiEntryForm";
 
-function toAwardType(value: string | undefined): AwardType {
-  return AWARD_TYPES.find((type) => type === value) ?? AWARD_TYPES[0];
-}
-
 type EditEntryFormProps = {
   config: MultiEntryConfig;
   submission: CertificationSubmission;
@@ -23,7 +19,7 @@ type EditEntryFormProps = {
 };
 
 export function EditEntryForm({ config, submission, onClose }: EditEntryFormProps) {
-  const initialAwardType = toAwardType(submission.details[0]);
+  const initialAwardType = submission.competitionType ?? AWARD_COMPETITION_TYPES[0];
   const [awardType, setAwardType] = useState(initialAwardType);
   const [name, setName] = useState(submission.title);
   const [date, setDate] = useState<DateParts>(toDateParts(submission.activityDate));
@@ -44,10 +40,14 @@ export function EditEntryForm({ config, submission, onClose }: EditEntryFormProp
       setDateError(true);
       return;
     }
-    // 제출할 때와 같은 형식으로 활동명을 다시 만든다.
-    const details = config.withAwardType ? [awardType, isoDate] : [isoDate];
     mutate(
-      { scoreId: submission.id, value: toActivityName(name.trim(), details), file },
+      {
+        scoreId: submission.id,
+        value: name.trim(),
+        activityDate: isoDate,
+        competitionType: config.withAwardType ? awardType : undefined,
+        file,
+      },
       {
         onSuccess: () => {
           toast.success(`${config.title} 제출 건을 수정했습니다.`);
