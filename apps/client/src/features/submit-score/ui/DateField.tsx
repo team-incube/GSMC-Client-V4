@@ -1,5 +1,5 @@
 import { CalendarIcon } from "@repo/ui";
-import { toDateParts, toIsoDate, type DateParts } from "../lib/format";
+import { toDateParts, todayIsoDate, toIsoDate, type DateParts } from "../lib/format";
 
 type DateFieldProps = {
   label: string;
@@ -8,15 +8,6 @@ type DateFieldProps = {
   invalid?: boolean;
   disabled?: boolean;
 };
-
-function today() {
-  const now = new Date();
-  return toIsoDate({
-    year: String(now.getFullYear()),
-    month: String(now.getMonth() + 1),
-    day: String(now.getDate()),
-  })!;
-}
 
 export function DateField({ label, value, onChange, invalid, disabled }: DateFieldProps) {
   const isoDate = toIsoDate(value) ?? "";
@@ -28,7 +19,7 @@ export function DateField({ label, value, onChange, invalid, disabled }: DateFie
         aria-label={label}
         aria-invalid={invalid || undefined}
         // 활동은 이미 끝난 일이므로 오늘 이후는 고를 수 없다.
-        max={today()}
+        max={todayIsoDate()}
         value={isoDate}
         disabled={disabled}
         onChange={(event) => onChange(toDateParts(event.target.value))}

@@ -24,6 +24,19 @@ export function toIsoDate({ year, month, day }: DateParts) {
   return `${year}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
 }
 
+// 오늘 날짜(YYYY-MM-DD). 기기 시간대 기준이다.
+export function todayIsoDate() {
+  const now = new Date();
+  return toIsoDate({ year: String(now.getFullYear()), month: String(now.getMonth() + 1), day: String(now.getDate()) })!;
+}
+
+// 활동 날짜로 쓸 수 있으면 YYYY-MM-DD를, 없는 날짜이거나 오늘 이후면 null을 돌려준다.
+// 날짜 칸의 max는 달력에서 고를 때만 막으므로, 직접 입력한 값은 여기서 다시 거른다.
+export function toActivityDate(parts: DateParts) {
+  const isoDate = toIsoDate(parts);
+  return isoDate && isoDate <= todayIsoDate() ? isoDate : null;
+}
+
 // 0~100 사이 정수면 숫자를, 아니면 null을 돌려준다.
 export function parseTemperature(value: string) {
   if (!/^\d{1,3}$/.test(value)) return null;

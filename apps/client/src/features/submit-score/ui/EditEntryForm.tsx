@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button, Input, ModalBody, ModalFooter, ModalHeader } from "@repo/ui";
 import { AWARD_COMPETITION_TYPES, type CertificationSubmission } from "@/entities/certification";
-import { isDateFilled, toDateParts, toIsoDate, type DateParts } from "../lib/format";
+import { isDateFilled, toActivityDate, toDateParts, toIsoDate, type DateParts } from "../lib/format";
 import { EDIT_ERROR_MESSAGE } from "../model/constants";
 import { useEditScoreMutation } from "../model/editScore";
 import { AwardTypeSelect } from "./AwardTypeSelect";
@@ -35,7 +35,7 @@ export function EditEntryForm({ config, submission, onClose }: EditEntryFormProp
     file !== null;
 
   const handleSave = () => {
-    const isoDate = toIsoDate(date);
+    const isoDate = toActivityDate(date);
     if (!isoDate) {
       setDateError(true);
       return;
@@ -83,7 +83,7 @@ export function EditEntryForm({ config, submission, onClose }: EditEntryFormProp
           />
           {dateError && (
             <p role="alert" className="text-[12px] leading-[18px] text-danger">
-              올바른 날짜를 입력해 주세요.
+              오늘까지의 올바른 날짜를 입력해 주세요.
             </p>
           )}
         </div>

@@ -8,7 +8,7 @@ import {
   type CertificationCategory,
   type ScoreCategoryType,
 } from "@/entities/certification";
-import { EMPTY_DATE, isDateFilled, toIsoDate, type DateParts } from "../lib/format";
+import { EMPTY_DATE, isDateFilled, toActivityDate, type DateParts } from "../lib/format";
 import { SUBMIT_ERROR_MESSAGE } from "../model/constants";
 import { useSubmitScoreMutation, type ScoreEntry } from "../model/submitScore";
 import { AwardTypeSelect } from "./AwardTypeSelect";
@@ -64,7 +64,7 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
   const updateDraft = (patch: Partial<Draft>) => setDraft((prev) => ({ ...prev, ...patch }));
 
   const handleAdd = () => {
-    const date = toIsoDate(draft.date);
+    const date = toActivityDate(draft.date);
     if (!date) {
       setDateError(true);
       return;
@@ -151,7 +151,7 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
             />
             {dateError && (
               <p role="alert" className="text-[12px] leading-[18px] text-danger">
-                올바른 날짜를 입력해 주세요.
+                오늘까지의 올바른 날짜를 입력해 주세요.
               </p>
             )}
           </div>
