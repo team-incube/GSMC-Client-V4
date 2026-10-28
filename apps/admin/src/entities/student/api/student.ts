@@ -51,7 +51,7 @@ async function fetchTotalScoreChunk(memberIds: string[]) {
   const variables = Object.fromEntries(memberIds.map((id, i) => [`m${i}`, id]));
 
   const data = await graphqlRequest<TotalScoresResponse>(`query(${params}) {\n${fields}\n}`, variables);
-  return memberIds.map((id, i) => [id, data[`s${i}`]?.totalScore ?? 0] as const);
+  return memberIds.map((id, i) => [id, data[`s${i}`]?.totalScore ?? null] as const);
 }
 
 export async function fetchTotalScores(members: MemberDto[]) {
@@ -59,8 +59,9 @@ export async function fetchTotalScores(members: MemberDto[]) {
   const chunks: string[][] = [];
   for (let i = 0; i < ids.length; i += PAGE_SIZE) chunks.push(ids.slice(i, i + PAGE_SIZE));
 
-  const results = await Promise.all(chunks.map(fetchTotalScoreChunk));
-  return new Map(results.flat());
+  // 청크 하나가 실패해도 학생 목록은 보여 준다. 실패한 청크의 학생은 점수 없음(null)으로 남긴다.
+  const results = await Promise.allSettled(chunks.map(fetchTotalScoreChunk));
+  return new Map(results.flatMap((result) => (result.status === "fulfilled" ? result.value : [])));
 }
 
 export async function fetchScoresByCategory(memberId: string) {

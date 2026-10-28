@@ -12,7 +12,8 @@ export type Student = {
   grade: number | null;
   classNumber: number | null;
   number: number | null;
-  totalScore: number;
+  // 점수를 불러오지 못하면 null. 실제 0점과 구분한다.
+  totalScore: number | null;
 };
 
 export type StudentCategoryScore = {

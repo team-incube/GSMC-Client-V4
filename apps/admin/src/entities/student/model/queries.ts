@@ -16,7 +16,7 @@ async function fetchStudents(filter: StudentFilter): Promise<Student[]> {
   const totalScores = await fetchTotalScores(members);
 
   return members
-    .map((member) => ({ ...member, totalScore: totalScores.get(member.id) ?? 0 }))
+    .map((member) => ({ ...member, totalScore: totalScores.get(member.id) ?? null }))
     .sort(
       (a, b) =>
         compareNullable(a.grade, b.grade) ||
