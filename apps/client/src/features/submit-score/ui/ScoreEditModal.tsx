@@ -10,7 +10,7 @@ import { AWARD_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
 
 // 서버는 심사중인 점수만 수정을 받는다.
 export function canEditSubmission(submission: CertificationSubmission) {
-  return submission.status === "PENDING";
+  return submission.status === "PENDING" && submission.categoryType !== "TOEIC_ACADEMY";
 }
 
 type ScoreEditModalProps = {
