@@ -59,8 +59,19 @@ export function AwardTypeSelect({ value, onChange, disabled }: AwardTypeSelectPr
       const target = event.target as Node;
       if (!rootRef.current?.contains(target) && !listRef.current?.contains(target)) setOpen(false);
     };
+    // 모달(Radix)은 document 캡처 단계에서 Esc를 받아 버튼의 onKeyDown보다 먼저 닫힌다.
+    // window 캡처 단계에서 먼저 막아 목록만 닫는다.
+    const handleEscape = (event: globalThis.KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setOpen(false);
+    };
     document.addEventListener("pointerdown", handlePointerDown);
-    return () => document.removeEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleEscape, true);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleEscape, true);
+    };
   }, [open]);
 
   const openList = () => {
