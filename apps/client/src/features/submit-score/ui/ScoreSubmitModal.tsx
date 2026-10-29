@@ -3,6 +3,7 @@ import type { CertificationCategory, CertificationCategoryCode } from "@/entitie
 import { useIsSubmittingScore } from "../model/submitScore";
 import { AWARD_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
 import { MultiEntryForm } from "./MultiEntryForm";
+import { LanguageScoreForm } from "./LanguageScoreForm";
 import { NcsForm } from "./NcsForm";
 import { NewrrowSchoolForm } from "./NewrrowSchoolForm";
 import { ReadingForm } from "./ReadingForm";
@@ -13,6 +14,7 @@ const SUBMITTABLE_CODES: CertificationCategoryCode[] = [
   "NEWROW_SCHOOL",
   "READING",
   "JOB_SKILL",
+  "LANGUAGE_SCORE",
 ];
 
 export function canSubmitScore(code: CertificationCategoryCode) {
@@ -39,6 +41,7 @@ export function ScoreSubmitModal({ category, open, onOpenChange }: ScoreSubmitMo
       {category.code === "NEWROW_SCHOOL" && <NewrrowSchoolForm category={category} onClose={close} />}
       {category.code === "READING" && <ReadingForm category={category} onClose={close} />}
       {category.code === "JOB_SKILL" && <NcsForm category={category} onClose={close} />}
+      {category.code === "LANGUAGE_SCORE" && <LanguageScoreForm category={category} onClose={close} />}
     </Modal>
   );
 }
