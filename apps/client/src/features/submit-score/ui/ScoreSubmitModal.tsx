@@ -4,8 +4,9 @@ import { useIsSubmittingScore } from "../model/submitScore";
 import { AWARD_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
 import { MultiEntryForm } from "./MultiEntryForm";
 import { NewrrowSchoolForm } from "./NewrrowSchoolForm";
+import { ReadingForm } from "./ReadingForm";
 
-const SUBMITTABLE_CODES: CertificationCategoryCode[] = ["AWARD", "EXTERNAL_ACTIVITY", "NEWROW_SCHOOL"];
+const SUBMITTABLE_CODES: CertificationCategoryCode[] = ["AWARD", "EXTERNAL_ACTIVITY", "NEWROW_SCHOOL", "READING"];
 
 export function canSubmitScore(code: CertificationCategoryCode) {
   return SUBMITTABLE_CODES.includes(code);
@@ -29,6 +30,7 @@ export function ScoreSubmitModal({ category, open, onOpenChange }: ScoreSubmitMo
         <MultiEntryForm config={EXTERNAL_ACTIVITY_CONFIG} category={category} onClose={close} />
       )}
       {category.code === "NEWROW_SCHOOL" && <NewrrowSchoolForm category={category} onClose={close} />}
+      {category.code === "READING" && <ReadingForm category={category} onClose={close} />}
     </Modal>
   );
 }
