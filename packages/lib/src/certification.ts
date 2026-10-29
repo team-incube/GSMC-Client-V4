@@ -31,7 +31,7 @@ export const CERTIFICATION_CATEGORIES: CertificationCategoryConfig[] = [
   { code: "JOB_SKILL", name: "직업기초능력평가", maxScore: 5, apiTypes: ["NCS"] },
   { code: "LICENSE", name: "자격증", maxScore: 14, apiTypes: ["CERTIFICATE"] },
   { code: "TOPCIT", name: "TOPCIT", maxScore: 10, apiTypes: ["TOPCIT"] },
-  { code: "LANGUAGE_SCORE", name: "공인점수", maxScore: 10, apiTypes: ["TOEIC", "JLPT", "TOEIC_ACADEMY"] },
+  { code: "LANGUAGE_SCORE", name: "공인점수", maxScore: 10, apiTypes: ["TOEIC", "JPT", "JLPT", "TOEIC_ACADEMY"] },
   { code: "AWARD", name: "수상경력", maxScore: 10, apiTypes: ["AWARD"] },
   {
     code: "NEWROW_SCHOOL",
