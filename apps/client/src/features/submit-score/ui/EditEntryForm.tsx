@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button, Input, ModalBody, ModalFooter, ModalHeader } from "@repo/ui";
-import { AWARD_COMPETITION_TYPES, type CertificationSubmission } from "@/entities/certification";
+import { type AwardCompetitionType, type CertificationSubmission } from "@/entities/certification";
 import { isDateFilled, toActivityDate, toDateParts, toIsoDate, type DateParts } from "../lib/format";
 import { EDIT_ERROR_MESSAGE } from "../model/constants";
 import { useEditScoreMutation } from "../model/editScore";
@@ -19,15 +19,16 @@ type EditEntryFormProps = {
 };
 
 export function EditEntryForm({ config, submission, onClose }: EditEntryFormProps) {
-  const initialAwardType = submission.competitionType ?? AWARD_COMPETITION_TYPES[0];
-  const [awardType, setAwardType] = useState(initialAwardType);
+  // 대회 종류 없이 낸 예전 제출 건은 임의의 값을 채우지 않고 직접 고르게 한다.
+  const initialAwardType = submission.competitionType ?? null;
+  const [awardType, setAwardType] = useState<AwardCompetitionType | null>(initialAwardType);
   const [name, setName] = useState(submission.title);
   const [date, setDate] = useState<DateParts>(toDateParts(submission.activityDate));
   const [file, setFile] = useState<File | null>(null);
   const [dateError, setDateError] = useState(false);
   const { mutate, isPending } = useEditScoreMutation();
 
-  const filled = name.trim() !== "" && isDateFilled(date);
+  const filled = (!config.withAwardType || awardType !== null) && name.trim() !== "" && isDateFilled(date);
   const changed =
     (config.withAwardType && awardType !== initialAwardType) ||
     name.trim() !== submission.title ||
@@ -35,6 +36,8 @@ export function EditEntryForm({ config, submission, onClose }: EditEntryFormProp
     file !== null;
 
   const handleSave = () => {
+    const competitionType = config.withAwardType ? awardType : undefined;
+    if (competitionType === null) return;
     const isoDate = toActivityDate(date);
     if (!isoDate) {
       setDateError(true);
@@ -45,7 +48,7 @@ export function EditEntryForm({ config, submission, onClose }: EditEntryFormProp
         scoreId: submission.id,
         value: name.trim(),
         activityDate: isoDate,
-        competitionType: config.withAwardType ? awardType : undefined,
+        competitionType,
         file,
       },
       {

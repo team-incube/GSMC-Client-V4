@@ -2,7 +2,6 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button, Input, ModalFooter, ModalHeader, PlusIcon } from "@repo/ui";
 import {
-  AWARD_COMPETITION_TYPES,
   AWARD_COMPETITION_TYPE_LABEL,
   type AwardCompetitionType,
   type CertificationCategory,
@@ -35,13 +34,14 @@ export type MultiEntryConfig = {
 type Entry = ScoreEntry & EntryListItem;
 
 type Draft = {
-  awardType: AwardCompetitionType;
+  // 사용자가 직접 고르게 하려고 null(선택 안 함)로 시작한다.
+  awardType: AwardCompetitionType | null;
   name: string;
   date: DateParts;
   file: File | null;
 };
 
-const EMPTY_DRAFT: Draft = { awardType: AWARD_COMPETITION_TYPES[0], name: "", date: EMPTY_DATE, file: null };
+const EMPTY_DRAFT: Draft = { awardType: null, name: "", date: EMPTY_DATE, file: null };
 
 type MultiEntryFormProps = {
   config: MultiEntryConfig;
@@ -59,7 +59,11 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
   const submittedCount = category.submissions.filter((submission) => submission.status !== "REJECTED").length;
   const count = submittedCount + entries.length;
   const canAddMore = count < category.maxScore;
-  const draftFilled = draft.name.trim() !== "" && isDateFilled(draft.date) && draft.file !== null;
+  const draftFilled =
+    (!config.withAwardType || draft.awardType !== null) &&
+    draft.name.trim() !== "" &&
+    isDateFilled(draft.date) &&
+    draft.file !== null;
 
   const updateDraft = (patch: Partial<Draft>) => setDraft((prev) => ({ ...prev, ...patch }));
 
@@ -69,7 +73,8 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
       setDateError(true);
       return;
     }
-    if (!draft.file) return;
+    const competitionType = config.withAwardType ? draft.awardType : undefined;
+    if (!draft.file || competitionType === null) return;
 
     const name = draft.name.trim();
     setEntries((prev) => [
@@ -79,10 +84,10 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
         value: name,
         file: draft.file!,
         activityDate: date,
-        competitionType: config.withAwardType ? draft.awardType : undefined,
+        competitionType,
         title: name,
-        description: config.withAwardType
-          ? `${AWARD_COMPETITION_TYPE_LABEL[draft.awardType]} · ${date}`
+        description: competitionType
+          ? `${AWARD_COMPETITION_TYPE_LABEL[competitionType]} · ${date}`
           : `${date} · ${draft.file!.name}`,
         points: config.showEntryPoints ? 1 : undefined,
       },

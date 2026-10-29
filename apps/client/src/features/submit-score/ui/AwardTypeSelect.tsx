@@ -26,7 +26,8 @@ function getListStyle(button: HTMLElement): CSSProperties {
 }
 
 type AwardTypeSelectProps = {
-  value: AwardCompetitionType;
+  // 아직 고르지 않았으면 null
+  value: AwardCompetitionType | null;
   onChange: (value: AwardCompetitionType) => void;
   disabled?: boolean;
 };
@@ -75,7 +76,7 @@ export function AwardTypeSelect({ value, onChange, disabled }: AwardTypeSelectPr
   }, [open]);
 
   const openList = () => {
-    setActiveIndex(AWARD_COMPETITION_TYPES.indexOf(value));
+    setActiveIndex(value ? AWARD_COMPETITION_TYPES.indexOf(value) : 0);
     setOpen(true);
   };
 
@@ -124,7 +125,9 @@ export function AwardTypeSelect({ value, onChange, disabled }: AwardTypeSelectPr
           open ? "border-brand" : "border-line"
         }`}
       >
-        <span className="truncate">{AWARD_COMPETITION_TYPE_LABEL[value]}</span>
+        <span className={`truncate ${value ? "" : "text-faint"}`}>
+          {value ? AWARD_COMPETITION_TYPE_LABEL[value] : "대회 종류를 선택해 주세요"}
+        </span>
         <ChevronDownIcon
           aria-hidden="true"
           className={`size-3.5 shrink-0 text-soft transition-transform duration-200 motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
