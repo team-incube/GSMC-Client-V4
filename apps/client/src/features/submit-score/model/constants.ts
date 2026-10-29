@@ -16,4 +16,5 @@ export const LANGUAGE_SCORE_STEP = 100;
 export const LANGUAGE_MAX_EXAM_SCORE = 990;
 export const LANGUAGE_EXAM_TYPES = ["TOEIC", "JPT", "JLPT"] as const;
 export type LanguageExamType = (typeof LANGUAGE_EXAM_TYPES)[number];
+export const LANGUAGE_EXAM_MAX_SCORES: Record<LanguageExamType, number> = { TOEIC: 990, JPT: 990, JLPT: 180 };
 export const TOEIC_ACADEMY_BONUS = 1;

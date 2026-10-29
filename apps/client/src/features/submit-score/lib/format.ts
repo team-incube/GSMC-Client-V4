@@ -69,10 +69,10 @@ export function toNcsScore(grade: number, maxScore: number) {
   return maxScore + 1 - roundGrade(grade);
 }
 
-export function parseExamScore(value: string) {
+export function parseExamScore(value: string, maxScore = LANGUAGE_MAX_EXAM_SCORE) {
   if (!/^\d{1,3}$/.test(value)) return null;
   const score = Number(value);
-  return score >= 1 && score <= LANGUAGE_MAX_EXAM_SCORE ? score : null;
+  return score >= 1 && score <= maxScore ? score : null;
 }
 
 export function toLanguageScore(examScore: number, maxScore: number) {

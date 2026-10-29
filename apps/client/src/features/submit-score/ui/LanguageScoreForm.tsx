@@ -4,7 +4,7 @@ import { Button, Input, ModalBody, ModalFooter, ModalHeader } from "@repo/ui";
 import type { CertificationCategory } from "@/entities/certification";
 import { parseExamScore, toLanguageScore } from "../lib/format";
 import {
-  LANGUAGE_MAX_EXAM_SCORE,
+  LANGUAGE_EXAM_MAX_SCORES,
   LANGUAGE_SCORE_STEP,
   SUBMIT_ERROR_MESSAGE,
   TOEIC_ACADEMY_BONUS,
@@ -31,7 +31,8 @@ export function LanguageScoreForm({ category, onClose }: LanguageScoreFormProps)
   const errorId = useId();
 
   const academyApplied = examType === "TOEIC" && joinAcademy;
-  const examScore = parseExamScore(scoreInput);
+  const maxExamScore = LANGUAGE_EXAM_MAX_SCORES[examType];
+  const examScore = parseExamScore(scoreInput, maxExamScore);
   const score =
     examScore === null
       ? null
@@ -71,7 +72,7 @@ export function LanguageScoreForm({ category, onClose }: LanguageScoreFormProps)
             label="취득 점수"
             unit="점"
             inputMode="numeric"
-            placeholder={`0 – ${LANGUAGE_MAX_EXAM_SCORE}`}
+            placeholder={`0 – ${maxExamScore}`}
             value={scoreInput}
             aria-invalid={invalid || undefined}
             aria-describedby={invalid ? errorId : undefined}
@@ -80,7 +81,7 @@ export function LanguageScoreForm({ category, onClose }: LanguageScoreFormProps)
           />
           {invalid && (
             <p id={errorId} role="alert" className="text-[12px] leading-[18px] text-danger">
-              1부터 {LANGUAGE_MAX_EXAM_SCORE} 사이로 입력해 주세요.
+              1부터 {maxExamScore} 사이로 입력해 주세요.
             </p>
           )}
         </div>
