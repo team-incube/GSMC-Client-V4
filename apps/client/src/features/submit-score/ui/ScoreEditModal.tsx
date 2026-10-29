@@ -3,6 +3,7 @@ import type { CertificationCategory, CertificationSubmission } from "@/entities/
 import { useIsEditingScore } from "../model/editScore";
 import { EditEntryForm } from "./EditEntryForm";
 import { EditNewrrowSchoolForm } from "./EditNewrrowSchoolForm";
+import { EditNcsForm } from "./EditNcsForm";
 import { EditReadingForm } from "./EditReadingForm";
 import { AWARD_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
 
@@ -40,6 +41,9 @@ export function ScoreEditModal({ category, submission, onClose }: ScoreEditModal
       )}
       {submission && category.code === "READING" && (
         <EditReadingForm key={submission.id} category={category} submission={submission} onClose={onClose} />
+      )}
+      {submission && category.code === "JOB_SKILL" && (
+        <EditNcsForm key={submission.id} category={category} submission={submission} onClose={onClose} />
       )}
     </Modal>
   );
