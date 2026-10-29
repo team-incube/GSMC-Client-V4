@@ -1,4 +1,11 @@
-import { NCS_MAX_GRADE, NCS_MIN_GRADE, NEWRROW_MAX_TEMPERATURE, NEWRROW_SCORE_STEP } from "../model/constants";
+import {
+  LANGUAGE_MAX_EXAM_SCORE,
+  LANGUAGE_SCORE_STEP,
+  NCS_MAX_GRADE,
+  NCS_MIN_GRADE,
+  NEWRROW_MAX_TEMPERATURE,
+  NEWRROW_SCORE_STEP,
+} from "../model/constants";
 
 export type DateParts = {
   year: string;
@@ -60,6 +67,16 @@ export function roundGrade(grade: number) {
 
 export function toNcsScore(grade: number, maxScore: number) {
   return maxScore + 1 - roundGrade(grade);
+}
+
+export function parseExamScore(value: string) {
+  if (!/^\d{1,3}$/.test(value)) return null;
+  const score = Number(value);
+  return score >= 1 && score <= LANGUAGE_MAX_EXAM_SCORE ? score : null;
+}
+
+export function toLanguageScore(examScore: number, maxScore: number) {
+  return Math.min(Math.round(examScore / LANGUAGE_SCORE_STEP), maxScore);
 }
 
 // YYYY-MM-DD를 날짜 입력 칸 값으로 나눈다. 없으면 빈 칸을 돌려준다.

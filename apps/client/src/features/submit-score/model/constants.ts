@@ -11,3 +11,9 @@ export const READING_SCORE_PER_COURSE = 1;
 
 export const NCS_MIN_GRADE = 1;
 export const NCS_MAX_GRADE = 5;
+
+export const LANGUAGE_SCORE_STEP = 100;
+export const LANGUAGE_MAX_EXAM_SCORE = 990;
+export const LANGUAGE_EXAM_TYPES = ["TOEIC", "JPT", "JLPT"] as const;
+export type LanguageExamType = (typeof LANGUAGE_EXAM_TYPES)[number];
+export const TOEIC_ACADEMY_BONUS = 1;
