@@ -16,6 +16,7 @@ export type AwardCompetitionType =
 
 export type CertificationSubmission = {
   id: string;
+  categoryType: string;
   title: string;
   // 대회 종류처럼 제목 아래에 함께 보여 줄 부가 정보
   details: string[];

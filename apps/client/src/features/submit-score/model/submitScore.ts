@@ -1,11 +1,13 @@
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
+  addScoreOnly,
   addScoreWithFile,
   certificationKeys,
   type AwardCompetitionType,
   type ScoreCategoryType,
 } from "@/entities/certification";
 import { uploadFile } from "@/entities/file";
+import type { LanguageExamType } from "./constants";
 
 export type ScoreEntry = {
   id: string;
@@ -40,6 +42,37 @@ export function useSubmitScoreMutation() {
           competitionType: entry.competitionType,
         });
         onEntrySubmitted?.(entry.id);
+      }
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: certificationKeys.all }),
+  });
+}
+
+type SubmitLanguageScoreVariables = {
+  examType: LanguageExamType;
+  examScore: number;
+  file: File;
+  joinAcademy: boolean;
+};
+
+export function useSubmitLanguageScoreMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: submitScoreKey,
+    mutationFn: async ({ examType, examScore, file, joinAcademy }: SubmitLanguageScoreVariables) => {
+      const fileId = await uploadFile(file);
+      await addScoreWithFile({
+        categoryType: examType,
+        value: String(examScore),
+        fileId,
+      });
+      if (!joinAcademy) return { academyFailed: false };
+      try {
+        await addScoreOnly("TOEIC_ACADEMY");
+        return { academyFailed: false };
+      } catch {
+        return { academyFailed: true };
       }
     },
     onSettled: () => queryClient.invalidateQueries({ queryKey: certificationKeys.all }),

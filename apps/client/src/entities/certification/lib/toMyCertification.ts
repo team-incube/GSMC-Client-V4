@@ -60,6 +60,7 @@ export function toMyCertification({
         const activity = toActivity(score.activityName ?? submissionTitle ?? category.categoryKoreanName, detail);
         return {
           id: score.scoreId,
+          categoryType: category.categoryType,
           title: activity.title,
           details: activity.competitionType ? [AWARD_COMPETITION_TYPE_LABEL[activity.competitionType]] : [],
           fileName: detail?.file?.originalName,

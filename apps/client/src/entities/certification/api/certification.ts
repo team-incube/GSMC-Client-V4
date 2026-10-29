@@ -1,6 +1,7 @@
 import { graphqlRequest } from "@repo/lib";
 import type { AwardCompetitionType } from "../model/types";
 import type {
+  AddScoreOnlyResponse,
   AddScoreWithFileResponse,
   MyMemberResponse,
   MyScoresResponse,
@@ -132,4 +133,17 @@ export async function patchMyScore({ scoreId, value, fileId, activityDate, compe
     input: { value, fileId, activityDate, competitionType },
   });
   return patchMyScore.scoreId;
+}
+
+const ADD_SCORE_ONLY = `
+  mutation($categoryType: CategoryType!) {
+    addScoreOnly(categoryType: $categoryType) {
+      scoreId
+    }
+  }
+`;
+
+export async function addScoreOnly(categoryType: "TOEIC_ACADEMY") {
+  const { addScoreOnly } = await graphqlRequest<AddScoreOnlyResponse>(ADD_SCORE_ONLY, { categoryType });
+  return addScoreOnly.scoreId;
 }
