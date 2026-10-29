@@ -1,4 +1,4 @@
-import type { SubmissionStatus } from "../model/types";
+import type { AwardCompetitionType, SubmissionStatus } from "../model/types";
 
 export type ScoresByCategoryResponse = {
   myScoresByCategory: {
@@ -17,6 +17,10 @@ export type MyScoresResponse = {
     activityName: string | null;
     scoreValue: number | null;
     updatedAt: string | null;
+    file: { originalName: string } | null;
+    rejectionReason: string | null;
+    activityDate: string | null;
+    competitionType: AwardCompetitionType | null;
   }[];
 };
 
@@ -25,5 +29,16 @@ export type MyTotalScoreResponse = {
 };
 
 export type MyMemberResponse = {
-  myMember: { name: string };
+  myMember: { name: string; grade: number | null };
+};
+
+// 서버 CategoryType 중 파일과 함께 점수를 신청하는 카테고리
+export type ScoreCategoryType = "AWARD" | "EXTERNAL_ACTIVITY" | "NEWRROW_SCHOOL";
+
+export type AddScoreWithFileResponse = {
+  addScoreWithFile: { scoreId: string };
+};
+
+export type PatchMyScoreResponse = {
+  patchMyScore: { scoreId: string };
 };

@@ -7,7 +7,8 @@ type ScoreSummaryProps = {
 };
 
 export function ScoreSummary({ certification }: ScoreSummaryProps) {
-  const { studentName, totalScore, maxScore } = certification;
+  const { studentName, totalScore, expectedTotalScore, maxScore } = certification;
+  const hasPending = expectedTotalScore > totalScore;
 
   return (
     <section className="border-b border-line pb-10">
@@ -15,6 +16,11 @@ export function ScoreSummary({ certification }: ScoreSummaryProps) {
       <p className="flex items-baseline gap-2 pt-2 text-strong">
         <span className="text-[64px] leading-16 font-bold tracking-[-3px]">{totalScore}</span>
         <span className="text-[24px] leading-6 tracking-[-3px] whitespace-pre text-faint">{`/  ${maxScore}`}</span>
+        {hasPending && (
+          <span className="ml-auto text-[12px] leading-[18px] text-soft">
+            심사중 포함 예상 <strong className="font-semibold text-caution">{expectedTotalScore}점</strong>
+          </span>
+        )}
       </p>
       <ProgressBar value={totalScore} max={maxScore} label="인증제 총점" className="mt-5" />
     </section>

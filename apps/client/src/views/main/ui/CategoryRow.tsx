@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { useId, useState } from "react";
 import { Button, ChevronDownIcon, buttonClassName } from "@repo/ui";
-import type { CertificationCategory } from "@/entities/certification";
+import type { CertificationCategory, CertificationSubmission } from "@/entities/certification";
+import { ScoreEditModal, ScoreSubmitModal, canEditSubmission, canSubmitScore } from "@/features/submit-score";
 import { ProgressBar } from "./ProgressBar";
 import { SubmissionList } from "./SubmissionList";
 
@@ -12,6 +13,8 @@ type CategoryRowProps = {
 export function CategoryRow({ category }: CategoryRowProps) {
   const { code, name, score, maxScore, submissions } = category;
   const [open, setOpen] = useState(false);
+  const [submitOpen, setSubmitOpen] = useState(false);
+  const [editing, setEditing] = useState<CertificationSubmission | null>(null);
   const panelId = useId();
 
   return (
@@ -38,8 +41,12 @@ export function CategoryRow({ category }: CategoryRowProps) {
           <Link href="/projects" className={buttonClassName({ size: "sm" })}>
             바로가기
           </Link>
+        ) : canSubmitScore(code) ? (
+          <Button size="sm" aria-label={`${name} 제출하기`} onClick={() => setSubmitOpen(true)}>
+            제출하기
+          </Button>
         ) : (
-          // TODO: 제출 모달(#35)이 생기면 연결한다.
+          // TODO: 나머지 카테고리의 제출 모달이 생기면 연결한다.
           <Button size="sm" aria-label={`${name} 제출하기`}>
             제출하기
           </Button>
@@ -50,9 +57,19 @@ export function CategoryRow({ category }: CategoryRowProps) {
         className={`grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
       >
         <div className="overflow-hidden" inert={!open}>
-          <SubmissionList submissions={submissions} />
+          <SubmissionList
+            submissions={submissions}
+            canEdit={canEditSubmission}
+            onEdit={canSubmitScore(code) ? setEditing : undefined}
+          />
         </div>
       </div>
+      {canSubmitScore(code) && (
+        <>
+          <ScoreSubmitModal category={category} open={submitOpen} onOpenChange={setSubmitOpen} />
+          <ScoreEditModal category={category} submission={editing} onClose={() => setEditing(null)} />
+        </>
+      )}
     </li>
   );
 }
