@@ -8,3 +8,6 @@ export const EDIT_ERROR_MESSAGE = "수정하지 못했습니다. 이미 심사�
 
 export const READING_COURSES = ["거북이", "악어", "토끼", "타조", "사자", "호랑이", "월계관"] as const;
 export const READING_SCORE_PER_COURSE = 1;
+
+export const NCS_MIN_GRADE = 1;
+export const NCS_MAX_GRADE = 5;

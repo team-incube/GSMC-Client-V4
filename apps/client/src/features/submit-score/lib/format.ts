@@ -1,4 +1,4 @@
-import { NEWRROW_MAX_TEMPERATURE, NEWRROW_SCORE_STEP } from "../model/constants";
+import { NCS_MAX_GRADE, NCS_MIN_GRADE, NEWRROW_MAX_TEMPERATURE, NEWRROW_SCORE_STEP } from "../model/constants";
 
 export type DateParts = {
   year: string;
@@ -46,6 +46,20 @@ export function parseTemperature(value: string) {
 
 export function toNewrrowScore(temperature: number, maxScore: number) {
   return Math.min(Math.floor(temperature / NEWRROW_SCORE_STEP), maxScore);
+}
+
+export function parseAverageGrade(value: string) {
+  if (!/^\d(\.\d{0,2})?$/.test(value)) return null;
+  const grade = Number(value);
+  return grade >= NCS_MIN_GRADE && grade <= NCS_MAX_GRADE ? grade : null;
+}
+
+export function roundGrade(grade: number) {
+  return Math.round(grade);
+}
+
+export function toNcsScore(grade: number, maxScore: number) {
+  return maxScore + 1 - roundGrade(grade);
 }
 
 // YYYY-MM-DD를 날짜 입력 칸 값으로 나눈다. 없으면 빈 칸을 돌려준다.
