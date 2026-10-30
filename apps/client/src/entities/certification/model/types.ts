@@ -18,10 +18,10 @@ export type CertificationSubmission = {
   id: string;
   categoryType: string;
   title: string;
-  // 대회 종류처럼 제목 아래에 함께 보여 줄 부가 정보
+  // 대회 종류·활동 날짜처럼 제목 아래에 함께 보여 줄 부가 정보
   details: string[];
   fileName?: string;
-  // 제출할 때 입력한 날짜. 없으면 마지막으로 수정된 날짜
+  // 제출한 날짜(YYYY-MM-DD). 서버에 생성 시각이 없어 마지막으로 수정된 날짜를 쓴다.
   submittedAt?: string;
   // 실제 활동 날짜(YYYY-MM-DD)
   activityDate?: string;

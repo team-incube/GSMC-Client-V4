@@ -62,9 +62,13 @@ export function toMyCertification({
           id: score.scoreId,
           categoryType: category.categoryType,
           title: activity.title,
-          details: activity.competitionType ? [AWARD_COMPETITION_TYPE_LABEL[activity.competitionType]] : [],
+          details: [
+            activity.competitionType && AWARD_COMPETITION_TYPE_LABEL[activity.competitionType],
+            activity.date,
+          ].filter((value): value is string => Boolean(value)),
           fileName: detail?.file?.originalName,
-          submittedAt: activity.date ?? detail?.updatedAt?.slice(0, 10),
+          // 서버가 생성 시각을 내려주지 않아 최근 수정 시각을 제출일로 쓴다.
+          submittedAt: detail?.updatedAt?.slice(0, 10),
           activityDate: activity.date,
           competitionType: activity.competitionType,
           status: score.scoreStatus,
