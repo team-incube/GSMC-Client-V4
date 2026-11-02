@@ -28,7 +28,7 @@ export function EditVolunteerForm({ category, submission, onClose }: EditVolunte
     mutate(
       {
         scoreId: submission.id,
-        value: score === null ? undefined : String(hours),
+        value: score === null ? undefined : String(score),
         file,
       },
       {

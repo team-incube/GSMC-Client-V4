@@ -25,7 +25,7 @@ export function VolunteerForm({ category, onClose }: VolunteerFormProps) {
   const handleSubmit = () => {
     if (score === null || !file) return;
     mutate(
-      { categoryType: "VOLUNTEER", entries: [{ id: crypto.randomUUID(), value: String(hours), file }] },
+      { categoryType: "VOLUNTEER", entries: [{ id: crypto.randomUUID(), value: String(score), file }] },
       {
         onSuccess: () => {
           toast.success("봉사활동을 제출했습니다.");
