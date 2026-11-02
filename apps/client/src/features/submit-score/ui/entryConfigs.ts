@@ -27,3 +27,18 @@ export const EXTERNAL_ACTIVITY_CONFIG: MultiEntryConfig = {
   withAwardType: false,
   showEntryPoints: true,
 };
+
+export const CERTIFICATE_CONFIG: MultiEntryConfig = {
+  categoryType: "CERTIFICATE",
+  title: "자격증",
+  successMessage: "자격증을 제출했습니다.",
+  countUnit: "개",
+  sectionLabel: "자격증 추가",
+  nameLabel: "자격증 이름",
+  namePlaceholder: "자격증 이름 (예: 정보처리기사)",
+  dateLabel: "취득 날짜",
+  filePlaceholder: "증빙 파일 첨부",
+  withAwardType: false,
+  showEntryPoints: false,
+  pointsPerEntry: 2,
+};

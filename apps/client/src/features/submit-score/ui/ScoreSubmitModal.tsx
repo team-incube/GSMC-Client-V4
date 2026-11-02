@@ -1,7 +1,7 @@
 import { Modal } from "@repo/ui";
 import type { CertificationCategory, CertificationCategoryCode } from "@/entities/certification";
 import { useIsSubmittingScore } from "../model/submitScore";
-import { AWARD_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
+import { AWARD_CONFIG, CERTIFICATE_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
 import { MultiEntryForm } from "./MultiEntryForm";
 import { LanguageScoreForm } from "./LanguageScoreForm";
 import { NcsForm } from "./NcsForm";
@@ -15,6 +15,7 @@ const SUBMITTABLE_CODES: CertificationCategoryCode[] = [
   "READING",
   "JOB_SKILL",
   "LANGUAGE_SCORE",
+  "LICENSE",
 ];
 
 export function canSubmitScore(code: CertificationCategoryCode) {
@@ -42,6 +43,9 @@ export function ScoreSubmitModal({ category, open, onOpenChange }: ScoreSubmitMo
       {category.code === "READING" && <ReadingForm category={category} onClose={close} />}
       {category.code === "JOB_SKILL" && <NcsForm category={category} onClose={close} />}
       {category.code === "LANGUAGE_SCORE" && <LanguageScoreForm category={category} onClose={close} />}
+      {category.code === "LICENSE" && (
+        <MultiEntryForm config={CERTIFICATE_CONFIG} category={category} onClose={close} />
+      )}
     </Modal>
   );
 }
