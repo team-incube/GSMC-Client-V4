@@ -34,7 +34,7 @@ export type MyMemberResponse = {
 
 // 서버 CategoryType 중 파일과 함께 점수를 신청하는 카테고리
 export type ScoreCategoryType =
-  "AWARD" | "EXTERNAL_ACTIVITY" | "NEWRROW_SCHOOL" | "READ_A_THON" | "NCS" | "TOEIC" | "JPT" | "JLPT" | "VOLUNTEER";
+  "AWARD" | "EXTERNAL_ACTIVITY" | "NEWRROW_SCHOOL" | "READ_A_THON" | "NCS" | "TOEIC" | "JPT" | "JLPT" | "TOPCIT" | "VOLUNTEER";
 
 export type AddScoreWithFileResponse = {
   addScoreWithFile: { scoreId: string };

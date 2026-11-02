@@ -6,6 +6,7 @@ import { EditNewrrowSchoolForm } from "./EditNewrrowSchoolForm";
 import { EditLanguageScoreForm } from "./EditLanguageScoreForm";
 import { EditNcsForm } from "./EditNcsForm";
 import { EditReadingForm } from "./EditReadingForm";
+import { EditTopcitForm } from "./EditTopcitForm";
 import { EditVolunteerForm } from "./EditVolunteerForm";
 import { AWARD_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
 
@@ -49,6 +50,9 @@ export function ScoreEditModal({ category, submission, onClose }: ScoreEditModal
       )}
       {submission && category.code === "LANGUAGE_SCORE" && (
         <EditLanguageScoreForm key={submission.id} category={category} submission={submission} onClose={onClose} />
+      )}
+      {submission && category.code === "TOPCIT" && (
+        <EditTopcitForm key={submission.id} category={category} submission={submission} onClose={onClose} />
       )}
       {submission && category.code === "VOLUNTEER" && (
         <EditVolunteerForm key={submission.id} category={category} submission={submission} onClose={onClose} />
