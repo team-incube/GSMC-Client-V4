@@ -8,9 +8,11 @@ import { EditNcsForm } from "./EditNcsForm";
 import { EditReadingForm } from "./EditReadingForm";
 import { AWARD_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
 
-// 서버는 심사중인 점수만 수정을 받는다.
+// 서버는 심사중인 점수만 수정을 받는다. 교과성적은 입력표로 계산되어 값을 직접 고칠 수 없다.
+const NON_EDITABLE_TYPES = ["TOEIC_ACADEMY", "ACADEMIC_GRADE"];
+
 export function canEditSubmission(submission: CertificationSubmission) {
-  return submission.status === "PENDING" && submission.categoryType !== "TOEIC_ACADEMY";
+  return submission.status === "PENDING" && !NON_EDITABLE_TYPES.includes(submission.categoryType);
 }
 
 type ScoreEditModalProps = {

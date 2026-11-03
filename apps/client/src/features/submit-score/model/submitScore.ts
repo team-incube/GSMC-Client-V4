@@ -7,6 +7,12 @@ import {
   type ScoreCategoryType,
 } from "@/entities/certification";
 import { uploadFile } from "@/entities/file";
+import {
+  academicGradeKeys,
+  saveMyAcademicGradeSheet,
+  submitMyAcademicGrade,
+  type AcademicGradeEntry,
+} from "@/entities/academic-grade";
 import type { LanguageExamType } from "./constants";
 
 export type ScoreEntry = {
@@ -76,6 +82,24 @@ export function useSubmitLanguageScoreMutation() {
       }
     },
     onSettled: () => queryClient.invalidateQueries({ queryKey: certificationKeys.all }),
+  });
+}
+
+// 입력표를 저장한 뒤, 서버가 저장된 입력표로 평균을 계산해 점수를 신청한다.
+export function useSubmitAcademicGradeMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: submitScoreKey,
+    mutationFn: async (entries: AcademicGradeEntry[]) => {
+      await saveMyAcademicGradeSheet(entries);
+      await submitMyAcademicGrade();
+    },
+    onSettled: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: certificationKeys.all }),
+        queryClient.invalidateQueries({ queryKey: academicGradeKeys.sheet }),
+      ]),
   });
 }
 
