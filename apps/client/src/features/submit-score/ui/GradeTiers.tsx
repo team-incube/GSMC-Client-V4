@@ -1,11 +1,12 @@
+import { NCS_MAX_GRADE } from "../model/constants";
+
 type GradeTiersProps = {
-  maxScore: number;
   activeGrade: number | null;
   scoreOf: (grade: number) => number;
 };
 
-export function GradeTiers({ maxScore, activeGrade, scoreOf }: GradeTiersProps) {
-  const grades = Array.from({ length: maxScore }, (_, index) => index + 1);
+export function GradeTiers({ activeGrade, scoreOf }: GradeTiersProps) {
+  const grades = Array.from({ length: NCS_MAX_GRADE }, (_, index) => index + 1);
 
   return (
     <ol aria-label="등급별 점수" className="grid grid-cols-5 gap-1">
