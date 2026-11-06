@@ -1,10 +1,14 @@
 "use client";
 
-import { useDeferredValue, useMemo, useState, type SVGProps } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import { useStudentsQuery } from "@/entities/student";
 import { ExportScoreSheetButton } from "@/features/export-score-sheet";
-import { INITIAL_FILTER, type StudentListFilter } from "../model/filter";
-import { StudentFilterModal } from "./StudentFilterModal";
+import {
+  INITIAL_FILTER,
+  StudentFilterButton,
+  StudentFilterModal,
+  type StudentListFilter,
+} from "@/features/student-filter";
 import { StudentTable } from "./StudentTable";
 
 export function StudentsPage() {
@@ -26,9 +30,6 @@ export function StudentsPage() {
 
   const hasMissingScore = !isPlaceholderData && (students?.some((student) => student.totalScore == null) ?? false);
 
-  const activeFilterCount =
-    (filter.grade != null ? 1 : 0) + (filter.classNumber != null ? 1 : 0) + (filter.name.trim() ? 1 : 0);
-
   return (
     <main className="mx-auto w-full max-w-[1425px] px-4 py-8 sm:px-8">
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
@@ -42,19 +43,7 @@ export function StudentsPage() {
       </div>
 
       <div className="pt-6">
-        <button
-          type="button"
-          onClick={() => setFilterOpen(true)}
-          className="inline-flex h-9 items-center gap-2 rounded-md border border-line bg-surface px-[15px] text-[13px] leading-[19.5px] font-medium text-body transition-colors duration-200 hover:bg-wash focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none"
-        >
-          <FilterIcon className="size-3.5" />
-          필터
-          {activeFilterCount > 0 && (
-            <span className="inline-flex size-[18px] items-center justify-center rounded-full bg-brand text-[11px] leading-none font-semibold text-white">
-              {activeFilterCount}
-            </span>
-          )}
-        </button>
+        <StudentFilterButton filter={filter} onClick={() => setFilterOpen(true)} />
       </div>
 
       {hasMissingScore && (
@@ -83,30 +72,5 @@ export function StudentsPage() {
         onReset={() => setFilter(INITIAL_FILTER)}
       />
     </main>
-  );
-}
-
-function FilterIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      viewBox="0 0 14 14"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.16667"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-      {...props}
-    >
-      <path d="M12.25 2.33333H8.16667" />
-      <path d="M5.83333 2.33333H1.75" />
-      <path d="M12.25 7H7" />
-      <path d="M4.66667 7H1.75" />
-      <path d="M12.25 11.6667H9.33333" />
-      <path d="M7 11.6667H1.75" />
-      <path d="M8.16667 1.16667V3.5" />
-      <path d="M4.66667 5.83333V8.16667" />
-      <path d="M9.33333 10.5V12.8333" />
-    </svg>
   );
 }
