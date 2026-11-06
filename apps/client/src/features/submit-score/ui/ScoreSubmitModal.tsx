@@ -2,7 +2,7 @@ import { Modal } from "@repo/ui";
 import type { CertificationCategory, CertificationCategoryCode } from "@/entities/certification";
 import { useIsSubmittingScore } from "../model/submitScore";
 import { AcademicGradeForm } from "./AcademicGradeForm";
-import { AWARD_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
+import { AWARD_CONFIG, CERTIFICATE_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
 import { MultiEntryForm } from "./MultiEntryForm";
 import { LanguageScoreForm } from "./LanguageScoreForm";
 import { NcsForm } from "./NcsForm";
@@ -19,6 +19,7 @@ const SUBMITTABLE_CODES: CertificationCategoryCode[] = [
   "JOB_SKILL",
   "LANGUAGE_SCORE",
   "GRADE",
+  "LICENSE",
   "TOPCIT",
   "VOLUNTEER",
 ];
@@ -49,6 +50,9 @@ export function ScoreSubmitModal({ category, open, onOpenChange }: ScoreSubmitMo
       {category.code === "JOB_SKILL" && <NcsForm category={category} onClose={close} />}
       {category.code === "LANGUAGE_SCORE" && <LanguageScoreForm category={category} onClose={close} />}
       {category.code === "GRADE" && <AcademicGradeForm category={category} onClose={close} />}
+      {category.code === "LICENSE" && (
+        <MultiEntryForm config={CERTIFICATE_CONFIG} category={category} onClose={close} />
+      )}
       {category.code === "TOPCIT" && <TopcitForm category={category} onClose={close} />}
       {category.code === "VOLUNTEER" && <VolunteerForm category={category} onClose={close} />}
     </Modal>
