@@ -7,6 +7,7 @@ import { EditLanguageScoreForm } from "./EditLanguageScoreForm";
 import { EditNcsForm } from "./EditNcsForm";
 import { EditReadingForm } from "./EditReadingForm";
 import { EditTopcitForm } from "./EditTopcitForm";
+import { EditVolunteerForm } from "./EditVolunteerForm";
 import { AWARD_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
 
 // 서버는 심사중인 점수만 수정을 받는다.
@@ -52,6 +53,9 @@ export function ScoreEditModal({ category, submission, onClose }: ScoreEditModal
       )}
       {submission && category.code === "TOPCIT" && (
         <EditTopcitForm key={submission.id} category={category} submission={submission} onClose={onClose} />
+      )}
+      {submission && category.code === "VOLUNTEER" && (
+        <EditVolunteerForm key={submission.id} category={category} submission={submission} onClose={onClose} />
       )}
     </Modal>
   );
