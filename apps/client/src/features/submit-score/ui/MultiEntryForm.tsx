@@ -29,6 +29,8 @@ export type MultiEntryConfig = {
   filePlaceholder: string;
   withAwardType: boolean;
   showEntryPoints: boolean;
+  // 한 건이 인정받는 점수. 기본 1점이고, 자격증은 건당 2점이라 최대 개수가 최대 점수의 절반이다.
+  pointsPerEntry?: number;
 };
 
 type Entry = ScoreEntry & EntryListItem;
@@ -58,7 +60,9 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
   // 반려된 건은 다시 낼 수 있으니 세지 않는다.
   const submittedCount = category.submissions.filter((submission) => submission.status !== "REJECTED").length;
   const count = submittedCount + entries.length;
-  const canAddMore = count < category.maxScore;
+  const pointsPerEntry = config.pointsPerEntry ?? 1;
+  const maxCount = Math.floor(category.maxScore / pointsPerEntry);
+  const canAddMore = count < maxCount;
   const draftFilled =
     (!config.withAwardType || draft.awardType !== null) &&
     draft.name.trim() !== "" &&
@@ -89,7 +93,7 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
         description: competitionType
           ? `${AWARD_COMPETITION_TYPE_LABEL[competitionType]} · ${date}`
           : `${date} · ${draft.file!.name}`,
-        points: config.showEntryPoints ? 1 : undefined,
+        points: config.showEntryPoints ? pointsPerEntry : undefined,
       },
     ]);
     setDraft({ ...EMPTY_DRAFT, awardType: draft.awardType });
@@ -116,8 +120,8 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
     <>
       <ModalHeader
         title={config.title}
-        meta={`${count} / ${category.maxScore}${config.countUnit}`}
-        metaSub={`${Math.min(count, category.maxScore)}점 / 최대 ${category.maxScore}점`}
+        meta={`${count} / ${maxCount}${config.countUnit}`}
+        metaSub={`${Math.min(count * pointsPerEntry, category.maxScore)}점 / 최대 ${category.maxScore}점`}
       />
       <div className="flex-1 overflow-y-auto">
         {entries.length > 0 && (
@@ -177,7 +181,7 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
           </button>
           {!canAddMore && (
             <p className="text-[12px] leading-[18px] text-soft">
-              최대 {category.maxScore}
+              최대 {maxCount}
               {config.countUnit}까지 제출할 수 있습니다.
             </p>
           )}
@@ -191,7 +195,7 @@ export function MultiEntryForm({ config, category, onClose }: MultiEntryFormProp
           {isPending
             ? "제출 중…"
             : entries.length > 0
-              ? `제출하기 (${entries.length}${config.countUnit} · ${entries.length}점)`
+              ? `제출하기 (${entries.length}${config.countUnit} · ${entries.length * pointsPerEntry}점)`
               : "제출하기"}
         </Button>
       </ModalFooter>

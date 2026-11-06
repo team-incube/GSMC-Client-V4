@@ -8,7 +8,7 @@ import { EditNcsForm } from "./EditNcsForm";
 import { EditReadingForm } from "./EditReadingForm";
 import { EditTopcitForm } from "./EditTopcitForm";
 import { EditVolunteerForm } from "./EditVolunteerForm";
-import { AWARD_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
+import { AWARD_CONFIG, CERTIFICATE_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
 
 // 서버는 심사중인 점수만 수정을 받는다.
 export function canEditSubmission(submission: CertificationSubmission) {
@@ -38,6 +38,9 @@ export function ScoreEditModal({ category, submission, onClose }: ScoreEditModal
           submission={submission}
           onClose={onClose}
         />
+      )}
+      {submission && category.code === "LICENSE" && (
+        <EditEntryForm key={submission.id} config={CERTIFICATE_CONFIG} submission={submission} onClose={onClose} />
       )}
       {submission && category.code === "NEWROW_SCHOOL" && (
         <EditNewrrowSchoolForm key={submission.id} category={category} submission={submission} onClose={onClose} />
