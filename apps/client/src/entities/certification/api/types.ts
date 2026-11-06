@@ -42,7 +42,9 @@ export type ScoreCategoryType =
   | "NCS"
   | "TOEIC"
   | "JPT"
-  | "JLPT";
+  | "JLPT"
+  | "TOPCIT"
+  | "VOLUNTEER";
 
 export type AddScoreWithFileResponse = {
   addScoreWithFile: { scoreId: string };

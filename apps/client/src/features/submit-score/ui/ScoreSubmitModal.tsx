@@ -7,6 +7,8 @@ import { LanguageScoreForm } from "./LanguageScoreForm";
 import { NcsForm } from "./NcsForm";
 import { NewrrowSchoolForm } from "./NewrrowSchoolForm";
 import { ReadingForm } from "./ReadingForm";
+import { TopcitForm } from "./TopcitForm";
+import { VolunteerForm } from "./VolunteerForm";
 
 const SUBMITTABLE_CODES: CertificationCategoryCode[] = [
   "AWARD",
@@ -16,6 +18,8 @@ const SUBMITTABLE_CODES: CertificationCategoryCode[] = [
   "JOB_SKILL",
   "LANGUAGE_SCORE",
   "LICENSE",
+  "TOPCIT",
+  "VOLUNTEER",
 ];
 
 export function canSubmitScore(code: CertificationCategoryCode) {
@@ -46,6 +50,8 @@ export function ScoreSubmitModal({ category, open, onOpenChange }: ScoreSubmitMo
       {category.code === "LICENSE" && (
         <MultiEntryForm config={CERTIFICATE_CONFIG} category={category} onClose={close} />
       )}
+      {category.code === "TOPCIT" && <TopcitForm category={category} onClose={close} />}
+      {category.code === "VOLUNTEER" && <VolunteerForm category={category} onClose={close} />}
     </Modal>
   );
 }
