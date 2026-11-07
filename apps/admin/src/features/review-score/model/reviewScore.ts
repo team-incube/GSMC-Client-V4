@@ -21,7 +21,8 @@ export function useReviewScoreMutation() {
     // 심사 결과는 학생 총점·항목별 점수에도 반영되므로 학생 쿼리도 함께 무효화한다.
     onSettled: () =>
       Promise.all([
-        queryClient.invalidateQueries({ queryKey: scoreKeys.all }),
+        // 심사 목록은 학생 전체를 다시 조회해 무겁다. 처리한 건은 위에서 뺐으니 즉시 재조회하지 않고 다음 마운트 때 받는다.
+        queryClient.invalidateQueries({ queryKey: scoreKeys.all, refetchType: "none" }),
         queryClient.invalidateQueries({ queryKey: studentKeys.all }),
       ]),
   });
