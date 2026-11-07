@@ -48,6 +48,26 @@ export const CERTIFICATION_CATEGORIES: CertificationCategoryConfig[] = [
 
 type CategoryScoreGroup = { categoryType: string; recognizedScore: number };
 
+// 수상경력의 대회 종류. 심사 참고용이며 점수 계산에는 영향을 주지 않는다.
+export type AwardCompetitionType =
+  | "OFFICIAL_MAJOR_COMPETITION"
+  | "INDIVIDUAL_MAJOR_COMPETITION"
+  | "UNION_HACKATHON"
+  | "GSM_FESTIVAL"
+  | "SCHOOL_HACKATHON"
+  | "MAJOR_CLUB_PRESENTATION"
+  | "CHARACTER_RELATED";
+
+export const AWARD_COMPETITION_TYPE_LABEL: Record<AwardCompetitionType, string> = {
+  OFFICIAL_MAJOR_COMPETITION: "공문을 통한 전공분야 대회",
+  INDIVIDUAL_MAJOR_COMPETITION: "전공 분야 대회 개별 참여",
+  UNION_HACKATHON: "연합 해커톤",
+  GSM_FESTIVAL: "GSM Festival",
+  SCHOOL_HACKATHON: "교내해커톤",
+  MAJOR_CLUB_PRESENTATION: "전공동아리 발표대회",
+  CHARACTER_RELATED: "교내외 인성관련",
+};
+
 // 서버 CategoryType별 인정 점수를 화면 항목 단위로 합산한다. 항목 만점을 넘으면 만점으로 자른다.
 export function sumCategoryScore(config: CertificationCategoryConfig, groups: CategoryScoreGroup[]) {
   const recognized = groups
