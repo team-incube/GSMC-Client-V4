@@ -149,7 +149,7 @@ export function ReviewScoreModal({ score, open, onOpenChange }: ReviewScoreModal
           </>
         ) : (
           <>
-            <Button variant="secondary" className="flex-none!" onClick={close}>
+            <Button variant="secondary" className="flex-none!" disabled={review.isPending} onClick={close}>
               닫기
             </Button>
             <Button variant="danger" disabled={review.isPending} onClick={() => setRejecting(true)}>
