@@ -13,8 +13,7 @@ export function ProjectSection() {
     <SectionCard
       title="내 프로젝트"
       action={
-        // TODO: 프로젝트 작성 페이지가 생기면 경로를 바꾼다.
-        <Link href="/projects" className={buttonClassName({ size: "sm" })}>
+        <Link href="/projects/new" className={buttonClassName({ size: "sm" })}>
           <PlusIcon aria-hidden="true" className="size-2.5" />
           새 프로젝트
         </Link>
