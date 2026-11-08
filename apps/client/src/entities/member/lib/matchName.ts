@@ -8,8 +8,8 @@ function isSyllable(code: number) {
 
 // 검색어 글자 하나가 이름 글자 하나에 맞는지 본다.
 // - 초성(ㅎ)은 그 초성으로 시작하는 음절(홍)에 맞는다.
-// - 받침 없는 음절(호)은 받침만 다른 음절(홍)에 맞는다. 입력 중인 마지막 글자가 "호"일 때도 "홍"이 보이게 하려는 것이다.
-function matchesChar(nameChar: string, keywordChar: string) {
+// - 마지막 글자(isLast)가 받침 없는 음절(호)이면 받침만 다른 음절(홍)에도 맞는다. "홍"을 입력하는 중에 "호"가 되어도 "홍"이 보이게 하려는 것이다.
+function matchesChar(nameChar: string, keywordChar: string, isLast: boolean) {
   if (nameChar === keywordChar) return true;
   const name = nameChar.charCodeAt(0);
   if (!isSyllable(name)) return false;
@@ -18,7 +18,7 @@ function matchesChar(nameChar: string, keywordChar: string) {
   if (initialIndex !== -1) return Math.floor((name - HANGUL_START) / 588) === initialIndex;
 
   const keyword = keywordChar.charCodeAt(0);
-  if (!isSyllable(keyword) || (keyword - HANGUL_START) % 28 !== 0) return false;
+  if (!isLast || !isSyllable(keyword) || (keyword - HANGUL_START) % 28 !== 0) return false;
   return Math.floor((name - HANGUL_START) / 28) === Math.floor((keyword - HANGUL_START) / 28);
 }
 
@@ -27,7 +27,7 @@ export function matchName(name: string, keyword: string) {
   const query = keyword.replace(/\s/g, "");
   if (!query) return false;
   for (let start = 0; start + query.length <= name.length; start++) {
-    if ([...query].every((char, i) => matchesChar(name[start + i], char))) return true;
+    if ([...query].every((char, i) => matchesChar(name[start + i], char, i === query.length - 1))) return true;
   }
   return false;
 }
