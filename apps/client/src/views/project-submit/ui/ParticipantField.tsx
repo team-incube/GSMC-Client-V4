@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type FocusEvent } from "react";
+import { useEffect, useState, type FocusEvent } from "react";
 import { CloseIcon, SearchIcon } from "@repo/ui";
 import { matchName, useStudentsQuery, type Student } from "@/entities/member";
 
@@ -17,7 +17,6 @@ function formatStudentNumber({ grade, classNumber, number }: Student) {
 }
 
 export function ParticipantField({ labelId, participants, onChange, disabled }: ParticipantFieldProps) {
-  const listId = useId();
   const [keyword, setKeyword] = useState("");
   const [open, setOpen] = useState(false);
   const trimmedKeyword = keyword.trim();
@@ -77,11 +76,7 @@ export function ParticipantField({ labelId, participants, onChange, disabled }: 
           <SearchIcon aria-hidden="true" className="size-3.5 shrink-0 text-soft" />
           <input
             type="search"
-            role="combobox"
             aria-labelledby={labelId}
-            aria-expanded={showList}
-            aria-controls={listId}
-            aria-autocomplete="list"
             placeholder="이름으로 학생 검색..."
             value={keyword}
             disabled={disabled}
@@ -96,9 +91,8 @@ export function ParticipantField({ labelId, participants, onChange, disabled }: 
         </div>
 
         {showList && (
+          // 방향키 탐색이 없어 combobox/listbox 대신 버튼 목록으로 둔다. Tab으로 결과를 고를 수 있다.
           <ul
-            id={listId}
-            role="listbox"
             aria-labelledby={labelId}
             className="absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-y-auto rounded-md border border-line bg-surface py-1 shadow-lg"
           >
@@ -111,7 +105,7 @@ export function ParticipantField({ labelId, participants, onChange, disabled }: 
               <li className="px-3.25 py-2 text-[13px] leading-[19.5px] text-soft">검색 결과가 없어요.</li>
             ) : (
               results.map((student) => (
-                <li key={student.id} role="option" aria-selected={false}>
+                <li key={student.id}>
                   <button
                     type="button"
                     onClick={() => add(student)}
