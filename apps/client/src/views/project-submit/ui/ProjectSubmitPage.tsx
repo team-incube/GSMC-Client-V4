@@ -23,10 +23,12 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-function RequiredLabel({ id, htmlFor, children }: { id?: string; htmlFor?: string; children: ReactNode }) {
+type FieldLabelProps = { id?: string; htmlFor?: string; required?: boolean; children: ReactNode };
+
+function FieldLabel({ id, htmlFor, required, children }: FieldLabelProps) {
   return (
     <label id={id} htmlFor={htmlFor} className="pb-1.5 text-[13px] leading-[19.5px] font-medium text-strong">
-      {children} <span className="text-danger">*</span>
+      {children} {required && <span className="text-danger">*</span>}
     </label>
   );
 }
@@ -50,7 +52,6 @@ export function ProjectSubmitPage() {
   const descriptionLength = description.trim().length;
   const canSubmit =
     title.trim().length > 0 &&
-    participants.length > 0 &&
     descriptionLength >= DESCRIPTION_MIN_LENGTH &&
     !isPending;
 
@@ -90,7 +91,9 @@ export function ProjectSubmitPage() {
           <Section title="기본 정보">
             <div className="flex flex-col gap-5">
               <div className="flex flex-col">
-                <RequiredLabel htmlFor={titleId}>프로젝트 이름</RequiredLabel>
+                <FieldLabel htmlFor={titleId} required>
+                  프로젝트 이름
+                </FieldLabel>
                 <input
                   id={titleId}
                   value={title}
@@ -102,7 +105,10 @@ export function ProjectSubmitPage() {
                 />
               </div>
               <div className="flex flex-col">
-                <RequiredLabel id={participantLabelId}>참여 인원</RequiredLabel>
+                <FieldLabel id={participantLabelId}>참여 인원</FieldLabel>
+                <p className="text-[12px] leading-[18px] text-soft">
+                  본인은 자동으로 포함돼요. 혼자 한 프로젝트라면 비워 두세요.
+                </p>
                 <ParticipantField
                   labelId={participantLabelId}
                   participants={participants}
@@ -115,7 +121,9 @@ export function ProjectSubmitPage() {
 
           <Section title="프로젝트 설명">
             <div className="flex flex-col">
-              <RequiredLabel htmlFor={descriptionId}>설명</RequiredLabel>
+              <FieldLabel htmlFor={descriptionId} required>
+                설명
+              </FieldLabel>
               <textarea
                 id={descriptionId}
                 value={description}
