@@ -1,18 +1,8 @@
-import type { CertificationCategoryCode } from "@repo/lib";
+import type { AwardCompetitionType, CertificationCategoryCode } from "@repo/lib";
 
-export type { CertificationCategoryCode };
+export type { AwardCompetitionType, CertificationCategoryCode };
 
 export type SubmissionStatus = "INCOMPLETE" | "PENDING" | "APPROVED" | "REJECTED";
-
-// 수상경력의 대회 종류. 심사 참고용이며 점수 계산에는 영향을 주지 않는다.
-export type AwardCompetitionType =
-  | "OFFICIAL_MAJOR_COMPETITION"
-  | "INDIVIDUAL_MAJOR_COMPETITION"
-  | "UNION_HACKATHON"
-  | "GSM_FESTIVAL"
-  | "SCHOOL_HACKATHON"
-  | "MAJOR_CLUB_PRESENTATION"
-  | "CHARACTER_RELATED";
 
 export type CertificationSubmission = {
   id: string;

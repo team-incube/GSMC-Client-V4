@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type ButtonVariant = "primary" | "secondary";
+type ButtonVariant = "primary" | "secondary" | "danger";
 type ButtonSize = "sm" | "md" | "lg";
 
 type ButtonStyleOptions = {
@@ -14,6 +14,7 @@ type ButtonProps = Omit<ButtonStyleOptions, "className"> & ButtonHTMLAttributes<
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: "bg-brand text-white hover:opacity-90",
   secondary: "border border-line bg-surface text-body hover:bg-wash",
+  danger: "bg-danger text-white hover:opacity-90",
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
