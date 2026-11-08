@@ -104,10 +104,11 @@ export function ParticipantField({ labelId, participants, onChange, disabled }: 
           >
             {isError ? (
               <li className="px-3.25 py-2 text-[13px] leading-[19.5px] text-danger">학생을 불러오지 못했어요.</li>
+            ) : searching ? (
+              // 디바운스 중에는 이전 검색어의 결과를 선택하지 못하게 숨긴다.
+              <li className="px-3.25 py-2 text-[13px] leading-[19.5px] text-soft">검색 중…</li>
             ) : results.length === 0 ? (
-              <li className="px-3.25 py-2 text-[13px] leading-[19.5px] text-soft">
-                {searching ? "검색 중…" : "검색 결과가 없어요."}
-              </li>
+              <li className="px-3.25 py-2 text-[13px] leading-[19.5px] text-soft">검색 결과가 없어요.</li>
             ) : (
               results.map((student) => (
                 <li key={student.id} role="option" aria-selected={false}>
