@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { PlusIcon, buttonClassName } from "@repo/ui";
-import { useMyProjectsQuery } from "@/entities/project";
+import { isForbiddenError, useMyProjectsQuery } from "@/entities/project";
 import { ProjectCard } from "./ProjectCard";
 import { SectionCard, SectionMessage } from "./SectionCard";
 
 const GRID_CLASS = "grid grid-cols-2 gap-2.5 p-4 sm:grid-cols-3";
 
 export function ProjectSection() {
-  const { data, isPending, isError, refetch } = useMyProjectsQuery();
+  const { data, isPending, isError, error, refetch } = useMyProjectsQuery();
 
   return (
     <SectionCard
@@ -27,9 +27,13 @@ export function ProjectSection() {
           ))}
         </ul>
       ) : isError ? (
-        <SectionMessage message="프로젝트를 불러오지 못했습니다." onRetry={() => refetch()} />
+        isForbiddenError(error) ? (
+          <SectionMessage message="학생 계정만 참여 프로젝트를 볼 수 있습니다." />
+        ) : (
+          <SectionMessage message="프로젝트를 불러오지 못했습니다." onRetry={() => refetch()} />
+        )
       ) : data.length === 0 ? (
-        <SectionMessage message="아직 등록한 프로젝트가 없습니다." />
+        <SectionMessage message="참여 중인 프로젝트가 없습니다." />
       ) : (
         <ul className={GRID_CLASS}>
           {data.map((project) => (
