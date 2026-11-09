@@ -31,7 +31,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
       <div className="p-2.5">
         <p className="truncate pb-1 text-[14px] leading-4.5 font-medium tracking-[-0.28px] text-strong">{title}</p>
-        {status && <p className={`pt-1 text-[12px] leading-4 ${STATUS_CLASS[status]}`}>{PROJECT_STATUS_LABEL[status]}</p>}
+        <p className={`pt-1 text-[12px] leading-4 ${STATUS_CLASS[status]}`}>{PROJECT_STATUS_LABEL[status]}</p>
       </div>
     </li>
   );
