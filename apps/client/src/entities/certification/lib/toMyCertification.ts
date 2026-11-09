@@ -1,4 +1,4 @@
-import { CERTIFICATION_CATEGORIES, sumCategoryScore } from "@repo/lib";
+import { CERTIFICATION_CATEGORIES, sumCategoryScore, toKstDate } from "@repo/lib";
 import type { MyScoresResponse, ScoresByCategoryResponse } from "../api/types";
 import { AWARD_COMPETITION_TYPES, AWARD_COMPETITION_TYPE_LABEL } from "../model/competitionType";
 import { parseActivityName } from "./activityName";
@@ -68,7 +68,7 @@ export function toMyCertification({
           ].filter((value): value is string => Boolean(value)),
           fileName: detail?.file?.originalName,
           // 서버가 생성 시각을 내려주지 않아 최근 수정 시각을 제출일로 쓴다.
-          submittedAt: detail?.updatedAt?.slice(0, 10),
+          submittedAt: detail?.updatedAt ? toKstDate(detail.updatedAt) : undefined,
           activityDate: activity.date,
           competitionType: activity.competitionType,
           status: score.scoreStatus,
