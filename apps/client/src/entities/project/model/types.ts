@@ -4,6 +4,7 @@ export type ProjectStatus = "DRAFT" | "INCOMPLETE" | "PENDING" | "APPROVED" | "R
 export type Project = {
   id: string;
   title: string;
+  description: string | null;
   // DataGSM에 등록된 아이콘이 없으면 null이다.
   logoUrl: string | null;
   status: ProjectStatus;

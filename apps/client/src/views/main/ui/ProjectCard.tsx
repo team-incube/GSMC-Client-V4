@@ -15,7 +15,7 @@ type ProjectCardProps = {
 };
 
 export function ProjectCard({ project }: ProjectCardProps) {
-  const { title, logoUrl, status } = project;
+  const { title, description, logoUrl, status } = project;
 
   // TODO: DataGSM 프로젝트 ID는 내부 프로젝트 상세(/projects/[id])의 ID와 달라서, 이동 경로가 정해지면 링크를 단다.
   return (
@@ -31,6 +31,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
       <div className="p-2.5">
         <p className="truncate pb-1 text-[14px] leading-4.5 font-medium tracking-[-0.28px] text-strong">{title}</p>
+        {description && <p className="line-clamp-2 pb-1 text-[12px] leading-4 break-words text-soft">{description}</p>}
         <p className={`pt-1 text-[12px] leading-4 ${STATUS_CLASS[status]}`}>{PROJECT_STATUS_LABEL[status]}</p>
       </div>
     </li>
