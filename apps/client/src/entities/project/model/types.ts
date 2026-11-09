@@ -4,6 +4,8 @@ export type ProjectStatus = "DRAFT" | "INCOMPLETE" | "PENDING" | "APPROVED" | "R
 export type Project = {
   id: string;
   title: string;
-  // TODO: 내 프로젝트 목록 API가 상태를 주면 채운다.
+  // 서버가 로고를 주지 않거나 로고가 없으면 null이다.
+  logoUrl: string | null;
+  // 서버가 작성 상태를 주기 전(GSMC-Server-V4#304)에는 undefined다.
   status?: ProjectStatus;
 };
