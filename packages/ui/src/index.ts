@@ -29,6 +29,7 @@ export { CalendarIcon } from "./icons/CalendarIcon";
 export { EyeIcon } from "./icons/EyeIcon";
 export { FilterIcon } from "./icons/FilterIcon";
 export { ArrowLeftIcon } from "./icons/ArrowLeftIcon";
+export { PencilIcon } from "./icons/PencilIcon";
 
 export { useTheme } from "./theme/useTheme";
 export type { Theme } from "./theme/useTheme";
