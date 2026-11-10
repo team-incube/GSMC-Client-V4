@@ -10,6 +10,11 @@ const MY_WRITABLE_DATAGSM_PROJECTS = `
       description
       logoUrl
       myScoreStatus
+      participants {
+        participantId
+        participantName
+        studentNumber
+      }
     }
   }
 `;
@@ -24,18 +29,28 @@ type MyWritableDataGsmProjectsResponse = {
     logoUrl: string | null;
     // 작성한 점수가 없으면 null이다.
     myScoreStatus: ScoreStatus | null;
+    participants: {
+      participantId: string;
+      participantName: string;
+      studentNumber: string | null;
+    }[];
   }[];
 };
 
 export async function fetchMyProjects(): Promise<Project[]> {
   const { myWritableDataGsmProjects } =
     await graphqlRequest<MyWritableDataGsmProjectsResponse>(MY_WRITABLE_DATAGSM_PROJECTS);
-  return myWritableDataGsmProjects.map(({ dgProjectId, name, description, logoUrl, myScoreStatus }) => ({
+  return myWritableDataGsmProjects.map(({ dgProjectId, name, description, logoUrl, myScoreStatus, participants }) => ({
     id: dgProjectId,
     title: name,
     description,
     logoUrl,
     status: myScoreStatus ?? "DRAFT",
+    participants: participants.map(({ participantId, participantName, studentNumber }) => ({
+      id: participantId,
+      name: participantName,
+      studentNumber,
+    })),
   }));
 }
 
