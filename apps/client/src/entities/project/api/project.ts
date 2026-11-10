@@ -1,20 +1,60 @@
-import { graphqlRequest } from "@repo/lib";
-import type { Project } from "../model/types";
+import { GraphqlRequestError, graphqlRequest } from "@repo/lib";
+import type { Project, ProjectStatus } from "../model/types";
 
-const MY_PROJECTS = `
+// DataGSM에서 내가 참여자로 등록된 진행 중(ACTIVE) 프로젝트. 학생만 조회할 수 있다.
+const MY_WRITABLE_DATAGSM_PROJECTS = `
   query {
-    myProjects {
-      id
-      title
+    myWritableDataGsmProjects {
+      dgProjectId
+      name
+      description
+      logoUrl
+      myScoreStatus
+      participants {
+        participantId
+        participantName
+        studentNumber
+      }
     }
   }
 `;
 
-type MyProjectsResponse = {
-  myProjects: { id: string; title: string }[];
+type ScoreStatus = Exclude<ProjectStatus, "DRAFT">;
+
+type MyWritableDataGsmProjectsResponse = {
+  myWritableDataGsmProjects: {
+    dgProjectId: string;
+    name: string;
+    description: string | null;
+    logoUrl: string | null;
+    // 작성한 점수가 없으면 null이다.
+    myScoreStatus: ScoreStatus | null;
+    participants: {
+      participantId: string;
+      participantName: string;
+      studentNumber: string | null;
+    }[];
+  }[];
 };
 
 export async function fetchMyProjects(): Promise<Project[]> {
-  const { myProjects } = await graphqlRequest<MyProjectsResponse>(MY_PROJECTS);
-  return myProjects;
+  const { myWritableDataGsmProjects } =
+    await graphqlRequest<MyWritableDataGsmProjectsResponse>(MY_WRITABLE_DATAGSM_PROJECTS);
+  return myWritableDataGsmProjects.map(({ dgProjectId, name, description, logoUrl, myScoreStatus, participants }) => ({
+    id: dgProjectId,
+    title: name,
+    description,
+    logoUrl,
+    status: myScoreStatus ?? "DRAFT",
+    participants: participants.map(({ participantId, participantName, studentNumber }) => ({
+      id: participantId,
+      name: participantName,
+      studentNumber,
+    })),
+  }));
+}
+
+// 학생이 아닌 사용자(교사 등)가 조회하면 서버가 FORBIDDEN을 돌려준다.
+export function isForbiddenError(error: unknown) {
+  return error instanceof GraphqlRequestError && error.code === "FORBIDDEN";
 }
