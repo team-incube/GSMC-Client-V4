@@ -17,6 +17,7 @@ const DATE_LABEL: Partial<Record<CertificationCategoryCode, string>> = {
 
 // 서버는 점수형 항목의 원점수(예: TOPCIT 698점)를 저장하지 않고 환산 점수만 준다. 그래서 인정 점수로 보여 준다.
 // 봉사활동은 1시간당 1점이라 점수가 곧 봉사 시간이다.
+// 자격증은 자격증명·취득일만 보여 준다.
 export function toSubmissionRows(score: PendingScore): Row[] {
   const code = score.categoryCode;
   const rows: (Row | false)[] = [
@@ -25,6 +26,7 @@ export function toSubmissionRows(score: PendingScore): Row[] {
     !!score.activityName && { label: (code && ACTIVITY_LABEL[code]) ?? "활동명", value: score.activityName },
     !!score.activityDate && { label: (code && DATE_LABEL[code]) ?? "활동일", value: score.activityDate },
     score.scoreValue != null &&
+      code !== "LICENSE" &&
       (code === "VOLUNTEER"
         ? { label: "봉사 시간", value: `${score.scoreValue}시간` }
         : { label: "인정 점수", value: `${score.scoreValue}점` }),
