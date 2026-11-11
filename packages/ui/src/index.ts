@@ -26,9 +26,10 @@ export { FileTextIcon } from "./icons/FileTextIcon";
 export { UploadIcon } from "./icons/UploadIcon";
 export { TrashIcon } from "./icons/TrashIcon";
 export { CalendarIcon } from "./icons/CalendarIcon";
-export { SearchIcon } from "./icons/SearchIcon";
 export { EyeIcon } from "./icons/EyeIcon";
 export { FilterIcon } from "./icons/FilterIcon";
+export { ArrowLeftIcon } from "./icons/ArrowLeftIcon";
+export { PencilIcon } from "./icons/PencilIcon";
 
 export { useTheme } from "./theme/useTheme";
 export type { Theme } from "./theme/useTheme";

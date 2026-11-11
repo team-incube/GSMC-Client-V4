@@ -28,7 +28,8 @@ export class GraphqlRequestError extends Error {
   }
 }
 
-// 서버는 항상 200을 돌려주므로, 응답의 errors로 실패를 판단한다.
+// GraphQL 에러는 200 + errors로 온다. 만료·잘못된 토큰은 서버 필터가 HTTP 401로 막아 axios 인터셉터가 갱신하고,
+// 여기의 인증 에러는 토큰 없이 요청한 경우다.
 export async function graphqlRequest<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
   const { data } = await apiClient.post<GraphqlResponse<T>>(GRAPHQL_ENDPOINT, { query, variables });
   const [error] = data.errors ?? [];

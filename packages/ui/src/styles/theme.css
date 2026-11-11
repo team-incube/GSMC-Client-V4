@@ -68,8 +68,8 @@
   --surface: #ffffff;
   --page: #f8fafc;
   --wash: #f1f5f9;
-  --linesoft: #f1f5f9;
-  --line: #e2e8f0;
+  --linesoft: #f2f2f2;
+  --line: #e5e5e5;
   --faint: #94a3b8;
   --soft: #64748b;
   --body: #334155;
@@ -88,7 +88,7 @@
     --page: #0d1117;
     --wash: #21262d;
     --linesoft: #161b22;
-    --line: #334155;
+    --line: #30363d;
     --faint: #6e7681;
     --soft: #8b949e;
     --body: #c9d1d9;
@@ -106,8 +106,8 @@
   --surface: #ffffff;
   --page: #f8fafc;
   --wash: #f1f5f9;
-  --linesoft: #f1f5f9;
-  --line: #e2e8f0;
+  --linesoft: #f2f2f2;
+  --line: #e5e5e5;
   --faint: #94a3b8;
   --soft: #64748b;
   --body: #334155;
@@ -125,7 +125,7 @@
   --page: #0d1117;
   --wash: #21262d;
   --linesoft: #161b22;
-  --line: #334155;
+  --line: #30363d;
   --faint: #6e7681;
   --soft: #8b949e;
   --body: #c9d1d9;
@@ -190,13 +190,13 @@
 @property --linesoft {
   syntax: "<color>";
   inherits: true;
-  initial-value: #f1f5f9;
+  initial-value: #f2f2f2;
 }
 
 @property --line {
   syntax: "<color>";
   inherits: true;
-  initial-value: #e2e8f0;
+  initial-value: #e5e5e5;
 }
 
 @property --faint {

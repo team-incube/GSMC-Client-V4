@@ -66,7 +66,6 @@ export function NcsForm({ category, onClose }: NcsFormProps) {
           )}
         </div>
         <GradeTiers
-          maxScore={category.maxScore}
           activeGrade={rounded}
           scoreOf={(tier) => toNcsScore(tier, category.maxScore)}
         />
