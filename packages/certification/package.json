@@ -9,6 +9,7 @@
     "./styles.css": "./src/styles.css"
   },
   "peerDependencies": {
+    "@repo/faq": "*",
     "@repo/ui": "*",
     "next": "^16.3.7",
     "react": "^19.1.0",
