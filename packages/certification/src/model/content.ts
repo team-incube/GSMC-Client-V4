@@ -66,13 +66,4 @@ export const PROCESS_STEPS = [
   { title: "진로 역량 강화", description: "전공, 인성, 외국어 능력을 고루 갖춘 인재로 성장합니다" },
 ] as const;
 
-/** 실제 FAQ API 연동 전까지 쓰는 임시 데이터 */
-export const FAQ_PREVIEW = Array.from({ length: 4 }, (_, i) => ({
-  id: i + 1,
-  category: "인증제 관련",
-  question: "자주 묻는 질문이 무엇인가요?",
-  answer:
-    "답변을 해주세요. 안녕하세요. 답변을 해주세요. 안녕하세요. 답변을 해주세요. 안녕하세요. 답변을 해주세요. 안녕하세요. 답변을 해주세요. 안녕하세요. 답변을 해주세요.",
-}));
-
 export const HERO_IMAGE = heroImage.src;

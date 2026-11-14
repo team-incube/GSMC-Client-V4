@@ -1,9 +1,9 @@
 import Link from "next/link";
+import { FAQS } from "@repo/faq";
 import { ScrollLink, ScrollReveal } from "@repo/ui";
 import type { ReactNode } from "react";
 import {
   AREAS,
-  FAQ_PREVIEW,
   HERO_IMAGE,
   INTRO_CARDS,
   INTRO_TAGS,
@@ -207,7 +207,7 @@ function FaqPreview() {
           </Link>
         </div>
         <ul className="grid gap-3 md:grid-cols-2">
-          {FAQ_PREVIEW.map((faq) => (
+          {FAQS.slice(0, 4).map((faq) => (
             <li data-reveal key={faq.id} className={`${CARD} flex min-h-[162px] flex-col p-6 md:h-[162px]`}>
               <span className="flex h-9 items-center">
                 <span className="rounded-[4px] border border-line bg-wash px-[6px] py-[2px] text-[9px] leading-[13.5px] font-medium text-soft">
