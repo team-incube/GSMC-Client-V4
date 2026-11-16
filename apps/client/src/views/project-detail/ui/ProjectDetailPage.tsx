@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeftIcon, Button, PencilIcon } from "@repo/ui";
-import { isForbiddenError, ProjectLogo, useMyProjectQuery } from "@/entities/project";
+import { ArrowLeftIcon, Button, buttonClassName, PencilIcon } from "@repo/ui";
+import { canWriteProject, isForbiddenError, ProjectLogo, useMyProjectQuery } from "@/entities/project";
 import { ParticipantList } from "./ParticipantList";
 import { ProjectInfo } from "./ProjectInfo";
 
@@ -41,22 +41,15 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
           </div>
           <ProjectInfo project={project} />
           <ParticipantList participants={project.participants} />
-          {/* TODO: 프로젝트 참여 점수 작성 화면을 만들면 Link로 바꿔 연결한다. 그 전에는 누를 수 없게 막아 둔다. */}
-          <div className="flex flex-col items-center gap-2">
-            <Button
-              variant="secondary"
-              size="lg"
-              disabled
-              aria-describedby="project-write-notice"
-              className="w-full"
+          {canWriteProject(project.status) && (
+            <Link
+              href={`/projects/${project.id}/write`}
+              className={buttonClassName({ variant: "secondary", size: "lg", className: "w-full" })}
             >
               <PencilIcon aria-hidden="true" className="size-[13px]" />
               프로젝트 작성
-            </Button>
-            <p id="project-write-notice" className="text-[12px] leading-[18px] text-faint">
-              프로젝트 작성은 준비 중입니다.
-            </p>
-          </div>
+            </Link>
+          )}
         </div>
       )}
     </main>

@@ -9,6 +9,9 @@ const MY_WRITABLE_DATAGSM_PROJECTS = `
       name
       description
       logoUrl
+      club {
+        clubName
+      }
       myScoreStatus
       participants {
         participantId
@@ -27,6 +30,7 @@ type MyWritableDataGsmProjectsResponse = {
     name: string;
     description: string | null;
     logoUrl: string | null;
+    club: { clubName: string } | null;
     // 작성한 점수가 없으면 null이다.
     myScoreStatus: ScoreStatus | null;
     participants: {
@@ -40,11 +44,12 @@ type MyWritableDataGsmProjectsResponse = {
 export async function fetchMyProjects(): Promise<Project[]> {
   const { myWritableDataGsmProjects } =
     await graphqlRequest<MyWritableDataGsmProjectsResponse>(MY_WRITABLE_DATAGSM_PROJECTS);
-  return myWritableDataGsmProjects.map(({ dgProjectId, name, description, logoUrl, myScoreStatus, participants }) => ({
+  return myWritableDataGsmProjects.map(({ dgProjectId, name, description, logoUrl, club, myScoreStatus, participants }) => ({
     id: dgProjectId,
     title: name,
     description,
     logoUrl,
+    clubName: club?.clubName ?? null,
     status: myScoreStatus ?? "DRAFT",
     participants: participants.map(({ participantId, participantName, studentNumber }) => ({
       id: participantId,
@@ -52,6 +57,31 @@ export async function fetchMyProjects(): Promise<Project[]> {
       studentNumber,
     })),
   }));
+}
+
+const SUBMIT_PROJECT_PARTICIPATION = `
+  mutation($dgProjectId: ID!, $input: SubmitProjectParticipationInput!) {
+    submitProjectParticipation(dgProjectId: $dgProjectId, input: $input) {
+      scoreId
+    }
+  }
+`;
+
+type SubmitProjectParticipationResponse = {
+  submitProjectParticipation: { scoreId: string };
+};
+
+type SubmitProjectParticipationParams = {
+  projectId: string;
+  content: string;
+};
+
+export async function submitProjectParticipation({ projectId, content }: SubmitProjectParticipationParams) {
+  const { submitProjectParticipation } = await graphqlRequest<SubmitProjectParticipationResponse>(
+    SUBMIT_PROJECT_PARTICIPATION,
+    { dgProjectId: projectId, input: { content, fileIds: [] } },
+  );
+  return submitProjectParticipation.scoreId;
 }
 
 // 학생이 아닌 사용자(교사 등)가 조회하면 서버가 FORBIDDEN을 돌려준다.
