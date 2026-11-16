@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { PlusIcon, buttonClassName } from "@repo/ui";
 import { isForbiddenError, useMyProjectsQuery } from "@/entities/project";
 import { ProjectCard } from "./ProjectCard";
 import { SectionCard, SectionMessage } from "./SectionCard";
 
+const DATAGSM_PROJECTS_URL = "https://projects.datagsm.kr/";
 const GRID_CLASS = "grid grid-cols-2 gap-2.5 p-4 sm:grid-cols-3";
 
 export function ProjectSection() {
@@ -13,11 +13,17 @@ export function ProjectSection() {
     <SectionCard
       title="내 프로젝트"
       action={
-        // TODO: 프로젝트 작성 페이지가 생기면 경로를 바꾼다.
-        <Link href="/projects" className={buttonClassName({ size: "sm" })}>
+        // 프로젝트 등록은 DataGSM에서 한다.
+        <a
+          href={DATAGSM_PROJECTS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={buttonClassName({ size: "sm" })}
+        >
           <PlusIcon aria-hidden="true" className="size-2.5" />
           새 프로젝트
-        </Link>
+          <span className="sr-only">(새 탭에서 열림)</span>
+        </a>
       }
     >
       {isPending ? (
