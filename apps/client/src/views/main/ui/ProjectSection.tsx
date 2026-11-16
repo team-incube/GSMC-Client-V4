@@ -1,6 +1,5 @@
 import { PlusIcon, buttonClassName } from "@repo/ui";
-import { isForbiddenError, useMyProjectsQuery } from "@/entities/project";
-import { ProjectCard } from "./ProjectCard";
+import { isForbiddenError, ProjectCard, useMyProjectsQuery } from "@/entities/project";
 import { SectionCard, SectionMessage } from "./SectionCard";
 
 const DATAGSM_PROJECTS_URL = "https://projects.datagsm.kr/";

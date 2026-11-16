@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { PROJECT_STATUS_LABEL, PROJECT_STATUS_TEXT_CLASS, ProjectLogo, type Project } from "@/entities/project";
+import { PROJECT_STATUS_LABEL, PROJECT_STATUS_TEXT_CLASS } from "../model/status";
+import type { Project } from "../model/types";
+import { ProjectLogo } from "./ProjectLogo";
 
 // 카드에는 소개를 이 글자 수까지만 보여 준다. 전체 소개는 상세 페이지에서 본다.
 const DESCRIPTION_MAX_LENGTH = 40;

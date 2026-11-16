@@ -1,7 +1,5 @@
-export default function ProjectsPage() {
-  return (
-    <main className="mx-auto w-full max-w-[1920px] px-6 py-10 lg:px-16">
-      <h1 className="text-h1 text-strong">프로젝트</h1>
-    </main>
-  );
+import { ProjectsPage } from "@/views/projects";
+
+export default function Page() {
+  return <ProjectsPage />;
 }
