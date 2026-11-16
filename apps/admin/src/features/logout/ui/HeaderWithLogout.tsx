@@ -1,8 +1,9 @@
 "use client";
 
-import { logout } from "@repo/lib";
+import { logout, useAlertNotifications } from "@repo/lib";
 import { Header } from "@repo/ui";
 
 export function HeaderWithLogout() {
-  return <Header isAdmin onLogout={logout} />;
+  const notification = useAlertNotifications();
+  return <Header isAdmin notification={notification} onLogout={logout} />;
 }
