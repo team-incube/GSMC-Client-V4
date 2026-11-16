@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { PlusIcon, buttonClassName } from "@repo/ui";
-import { isForbiddenError, useMyProjectsQuery } from "@/entities/project";
-import { ProjectCard } from "./ProjectCard";
+import { isForbiddenError, ProjectCard, useMyProjectsQuery } from "@/entities/project";
 import { SectionCard, SectionMessage } from "./SectionCard";
 
 const GRID_CLASS = "grid grid-cols-2 gap-2.5 p-4 sm:grid-cols-3";
