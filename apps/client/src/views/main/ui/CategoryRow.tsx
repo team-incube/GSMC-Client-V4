@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Button, ChevronDownIcon, buttonClassName } from "@repo/ui";
 import type { CertificationCategory, CertificationSubmission } from "@/entities/certification";
 import { ScoreEditModal, ScoreSubmitModal, canEditSubmission, canSubmitScore } from "@/features/submit-score";
@@ -8,17 +8,33 @@ import { SubmissionList } from "./SubmissionList";
 
 type CategoryRowProps = {
   category: CertificationCategory;
+  // 알림에서 넘어왔을 때 펼치고 화면으로 스크롤한다.
+  focused?: boolean;
 };
 
-export function CategoryRow({ category }: CategoryRowProps) {
+export function CategoryRow({ category, focused = false }: CategoryRowProps) {
   const { code, name, score, maxScore, submissions } = category;
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(focused);
+  const [prevFocused, setPrevFocused] = useState(focused);
   const [submitOpen, setSubmitOpen] = useState(false);
   const [editing, setEditing] = useState<CertificationSubmission | null>(null);
   const panelId = useId();
+  const rowRef = useRef<HTMLLIElement>(null);
+
+  // 포커스 요청이 새로 들어오면 펼친다. 렌더 중에 맞춰야 effect에서 setState하지 않는다.
+  if (focused !== prevFocused) {
+    setPrevFocused(focused);
+    if (focused) setOpen(true);
+  }
+
+  useEffect(() => {
+    if (!focused) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    rowRef.current?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  }, [focused]);
 
   return (
-    <li className="border-b border-line last:border-b-0">
+    <li ref={rowRef} className="scroll-mt-20 border-b border-line last:border-b-0">
       <div className="flex items-center gap-3 px-4 py-3.5 sm:gap-4 sm:px-6">
         <button
           type="button"
