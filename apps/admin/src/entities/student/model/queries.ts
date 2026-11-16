@@ -1,6 +1,7 @@
 import { CERTIFICATION_CATEGORIES, sumCategoryScore } from "@repo/lib";
 import { useQuery } from "@tanstack/react-query";
 import { fetchScoresByCategory, fetchStudentMembers, fetchTotalScores } from "../api/student";
+import { toApprovedScores } from "../lib/toApprovedScores";
 import type { Student, StudentCategoryScore, StudentFilter } from "./types";
 
 export const studentKeys = {
@@ -32,6 +33,10 @@ async function fetchStudentCategoryScores(memberId: string): Promise<StudentCate
     name: config.name,
     maxScore: config.maxScore,
     score: sumCategoryScore(config, groups),
+    approvedScores: toApprovedScores(
+      config,
+      groups.filter((group) => config.apiTypes.includes(group.categoryType)),
+    ),
   }));
 }
 

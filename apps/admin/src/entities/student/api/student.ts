@@ -18,7 +18,19 @@ const SCORES_BY_CATEGORY = `
   query($memberId: ID!) {
     scoresByCategory(memberId: $memberId) {
       categoryType
+      categoryKoreanName
       recognizedScore
+      scores {
+        scoreId
+        scoreStatus
+        activityName
+        scoreValue
+        activityDate
+        competitionType
+        submittedCategoryType
+        file { originalName uri }
+        evidence { title content files { originalName uri } }
+      }
     }
   }
 `;
