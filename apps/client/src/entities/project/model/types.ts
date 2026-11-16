@@ -7,6 +7,7 @@ export type Project = {
   description: string | null;
   // DataGSM에 등록된 아이콘이 없으면 null이다.
   logoUrl: string | null;
+  clubName: string | null;
   status: ProjectStatus;
   participants: ProjectParticipant[];
 };
