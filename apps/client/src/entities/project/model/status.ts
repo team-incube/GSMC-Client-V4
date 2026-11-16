@@ -16,3 +16,7 @@ export const PROJECT_STATUS_TEXT_CLASS: Record<ProjectStatus, string> = {
   APPROVED: "text-brand",
   REJECTED: "text-danger",
 };
+
+export function canWriteProject(status: ProjectStatus) {
+  return status === "DRAFT" || status === "REJECTED";
+}
