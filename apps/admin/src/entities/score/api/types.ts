@@ -10,6 +10,7 @@ export type PendingScoreDto = {
   activityDate: string | null;
   competitionType: AwardCompetitionType | null;
   submittedCategoryType: string | null;
+  dgProjectId: string | null;
   file: FileDto | null;
   evidence: { title: string; content: string; files: FileDto[] } | null;
 };

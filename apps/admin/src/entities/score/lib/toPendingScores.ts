@@ -27,6 +27,7 @@ export function toPendingScores(
             competitionType: score.competitionType,
             submittedAt: score.updatedAt.slice(0, 10),
             files: score.file ? [score.file] : (score.evidence?.files ?? []),
+            dgProjectId: score.dgProjectId,
             evidence: score.evidence && { title: score.evidence.title, content: score.evidence.content },
           }),
         );

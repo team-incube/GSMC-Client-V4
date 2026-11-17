@@ -24,5 +24,7 @@ export type PendingScore = {
   // 서버가 생성 시각을 내려주지 않아 최근 수정 시각을 제출일로 쓴다.
   submittedAt: string;
   files: FileDto[];
+  // 프로젝트 참여 점수와 연결된 DataGSM 프로젝트. 다른 항목은 null.
+  dgProjectId: string | null;
   evidence: { title: string; content: string } | null;
 };

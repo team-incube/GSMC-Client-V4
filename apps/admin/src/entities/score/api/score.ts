@@ -15,6 +15,7 @@ const SCORE_FIELDS = `
     activityDate
     competitionType
     submittedCategoryType
+    dgProjectId
     file { originalName uri }
     evidence { title content files { originalName uri } }
   }
