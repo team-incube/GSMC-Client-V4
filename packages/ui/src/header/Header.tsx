@@ -1,6 +1,7 @@
 import { Logo } from "./Logo";
 import { NavLink } from "./NavLink";
 import { NotificationButton } from "./NotificationButton";
+import { NotificationMenu, type NotificationMenuProps } from "./NotificationMenu";
 import { ThemeToggle } from "./ThemeToggle";
 import { LogoutButton } from "./LogoutButton";
 import { MobileMenu } from "./MobileMenu";
@@ -23,11 +24,12 @@ const ADMIN_NAV_ITEMS: NavItem[] = [
 
 type HeaderProps = {
   isAdmin?: boolean;
-  onNotificationClick?: () => void;
+  // 넘기면 알림 메뉴를 열 수 있고, 없으면 알림 버튼만 보인다.
+  notification?: NotificationMenuProps;
   onLogout?: () => void;
 };
 
-export function Header({ isAdmin = false, onNotificationClick, onLogout }: HeaderProps) {
+export function Header({ isAdmin = false, notification, onLogout }: HeaderProps) {
   const navItems = isAdmin ? ADMIN_NAV_ITEMS : CLIENT_NAV_ITEMS;
 
   return (
@@ -40,7 +42,7 @@ export function Header({ isAdmin = false, onNotificationClick, onLogout }: Heade
           ))}
         </nav>
         <div className="col-start-3 flex items-center justify-self-end gap-2">
-          <NotificationButton onClick={onNotificationClick} />
+          {notification ? <NotificationMenu {...notification} /> : <NotificationButton />}
           <ThemeToggle />
           <div className="hidden md:block">
             <LogoutButton onClick={onLogout} />

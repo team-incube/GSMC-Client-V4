@@ -1,9 +1,26 @@
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useMyCertificationQuery } from "@/entities/certification";
 import { CategoryRow } from "./CategoryRow";
 import { SectionCard, SectionMessage } from "./SectionCard";
 
 export function CategorySection() {
   const { data, isPending, isError, refetch } = useMyCertificationQuery();
+  const router = useRouter();
+  const pathname = usePathname();
+  // 알림에서 넘어오면 ?score=<scoreId>로 그 점수가 속한 카테고리를 연다.
+  const focusScoreId = useSearchParams().get("score");
+  const focusCode =
+    focusScoreId != null
+      ? data?.categories.find((category) =>
+          category.submissions.some((submission) => submission.id === focusScoreId),
+        )?.code
+      : undefined;
+
+  // 처리한 뒤에는 쿼리를 지워 같은 알림을 다시 눌러도 동작하게 한다.
+  useEffect(() => {
+    if (focusScoreId != null && data) router.replace(pathname, { scroll: false });
+  }, [focusScoreId, data, router, pathname]);
 
   return (
     <SectionCard
@@ -29,7 +46,7 @@ export function CategorySection() {
       ) : (
         <ul>
           {data.categories.map((category) => (
-            <CategoryRow key={category.code} category={category} />
+            <CategoryRow key={category.code} category={category} focused={category.code === focusCode} />
           ))}
         </ul>
       )}
