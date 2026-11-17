@@ -6,6 +6,7 @@ import { Button, EyeIcon, FileTextIcon, Modal, ModalBody, ModalFooter, ModalHead
 import type { PendingScore } from "@/entities/score";
 import { toSubmissionRows } from "../lib/submissionRows";
 import { useReviewScoreMutation } from "../model/reviewScore";
+import { ProjectDetail } from "./ProjectDetail";
 
 const MAX_REASON_LENGTH = 500;
 
@@ -65,9 +66,13 @@ export function ReviewScoreModal({ score, open, onOpenChange }: ReviewScoreModal
         {score.evidence && (
           <>
             <Section label="프로젝트">
-              <p className="rounded-lg bg-wash px-4 py-3 text-[13px] leading-[19.5px] font-medium text-strong">
-                {score.evidence.title}
-              </p>
+              {score.dgProjectId ? (
+                <ProjectDetail dgProjectId={score.dgProjectId} title={score.evidence.title} />
+              ) : (
+                <p className="rounded-lg bg-wash px-4 py-3 text-[13px] leading-[19.5px] font-medium text-strong">
+                  {score.evidence.title}
+                </p>
+              )}
             </Section>
             <Section label="활동 내용">
               <p className="rounded-lg bg-wash px-4 py-3 text-[13px] leading-[22px] whitespace-pre-wrap text-body">
