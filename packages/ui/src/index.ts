@@ -14,6 +14,8 @@ export { ThemeToggle } from "./header/ThemeToggle";
 export { LogoutButton } from "./header/LogoutButton";
 export { MobileMenu } from "./header/MobileMenu";
 
+export { ProjectLogo } from "./project/ProjectLogo";
+
 export { BellIcon } from "./icons/BellIcon";
 export { CloseIcon } from "./icons/CloseIcon";
 export { MoonIcon } from "./icons/MoonIcon";

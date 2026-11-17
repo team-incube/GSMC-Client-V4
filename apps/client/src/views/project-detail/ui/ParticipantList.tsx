@@ -1,4 +1,5 @@
-import { formatStudentNumber, type ProjectParticipant } from "@/entities/project";
+import { formatStudentNumber } from "@repo/lib";
+import type { ProjectParticipant } from "@/entities/project";
 
 type ParticipantListProps = {
   participants: ProjectParticipant[];

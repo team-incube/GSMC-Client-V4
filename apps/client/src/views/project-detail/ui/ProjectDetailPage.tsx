@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeftIcon, Button, buttonClassName, PencilIcon } from "@repo/ui";
-import { canWriteProject, isForbiddenError, ProjectLogo, useMyProjectQuery } from "@/entities/project";
+import { ArrowLeftIcon, Button, buttonClassName, PencilIcon, ProjectLogo } from "@repo/ui";
+import { canWriteProject, isForbiddenError, useMyProjectQuery } from "@/entities/project";
 import { ParticipantList } from "./ParticipantList";
 import { ProjectInfo } from "./ProjectInfo";
 
@@ -37,7 +37,7 @@ export function ProjectDetailPage({ projectId }: ProjectDetailPageProps) {
       ) : (
         <div className="flex flex-col gap-5">
           <div className="flex aspect-video items-center justify-center overflow-hidden rounded-xl border border-line bg-wash p-px">
-            <ProjectLogo project={project} className="rounded-[11px]" />
+            <ProjectLogo name={project.title} logoUrl={project.logoUrl} className="rounded-[11px]" />
           </div>
           <ProjectInfo project={project} />
           <ParticipantList participants={project.participants} />
