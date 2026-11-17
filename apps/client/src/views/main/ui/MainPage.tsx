@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useMyCertificationQuery } from "@/entities/certification";
 import { CategorySection } from "./CategorySection";
 import { ProjectSection } from "./ProjectSection";
@@ -18,7 +19,10 @@ export function MainPage() {
         <ScoreSummarySkeleton />
       )}
       <div className="flex flex-col gap-6 pt-10">
-        <CategorySection />
+        {/* CategorySection이 useSearchParams를 쓰므로 Suspense로 감싼다. */}
+        <Suspense fallback={null}>
+          <CategorySection />
+        </Suspense>
         <ProjectSection />
       </div>
     </main>

@@ -8,6 +8,8 @@ export { Header } from "./header/Header";
 export { Logo } from "./header/Logo";
 export { NavLink } from "./header/NavLink";
 export { NotificationButton } from "./header/NotificationButton";
+export { NotificationMenu } from "./header/NotificationMenu";
+export type { NotificationItem, NotificationMenuProps } from "./header/NotificationMenu";
 export { ThemeToggle } from "./header/ThemeToggle";
 export { LogoutButton } from "./header/LogoutButton";
 export { MobileMenu } from "./header/MobileMenu";
