@@ -1,0 +1,108 @@
+import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  addScoreOnly,
+  addScoreWithFile,
+  certificationKeys,
+  type AwardCompetitionType,
+  type ScoreCategoryType,
+} from "@/entities/certification";
+import { uploadFile } from "@/entities/file";
+import {
+  academicGradeKeys,
+  saveMyAcademicGradeSheet,
+  submitMyAcademicGrade,
+  type AcademicGradeEntry,
+} from "@/entities/academic-grade";
+import type { LanguageExamType } from "./constants";
+
+export type ScoreEntry = {
+  id: string;
+  value: string;
+  file: File;
+  activityDate?: string;
+  competitionType?: AwardCompetitionType;
+};
+
+type SubmitScoreVariables = {
+  categoryType: ScoreCategoryType;
+  entries: ScoreEntry[];
+  // 한 건씩 신청하므로, 중간에 실패해도 이미 신청된 건을 목록에서 뺄 수 있게 알린다.
+  onEntrySubmitted?: (entryId: string) => void;
+};
+
+const submitScoreKey = ["submit-score"] as const;
+
+export function useSubmitScoreMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: submitScoreKey,
+    mutationFn: async ({ categoryType, entries, onEntrySubmitted }: SubmitScoreVariables) => {
+      for (const entry of entries) {
+        const fileId = await uploadFile(entry.file);
+        await addScoreWithFile({
+          categoryType,
+          value: entry.value,
+          fileId,
+          activityDate: entry.activityDate,
+          competitionType: entry.competitionType,
+        });
+        onEntrySubmitted?.(entry.id);
+      }
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: certificationKeys.all }),
+  });
+}
+
+type SubmitLanguageScoreVariables = {
+  examType: LanguageExamType;
+  examScore: number;
+  file: File;
+  joinAcademy: boolean;
+};
+
+export function useSubmitLanguageScoreMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: submitScoreKey,
+    mutationFn: async ({ examType, examScore, file, joinAcademy }: SubmitLanguageScoreVariables) => {
+      const fileId = await uploadFile(file);
+      await addScoreWithFile({
+        categoryType: examType,
+        value: String(examScore),
+        fileId,
+      });
+      if (!joinAcademy) return { academyFailed: false };
+      try {
+        await addScoreOnly("TOEIC_ACADEMY");
+        return { academyFailed: false };
+      } catch {
+        return { academyFailed: true };
+      }
+    },
+    onSettled: () => queryClient.invalidateQueries({ queryKey: certificationKeys.all }),
+  });
+}
+
+// 입력표를 저장한 뒤, 서버가 저장된 입력표로 평균을 계산해 점수를 신청한다.
+export function useSubmitAcademicGradeMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: submitScoreKey,
+    mutationFn: async (entries: AcademicGradeEntry[]) => {
+      await saveMyAcademicGradeSheet(entries);
+      await submitMyAcademicGrade();
+    },
+    onSettled: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: certificationKeys.all }),
+        queryClient.invalidateQueries({ queryKey: academicGradeKeys.sheet }),
+      ]),
+  });
+}
+
+export function useIsSubmittingScore() {
+  return useIsMutating({ mutationKey: submitScoreKey }) > 0;
+}

@@ -1,0 +1,60 @@
+import { Modal } from "@repo/ui";
+import type { CertificationCategory, CertificationCategoryCode } from "@/entities/certification";
+import { useIsSubmittingScore } from "../model/submitScore";
+import { AcademicGradeForm } from "./AcademicGradeForm";
+import { AWARD_CONFIG, CERTIFICATE_CONFIG, EXTERNAL_ACTIVITY_CONFIG } from "./entryConfigs";
+import { MultiEntryForm } from "./MultiEntryForm";
+import { LanguageScoreForm } from "./LanguageScoreForm";
+import { NcsForm } from "./NcsForm";
+import { NewrrowSchoolForm } from "./NewrrowSchoolForm";
+import { ReadingForm } from "./ReadingForm";
+import { TopcitForm } from "./TopcitForm";
+import { VolunteerForm } from "./VolunteerForm";
+
+const SUBMITTABLE_CODES: CertificationCategoryCode[] = [
+  "AWARD",
+  "EXTERNAL_ACTIVITY",
+  "NEWROW_SCHOOL",
+  "READING",
+  "JOB_SKILL",
+  "LANGUAGE_SCORE",
+  "GRADE",
+  "LICENSE",
+  "TOPCIT",
+  "VOLUNTEER",
+];
+
+export function canSubmitScore(code: CertificationCategoryCode) {
+  return SUBMITTABLE_CODES.includes(code);
+}
+
+type ScoreSubmitModalProps = {
+  category: CertificationCategory;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};
+
+export function ScoreSubmitModal({ category, open, onOpenChange }: ScoreSubmitModalProps) {
+  const isSubmitting = useIsSubmittingScore();
+  const close = () => onOpenChange(false);
+
+  return (
+    // 제출 중에는 닫히지 않게 막는다. 폼은 모달이 닫히면 언마운트되어 입력값이 초기화된다.
+    <Modal open={open} onOpenChange={(next) => !isSubmitting && onOpenChange(next)}>
+      {category.code === "AWARD" && <MultiEntryForm config={AWARD_CONFIG} category={category} onClose={close} />}
+      {category.code === "EXTERNAL_ACTIVITY" && (
+        <MultiEntryForm config={EXTERNAL_ACTIVITY_CONFIG} category={category} onClose={close} />
+      )}
+      {category.code === "NEWROW_SCHOOL" && <NewrrowSchoolForm category={category} onClose={close} />}
+      {category.code === "READING" && <ReadingForm category={category} onClose={close} />}
+      {category.code === "JOB_SKILL" && <NcsForm category={category} onClose={close} />}
+      {category.code === "LANGUAGE_SCORE" && <LanguageScoreForm category={category} onClose={close} />}
+      {category.code === "GRADE" && <AcademicGradeForm category={category} onClose={close} />}
+      {category.code === "LICENSE" && (
+        <MultiEntryForm config={CERTIFICATE_CONFIG} category={category} onClose={close} />
+      )}
+      {category.code === "TOPCIT" && <TopcitForm category={category} onClose={close} />}
+      {category.code === "VOLUNTEER" && <VolunteerForm category={category} onClose={close} />}
+    </Modal>
+  );
+}

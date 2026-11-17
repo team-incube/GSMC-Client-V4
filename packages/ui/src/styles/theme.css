@@ -1,4 +1,4 @@
-@import "pretendard/dist/web/variable/pretendardvariable.css";
+@import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 
 @source "..";
 
@@ -68,8 +68,8 @@
   --surface: #ffffff;
   --page: #f8fafc;
   --wash: #f1f5f9;
-  --linesoft: #f1f5f9;
-  --line: #e2e8f0;
+  --linesoft: #f2f2f2;
+  --line: #e5e5e5;
   --faint: #94a3b8;
   --soft: #64748b;
   --body: #334155;
@@ -79,6 +79,7 @@
   --branddark: #3b7bfb;
   --danger: #dc2626;
   --caution: #d97706;
+  --scrim: rgb(15 23 42 / 0.45);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -87,7 +88,7 @@
     --page: #0d1117;
     --wash: #21262d;
     --linesoft: #161b22;
-    --line: #334155;
+    --line: #30363d;
     --faint: #6e7681;
     --soft: #8b949e;
     --body: #c9d1d9;
@@ -97,6 +98,7 @@
     --branddark: #7aabfd;
     --danger: #dc2626;
     --caution: #d97706;
+    --scrim: rgb(2 6 23 / 0.65);
   }
 }
 
@@ -104,8 +106,8 @@
   --surface: #ffffff;
   --page: #f8fafc;
   --wash: #f1f5f9;
-  --linesoft: #f1f5f9;
-  --line: #e2e8f0;
+  --linesoft: #f2f2f2;
+  --line: #e5e5e5;
   --faint: #94a3b8;
   --soft: #64748b;
   --body: #334155;
@@ -115,6 +117,7 @@
   --branddark: #3b7bfb;
   --danger: #dc2626;
   --caution: #d97706;
+  --scrim: rgb(15 23 42 / 0.45);
 }
 
 :root.dark {
@@ -122,7 +125,7 @@
   --page: #0d1117;
   --wash: #21262d;
   --linesoft: #161b22;
-  --line: #334155;
+  --line: #30363d;
   --faint: #6e7681;
   --soft: #8b949e;
   --body: #c9d1d9;
@@ -132,6 +135,7 @@
   --branddark: #7aabfd;
   --danger: #dc2626;
   --caution: #d97706;
+  --scrim: rgb(2 6 23 / 0.65);
 }
 
 @theme inline {
@@ -149,4 +153,121 @@
   --color-branddark: var(--branddark);
   --color-danger: var(--danger);
   --color-caution: var(--caution);
+  --color-scrim: var(--scrim);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+}
+
+/* 색 토큰 자체를 :root에서 보간해서, 모든 요소가 같은 속도로 함께 바뀌게 한다. */
+@property --surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffffff;
+}
+
+@property --page {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f8fafc;
+}
+
+@property --wash {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f1f5f9;
+}
+
+@property --linesoft {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f2f2f2;
+}
+
+@property --line {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #e5e5e5;
+}
+
+@property --faint {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #94a3b8;
+}
+
+@property --soft {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #64748b;
+}
+
+@property --body {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #334155;
+}
+
+@property --strong {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #0f172a;
+}
+
+@property --brandwash {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #eff6ff;
+}
+
+@property --brand {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #5e97fc;
+}
+
+@property --branddark {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #3b7bfb;
+}
+
+@property --danger {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #dc2626;
+}
+
+@property --caution {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #d97706;
+}
+
+:root.theme-transition {
+  transition-property: --surface, --page, --wash, --linesoft, --line, --faint, --soft, --body, --strong, --brandwash, --brand, --branddark, --danger, --caution;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+
+/* 요소별 transition-colors가 토큰 보간을 다시 따라가며 늦게 바뀌지 않도록 전환 중에는 끈다. */
+:root.theme-transition *,
+:root.theme-transition *::before,
+:root.theme-transition *::after {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root.theme-transition {
+    transition: none;
+  }
 }

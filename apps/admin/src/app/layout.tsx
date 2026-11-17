@@ -1,7 +1,11 @@
+import type { Metadata } from "next";
 import "./globals.css";
-import { Header } from "@repo/ui";
 import { themeInitScript } from "@repo/ui/theme-script";
 import { Providers } from "./providers";
+
+export const metadata: Metadata = {
+  title: "GSMC",
+};
 
 export default function RootLayout({
   children,
@@ -9,13 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" suppressHydrationWarning>
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <Providers>
-          <Header isAdmin />
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

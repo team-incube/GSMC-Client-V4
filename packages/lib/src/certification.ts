@@ -1,0 +1,77 @@
+export type CertificationCategoryCode =
+  | "READING"
+  | "VOLUNTEER"
+  | "JOB_SKILL"
+  | "LICENSE"
+  | "TOPCIT"
+  | "LANGUAGE_SCORE"
+  | "AWARD"
+  | "NEWROW_SCHOOL"
+  | "GRADE"
+  | "PROJECT"
+  | "EXTERNAL_ACTIVITY";
+
+export type CertificationCategoryConfig = {
+  code: CertificationCategoryCode;
+  name: string;
+  maxScore: number;
+  // 이 화면 항목에 합산할 서버 CategoryType 목록
+  apiTypes: string[];
+  // 1학년만 참여하는 항목. 2학년부터는 목록과 만점에서 빠진다.
+  firstGradeOnly?: boolean;
+  // 활동명 없이 제출된 건의 제목. 없으면 서버 카테고리 이름을 쓴다.
+  submissionTitle?: string;
+};
+
+export const TOTAL_MAX_SCORE = 100;
+
+export const CERTIFICATION_CATEGORIES: CertificationCategoryConfig[] = [
+  { code: "READING", name: "독서활동", maxScore: 7, apiTypes: ["READ_A_THON"] },
+  { code: "VOLUNTEER", name: "봉사활동", maxScore: 10, apiTypes: ["VOLUNTEER"] },
+  { code: "JOB_SKILL", name: "직업기초능력평가", maxScore: 5, apiTypes: ["NCS"] },
+  { code: "LICENSE", name: "자격증", maxScore: 14, apiTypes: ["CERTIFICATE"] },
+  { code: "TOPCIT", name: "TOPCIT", maxScore: 10, apiTypes: ["TOPCIT"] },
+  { code: "LANGUAGE_SCORE", name: "공인점수", maxScore: 10, apiTypes: ["TOEIC", "JPT", "JLPT", "TOEIC_ACADEMY"] },
+  { code: "AWARD", name: "수상경력", maxScore: 10, apiTypes: ["AWARD"] },
+  {
+    code: "NEWROW_SCHOOL",
+    name: "뉴로우스쿨",
+    maxScore: 5,
+    apiTypes: ["NEWRROW_SCHOOL"],
+    firstGradeOnly: true,
+    submissionTitle: "뉴로우스쿨 참여",
+  },
+  { code: "GRADE", name: "교과성적", maxScore: 9, apiTypes: ["ACADEMIC_GRADE"] },
+  { code: "PROJECT", name: "프로젝트 참여", maxScore: 10, apiTypes: ["PROJECT_PARTICIPATION"] },
+  { code: "EXTERNAL_ACTIVITY", name: "외부활동", maxScore: 10, apiTypes: ["EXTERNAL_ACTIVITY"] },
+];
+
+type CategoryScoreGroup = { categoryType: string; recognizedScore: number };
+
+// 수상경력의 대회 종류. 심사 참고용이며 점수 계산에는 영향을 주지 않는다.
+export type AwardCompetitionType =
+  | "OFFICIAL_MAJOR_COMPETITION"
+  | "INDIVIDUAL_MAJOR_COMPETITION"
+  | "UNION_HACKATHON"
+  | "GSM_FESTIVAL"
+  | "SCHOOL_HACKATHON"
+  | "MAJOR_CLUB_PRESENTATION"
+  | "CHARACTER_RELATED";
+
+export const AWARD_COMPETITION_TYPE_LABEL: Record<AwardCompetitionType, string> = {
+  OFFICIAL_MAJOR_COMPETITION: "공문을 통한 전공분야 대회",
+  INDIVIDUAL_MAJOR_COMPETITION: "전공 분야 대회 개별 참여",
+  UNION_HACKATHON: "연합 해커톤",
+  GSM_FESTIVAL: "GSM Festival",
+  SCHOOL_HACKATHON: "교내해커톤",
+  MAJOR_CLUB_PRESENTATION: "전공동아리 발표대회",
+  CHARACTER_RELATED: "교내외 인성관련",
+};
+
+// 서버 CategoryType별 인정 점수를 화면 항목 단위로 합산한다. 항목 만점을 넘으면 만점으로 자른다.
+export function sumCategoryScore(config: CertificationCategoryConfig, groups: CategoryScoreGroup[]) {
+  const recognized = groups
+    .filter((group) => config.apiTypes.includes(group.categoryType))
+    .reduce((sum, group) => sum + group.recognizedScore, 0);
+  return Math.min(recognized, config.maxScore);
+}

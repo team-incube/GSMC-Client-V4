@@ -1,8 +1,10 @@
 import { Logo } from "./Logo";
 import { NavLink } from "./NavLink";
 import { NotificationButton } from "./NotificationButton";
+import { NotificationMenu, type NotificationMenuProps } from "./NotificationMenu";
 import { ThemeToggle } from "./ThemeToggle";
 import { LogoutButton } from "./LogoutButton";
+import { MobileMenu } from "./MobileMenu";
 
 type NavItem = { label: string; href: string };
 
@@ -22,26 +24,30 @@ const ADMIN_NAV_ITEMS: NavItem[] = [
 
 type HeaderProps = {
   isAdmin?: boolean;
-  onNotificationClick?: () => void;
+  // 넘기면 알림 메뉴를 열 수 있고, 없으면 알림 버튼만 보인다.
+  notification?: NotificationMenuProps;
   onLogout?: () => void;
 };
 
-export function Header({ isAdmin = false, onNotificationClick, onLogout }: HeaderProps) {
+export function Header({ isAdmin = false, notification, onLogout }: HeaderProps) {
   const navItems = isAdmin ? ADMIN_NAV_ITEMS : CLIENT_NAV_ITEMS;
 
   return (
-    <header className="w-full border-b border-line bg-page">
-      <div className="mx-auto flex h-14 w-full max-w-[1920px] items-center justify-between px-6 lg:px-16">
+    <header className="sticky top-0 z-50 w-full border-b border-line bg-page">
+      <div className="mx-auto grid h-14 w-full max-w-[1920px] grid-cols-[1fr_auto_1fr] items-center px-6 lg:px-16">
         <Logo />
-        <nav className="flex items-center gap-0.5">
+        <nav className="hidden items-center gap-0.5 md:flex">
           {navItems.map((item) => (
             <NavLink key={item.href} href={item.href} label={item.label} />
           ))}
         </nav>
-        <div className="flex items-center gap-2">
-          <NotificationButton onClick={onNotificationClick} />
+        <div className="col-start-3 flex items-center justify-self-end gap-2">
+          {notification ? <NotificationMenu {...notification} /> : <NotificationButton />}
           <ThemeToggle />
-          <LogoutButton onClick={onLogout} />
+          <div className="hidden md:block">
+            <LogoutButton onClick={onLogout} />
+          </div>
+          <MobileMenu items={navItems} onLogout={onLogout} />
         </div>
       </div>
     </header>
