@@ -57,3 +57,7 @@ export type AddScoreOnlyResponse = {
 export type PatchMyScoreResponse = {
   patchMyScore: { scoreId: string };
 };
+
+export type MyPercentInGradeResponse = {
+  myPercentInGrade: { bottomPercentile: number };
+};

@@ -4,9 +4,11 @@ import { SectionMessage } from "./SectionCard";
 
 type ScoreSummaryProps = {
   certification: MyCertification;
+  // 학년 내 상위 몇 %인지. 불러오는 중이거나 학생이 아니어서 받지 못하면 없다.
+  gradeTopPercentile?: number;
 };
 
-export function ScoreSummary({ certification }: ScoreSummaryProps) {
+export function ScoreSummary({ certification, gradeTopPercentile }: ScoreSummaryProps) {
   const { studentName, totalScore, expectedTotalScore, maxScore } = certification;
   const hasPending = expectedTotalScore > totalScore;
 
@@ -23,6 +25,14 @@ export function ScoreSummary({ certification }: ScoreSummaryProps) {
         )}
       </p>
       <ProgressBar value={totalScore} max={maxScore} label="인증제 총점" className="mt-5" />
+      {/* 백분위가 늦게 와도 아래 내용이 밀리지 않도록 높이를 잡아 둔다. */}
+      <p className="min-h-[18px] pt-3 text-[12px] leading-[18px] text-soft">
+        {gradeTopPercentile != null && (
+          <>
+            학년 <strong className="font-semibold text-strong">상위 {gradeTopPercentile}%</strong>
+          </>
+        )}
+      </p>
     </section>
   );
 }

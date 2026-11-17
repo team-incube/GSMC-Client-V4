@@ -4,6 +4,7 @@ import type {
   AddScoreOnlyResponse,
   AddScoreWithFileResponse,
   MyMemberResponse,
+  MyPercentInGradeResponse,
   MyScoresResponse,
   MyTotalScoreResponse,
   PatchMyScoreResponse,
@@ -44,6 +45,14 @@ const MY_TOTAL_SCORE = `
     myTotalScore(includeApprovedOnly: $includeApprovedOnly) {
       totalScore
     }
+  }
+`;
+
+// 학생 본인 기준 학년 내 백분위. 인증제 총점과 같게 승인된 점수만 반영한다.
+// 서버의 topPercentile은 1등일수록 100에 가까운 값이라, "상위 n%"에는 순위/인원인 bottomPercentile을 쓴다.
+const MY_PERCENT_IN_GRADE = `
+  query {
+    myPercentInGrade { bottomPercentile }
   }
 `;
 
@@ -146,4 +155,9 @@ const ADD_SCORE_ONLY = `
 export async function addScoreOnly(categoryType: "TOEIC_ACADEMY") {
   const { addScoreOnly } = await graphqlRequest<AddScoreOnlyResponse>(ADD_SCORE_ONLY, { categoryType });
   return addScoreOnly.scoreId;
+}
+
+export async function fetchMyGradeTopPercentile() {
+  const { myPercentInGrade } = await graphqlRequest<MyPercentInGradeResponse>(MY_PERCENT_IN_GRADE);
+  return myPercentInGrade.bottomPercentile;
 }

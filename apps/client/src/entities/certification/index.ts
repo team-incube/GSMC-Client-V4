@@ -1,4 +1,4 @@
-export { useMyCertificationQuery, certificationKeys } from "./model/queries";
+export { useMyCertificationQuery, useMyGradeTopPercentileQuery, certificationKeys } from "./model/queries";
 export { addScoreOnly, addScoreWithFile, patchMyScore } from "./api/certification";
 export type { ScoreCategoryType } from "./api/types";
 export { SUBMISSION_STATUS_LABEL } from "./model/status";
