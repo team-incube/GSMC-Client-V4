@@ -11,7 +11,8 @@ export function ProjectsPage() {
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-12">
       <header className="flex items-baseline gap-2 pb-6">
-        <h1 className="text-h1 text-strong">내 프로젝트</h1>
+        {/* text-h1 자간(-0.25rem)이 공백을 먹어서 단어 간격을 보정한다. */}
+        <h1 className="text-h1 text-strong [word-spacing:0.25rem]">내 프로젝트</h1>
         {data && data.length > 0 && <span className="text-[14px] leading-5 text-soft">{data.length}개</span>}
       </header>
       {isPending ? (
