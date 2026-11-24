@@ -1,4 +1,4 @@
-import { AuthGuard } from "@/features/auth-guard";
+import { AuthGuard } from "@repo/lib";
 import { HeaderWithLogout } from "@/features/logout";
 
 export default function MainLayout({
@@ -7,9 +7,9 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <AuthGuard>
       <HeaderWithLogout />
-      <AuthGuard>{children}</AuthGuard>
-    </>
+      {children}
+    </AuthGuard>
   );
 }
