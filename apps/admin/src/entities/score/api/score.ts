@@ -1,23 +1,31 @@
-import { graphqlRequest, graphqlRequestPartial } from "@repo/lib";
-import type { PendingScoresResponse } from "./types";
+import { graphqlRequest } from "@repo/lib";
+import type { PendingScoreFilter, PendingScoresResponse } from "./types";;
 
-// 한 요청에 묶을 학생 수. 점수마다 파일·증빙까지 받아 응답이 커서 총점 조회보다 작게 잡는다.
-const CHUNK_SIZE = 50;
+// 서버가 허용하는 페이지당 최대 결과 수
+const PAGE_SIZE = 100;
 
-const SCORE_FIELDS = `
-  categoryType
-  categoryKoreanName
-  scores {
-    scoreId
-    activityName
-    scoreValue
-    updatedAt
-    activityDate
-    competitionType
-    submittedCategoryType
-    dgProjectId
-    file { originalName uri }
-    evidence { title content files { originalName uri } }
+const PENDING_SCORES = `
+  query($input: SearchPendingScoreInput!) {
+    pendingScores(input: $input) {
+      items {
+        categoryType
+        categoryKoreanName
+        member { id name grade classNumber number }
+        score {
+          scoreId
+          activityName
+          scoreValue
+          updatedAt
+          activityDate
+          competitionType
+          submittedCategoryType
+          dgProjectId
+          file { originalName uri }
+          evidence { title content files { originalName uri } }
+        }
+      }
+      totalPages
+    }
   }
 `;
 
@@ -33,45 +41,24 @@ const REJECT_SCORE = `
   }
 `;
 
-// 전체 심사 대기 목록 API가 없어, 별칭을 붙여 여러 학생의 대기 점수를 한 쿼리로 묶어 조회한다.
-async function fetchPendingChunk(memberIds: string[]) {
-  const params = memberIds.map((_, i) => `$m${i}: ID!`).join(", ");
-  const fields = memberIds
-    .map((_, i) => `s${i}: scoresByCategory(memberId: $m${i}, status: PENDING) {${SCORE_FIELDS}}`)
-    .join("\n");
-  const variables = Object.fromEntries(memberIds.map((id, i) => [`m${i}`, id]));
-
-  // 한 학생이 실패해도 나머지는 살리고, 실패한 학생 수를 함께 돌려준다.
-  const { data, errors } = await graphqlRequestPartial<PendingScoresResponse>(
-    `query(${params}) {\n${fields}\n}`,
-    variables,
-  );
-  const failed = new Set(errors.map((error) => error.path?.[0]));
-  return {
-    groups: memberIds.map((id, i) => [id, data[`s${i}`] ?? []] as const),
-    failedCount: memberIds.filter((_, i) => failed.has(`s${i}`)).length,
-  };
+async function fetchPendingPage(filter: PendingScoreFilter, page: number) {
+  const { pendingScores } = await graphqlRequest<PendingScoresResponse>(PENDING_SCORES, {
+    input: {
+      grade: filter.grade ?? undefined,
+      classNumber: filter.classNumber ?? undefined,
+      limit: PAGE_SIZE,
+      page,
+    },
+  });
+  return pendingScores;
 }
 
-export async function fetchPendingScoreGroups(memberIds: string[]) {
-  const chunks: string[][] = [];
-  for (let i = 0; i < memberIds.length; i += CHUNK_SIZE) chunks.push(memberIds.slice(i, i + CHUNK_SIZE));
-
-  const results = await Promise.allSettled(chunks.map(fetchPendingChunk));
-  // 하나도 받지 못했으면(예: 인증 만료) 빈 목록 대신 실패로 알린다.
-  const firstFailure = results.find((result) => result.status === "rejected");
-  if (firstFailure && results.every((result) => result.status === "rejected")) throw firstFailure.reason;
-
-  let failedCount = 0;
-  const groups = results.flatMap((result, i) => {
-    if (result.status === "fulfilled") {
-      failedCount += result.value.failedCount;
-      return result.value.groups;
-    }
-    failedCount += chunks[i].length;
-    return [];
-  });
-  return { groups, failedCount };
+// 페이지를 끝까지 이어 받아 조건에 맞는 심사 대기 점수 전체를 최근 수정순으로 돌려준다.
+export async function fetchPendingScoreItems(filter: PendingScoreFilter) {
+  const first = await fetchPendingPage(filter, 0);
+  const restPages = Array.from({ length: Math.max(first.totalPages - 1, 0) }, (_, i) => i + 1);
+  const rest = await Promise.all(restPages.map((page) => fetchPendingPage(filter, page)));
+  return [first, ...rest].flatMap((result) => result.items);
 }
 
 export async function approveScore(scoreId: string) {
