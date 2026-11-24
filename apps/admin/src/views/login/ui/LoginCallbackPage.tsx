@@ -3,7 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
-import { completeDataGsmLogin } from "@repo/lib";
+import { completeDataGsmLogin, type UserRole } from "@repo/lib";
+
+const ADMIN_ROLES: UserRole[] = ["TEACHER", "HOMEROOM_TEACHER", "ROOT"];
 
 export function LoginCallbackPage() {
   const router = useRouter();
@@ -13,7 +15,7 @@ export function LoginCallbackPage() {
     if (handled.current) return;
     handled.current = true;
 
-    completeDataGsmLogin(window.location.search).then((result) => {
+    completeDataGsmLogin(window.location.search, ADMIN_ROLES).then((result) => {
       if (result.ok) {
         router.replace("/");
         return;

@@ -1,6 +1,7 @@
 import { isAxiosError } from "axios";
 import { fetchAuthorizationUrl, signin, signout } from "./auth";
 import { handleUnauthenticated, saveAuthTokens } from "./tokenStorage";
+import type { UserRole } from "./types";
 
 const OAUTH_STATE_KEY = "datagsm_oauth_state";
 const CALLBACK_PATH = "/callback";
@@ -28,7 +29,10 @@ export async function startDataGsmLogin(): Promise<void> {
   }
 }
 
-export async function completeDataGsmLogin(search: string): Promise<DataGsmLoginResult> {
+export async function completeDataGsmLogin(
+  search: string,
+  allowedRoles?: readonly UserRole[],
+): Promise<DataGsmLoginResult> {
   const params = new URLSearchParams(search);
   const savedState = sessionStorage.getItem(OAUTH_STATE_KEY);
   sessionStorage.removeItem(OAUTH_STATE_KEY);
@@ -49,6 +53,9 @@ export async function completeDataGsmLogin(search: string): Promise<DataGsmLogin
 
   try {
     const tokens = await signin({ code, state, redirectUri: getRedirectUri() });
+    if (allowedRoles && !allowedRoles.includes(tokens.role)) {
+      return { ok: false, message: "접근 권한이 없는 계정입니다." };
+    }
     saveAuthTokens(tokens);
     return { ok: true };
   } catch (error) {
