@@ -29,8 +29,6 @@ export function ReviewRequestPage() {
     [data, keyword],
   );
 
-  const hasFailure = !isPlaceholderData && (data?.failedCount ?? 0) > 0;
-
   return (
     <main className="mx-auto w-full max-w-[1425px] px-4 py-8 sm:px-8">
       <div className="flex items-center gap-3 whitespace-nowrap">
@@ -45,15 +43,6 @@ export function ReviewRequestPage() {
       <div className="pt-6">
         <StudentFilterButton filter={filter} onClick={() => setFilterOpen(true)} />
       </div>
-
-      {hasFailure && (
-        <p role="status" className="pt-5 text-[13px] leading-[19.5px] break-keep text-caution">
-          일부 학생의 심사 요청을 불러오지 못했어요.{" "}
-          <button type="button" onClick={() => refetch()} className="font-medium text-brand hover:underline">
-            다시 시도
-          </button>
-        </p>
-      )}
 
       <div className="pt-5">
         <ReviewTable

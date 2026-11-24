@@ -3,8 +3,8 @@ import { getAccessToken, getRefreshToken, handleUnauthenticated, saveAuthTokens 
 import type { AuthTokens } from "./session/types";
 
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  // 절대 URL로 baseURL을 덮어쓰지 못하게 막아, 액세스 토큰이 외부 호스트로 나가지 않게 한다.
+  // baseURL 없이 같은 출처로 요청하고, 각 앱의 next.config.ts rewrites가 API 서버로 넘긴다.
+  // 절대 URL을 막아 액세스 토큰이 외부 호스트로 나가지 않게 한다.
   allowAbsoluteUrls: false,
   timeout: 10000,
   headers: { "Content-Type": "application/json" },

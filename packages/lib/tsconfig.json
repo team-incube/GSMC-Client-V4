@@ -2,7 +2,8 @@
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["node"]
+    "jsx": "react-jsx",
+    "types": ["node", "react"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

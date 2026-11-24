@@ -16,8 +16,8 @@ export type SearchMembersResponse = {
   };
 };
 
-// 별칭(s0, s1, ...)으로 여러 학생의 총점을 한 번에 조회한 응답
-export type TotalScoresResponse = Record<string, { totalScore: number } | null>;
+// 여러 학생의 총점을 한 번에 조회한 응답. 존재하지 않는 학생은 빠진다.
+export type TotalScoresResponse = { totalScores: { memberId: string; totalScore: number }[] };
 
 type FileDto = { originalName: string; uri: string };
 
