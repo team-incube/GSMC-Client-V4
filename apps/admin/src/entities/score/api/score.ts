@@ -58,7 +58,9 @@ export async function fetchPendingScoreItems(filter: PendingScoreFilter) {
   const first = await fetchPendingPage(filter, 0);
   const restPages = Array.from({ length: Math.max(first.totalPages - 1, 0) }, (_, i) => i + 1);
   const rest = await Promise.all(restPages.map((page) => fetchPendingPage(filter, page)));
-  return [first, ...rest].flatMap((result) => result.items);
+  const items = [first, ...rest].flatMap((result) => result.items);
+  // 페이지를 받는 사이 목록이 바뀌면 경계의 항목이 두 페이지에 겹칠 수 있어 scoreId로 거른다.
+  return [...new Map(items.map((item) => [item.score.scoreId, item])).values()];
 }
 
 export async function approveScore(scoreId: string) {
