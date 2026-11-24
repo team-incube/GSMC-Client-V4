@@ -1,9 +1,11 @@
-import { graphqlRequest, graphqlRequestPartial } from "@repo/lib";
+import { graphqlRequest } from "@repo/lib";
 import type { StudentFilter } from "../model/types";
 import type { MemberDto, ScoresByCategoryResponse, SearchMembersResponse, TotalScoresResponse } from "./types";
 
 // 서버가 허용하는 페이지당 최대 결과 수
 const PAGE_SIZE = 100;
+// totalScores가 한 번에 받는 최대 학생 수
+const TOTAL_SCORES_CHUNK_SIZE = 250;
 
 const SEARCH_MEMBERS = `
   query($input: SearchMemberInput!) {
@@ -11,6 +13,12 @@ const SEARCH_MEMBERS = `
       members { id name email grade classNumber number }
       totalPages
     }
+  }
+`;
+
+const TOTAL_SCORES = `
+  query($memberIds: [ID!]!) {
+    totalScores(memberIds: $memberIds, includeApprovedOnly: true) { memberId totalScore }
   }
 `;
 
@@ -56,28 +64,15 @@ export async function fetchStudentMembers(filter: StudentFilter) {
   return [first, ...rest].flatMap((result) => result.members);
 }
 
-// 학생마다 요청하지 않도록, 별칭을 붙여 한 쿼리에 여러 학생의 총점을 묶어 조회한다.
 async function fetchTotalScoreChunk(memberIds: string[]) {
-  const params = memberIds.map((_, i) => `$m${i}: ID!`).join(", ");
-  const fields = memberIds.map((_, i) => `s${i}: totalScore(memberId: $m${i}) { totalScore }`).join("\n");
-  const variables = Object.fromEntries(memberIds.map((id, i) => [`m${i}`, id]));
-
-  // 한 학생의 점수만 실패해도 나머지 학생의 점수는 살린다. 실패한 학생은 null로 둔다.
-  const { data, errors } = await graphqlRequestPartial<TotalScoresResponse>(
-    `query(${params}) {\n${fields}\n}`,
-    variables,
-  );
-  const failed = new Set(errors.map((error) => error.path?.[0]));
-  return memberIds.map((id, i) => {
-    const alias = `s${i}`;
-    return [id, failed.has(alias) ? null : (data[alias]?.totalScore ?? null)] as const;
-  });
+  const { totalScores } = await graphqlRequest<TotalScoresResponse>(TOTAL_SCORES, { memberIds });
+  return totalScores.map((item) => [item.memberId, item.totalScore] as const);
 }
 
 export async function fetchTotalScores(members: MemberDto[]) {
-  const ids = members.map((member) => member.id);
+  const ids = [...new Set(members.map((member) => member.id))];
   const chunks: string[][] = [];
-  for (let i = 0; i < ids.length; i += PAGE_SIZE) chunks.push(ids.slice(i, i + PAGE_SIZE));
+  for (let i = 0; i < ids.length; i += TOTAL_SCORES_CHUNK_SIZE) chunks.push(ids.slice(i, i + TOTAL_SCORES_CHUNK_SIZE));
 
   // 청크 하나가 실패해도 학생 목록은 보여 준다. 실패한 청크의 학생은 점수 없음(null)으로 남긴다.
   const results = await Promise.allSettled(chunks.map(fetchTotalScoreChunk));

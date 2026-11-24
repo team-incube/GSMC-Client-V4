@@ -1,13 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchPendingScoreGroups, scoreKeys, toPendingScores } from "@/entities/score";
-import { fetchStudentMembers } from "@/entities/student";
+import { fetchPendingScoreItems, scoreKeys, toPendingScores } from "@/entities/score";
 
 type Filter = { grade: number | null; classNumber: number | null };
 
 async function fetchPendingScores(filter: Filter) {
-  const members = await fetchStudentMembers(filter);
-  const { groups, failedCount } = await fetchPendingScoreGroups(members.map((member) => member.id));
-  return { scores: toPendingScores(groups, members), failedCount };
+  return { scores: toPendingScores(await fetchPendingScoreItems(filter)) };
 }
 
 export function usePendingScoresQuery(filter: Filter) {
