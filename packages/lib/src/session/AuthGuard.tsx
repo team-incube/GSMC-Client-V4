@@ -1,6 +1,6 @@
 "use client";
 
-import { getAccessToken, handleUnauthenticated } from "@repo/lib";
+import { getAccessToken, handleUnauthenticated } from "./tokenStorage";
 import { useEffect, useSyncExternalStore } from "react";
 
 const subscribe = () => () => {};
