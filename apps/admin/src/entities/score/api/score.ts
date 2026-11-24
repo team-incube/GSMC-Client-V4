@@ -1,5 +1,5 @@
 import { graphqlRequest } from "@repo/lib";
-import type { PendingScoreFilter, PendingScoresResponse } from "./types";;
+import type { PendingScoreFilter, PendingScoresResponse } from "./types";
 
 // 서버가 허용하는 페이지당 최대 결과 수
 const PAGE_SIZE = 100;
