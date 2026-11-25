@@ -9,6 +9,8 @@ export const projectKeys = {
 const myProjectsQueryOptions = {
   queryKey: projectKeys.mine(),
   queryFn: fetchMyProjects,
+  // 교사의 승인·반려가 바로 보이도록 화면에 다시 들어오거나 탭으로 돌아올 때마다 최신 상태를 받는다.
+  staleTime: 0,
   // 권한 오류는 다시 시도해도 같으므로 재시도하지 않는다.
   retry: (failureCount: number, error: Error) => !isForbiddenError(error) && failureCount < 1,
 };
