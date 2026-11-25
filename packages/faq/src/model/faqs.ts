@@ -9,7 +9,7 @@ export type Faq = {
   answer: string;
 };
 
-// 노션 "V4 FAQ" 문서 기준. 교과 성적 항목은 환산 기준이 확정되면 추가한다.
+// 노션 GSMC 문서의 FAQ 기준.
 const FAQ_ITEMS: Omit<Faq, "id">[] = [
   {
     category: "기본 안내",
@@ -29,7 +29,7 @@ const FAQ_ITEMS: Omit<Faq, "id">[] = [
   {
     category: "기본 안내",
     question: "자료를 제출하면 점수가 바로 확정되나요?",
-    answer: "아닙니다. 담당 교사의 확인과 점수 부여 후 인증위원회 심의를 거칩니다.",
+    answer: "아닙니다. 담당 교사의 확인과 승인 후 실제로 점수가 부여됩니다.",
   },
   {
     category: "기본 안내",
@@ -50,12 +50,7 @@ const FAQ_ITEMS: Omit<Faq, "id">[] = [
   {
     category: "누적 점수",
     question: "입학 전에 취득한 자격증도 인정되나요?",
-    answer: "공식 문서만으로 확인되지 않아 담당 교사 확인이 필요합니다.",
-  },
-  {
-    category: "누적 점수",
-    question: "TOPCIT 점수는 어떻게 반영되나요?",
-    answer: "100점당 1점으로 환산하며 최대 10점입니다.",
+    answer: "고등학교 재학 중 취득한 자격증만 인정됩니다.",
   },
   {
     category: "누적 점수",
@@ -75,7 +70,7 @@ const FAQ_ITEMS: Omit<Faq, "id">[] = [
   },
   {
     category: "누적 점수",
-    question: "TOEIC 방과후 수업도 점수가 있나요?",
+    question: "TOEIC 사관 학교도 점수가 있나요?",
     answer: "해당 연도 출석률이 70% 이상이면 1점이 부여되며 다음 연도로 누적되지 않습니다.",
   },
   {
@@ -111,7 +106,7 @@ const FAQ_ITEMS: Omit<Faq, "id">[] = [
   {
     category: "당해 연도 점수",
     question: "팀 프로젝트는 누가 제출하나요?",
-    answer: "팀장이 대표로 제출합니다. 팀원 점수의 반영 방식은 정책과 구현 확인이 필요합니다.",
+    answer: "팀장이 DataGSM에 참여 인원, 프로젝트 설명, 기술 스택 등을 대표로 등록합니다. GSMC는 해당 정보를 가져와 참여자의 ‘내 프로젝트’에 표시합니다.",
   },
   {
     category: "당해 연도 점수",
@@ -127,12 +122,12 @@ const FAQ_ITEMS: Omit<Faq, "id">[] = [
     category: "GSMC 이용",
     question: "활동은 어떻게 등록하나요?",
     answer:
-      "활동 항목을 선택하고 내용과 증빙자료를 입력한 뒤 제출합니다. 정확한 메뉴명은 V4 화면 완성 후 반영합니다.",
+      "활동 항목을 선택하고 내용과 증빙자료를 입력한 뒤 제출합니다. 담당 교사 승인 후 실제 점수에 반영됩니다.",
   },
   {
     category: "GSMC 이용",
     question: "제출한 활동을 수정하거나 삭제할 수 있나요?",
-    answer: "심사 상태별 수정·삭제 가능 범위가 확정되지 않아 담당 교사 확인이 필요합니다.",
+    answer: "아직 승인되지 않은 항목은 수정할 수 있습니다.",
   },
   {
     category: "GSMC 이용",
@@ -147,7 +142,7 @@ const FAQ_ITEMS: Omit<Faq, "id">[] = [
   {
     category: "GSMC 이용",
     question: "로그인이나 파일 업로드가 되지 않으면 어떻게 하나요?",
-    answer: "오류 화면, 발생 시각, 파일 형식과 용량을 기록하여 담당자에게 문의합니다.",
+    answer: "오류 화면, 발생 시각, 파일 형식과 용량을 기록하여 담당자에게 문의합니다.\ndiscord: e.jxn_2",
   },
   {
     category: "운영 기간",
