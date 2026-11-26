@@ -43,7 +43,7 @@ export function FaqItem({ faq, open, onToggle }: FaqItemProps) {
         className={`grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
       >
         <div className="overflow-hidden" inert={!open}>
-          <p className="pb-5 text-[14px] leading-6 text-body">{faq.answer}</p>
+          <p className="pb-5 text-[14px] leading-6 whitespace-pre-line text-body">{faq.answer}</p>
         </div>
       </div>
     </li>
